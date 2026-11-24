@@ -20,6 +20,12 @@ openplugin = { path = "../../Dependencies/OpenPluginSDK/crates/openplugin" }
 # Text measuring for the kit; the SDK takes the same checkout.
 goodlookindri-shell = { path = "../../Dependencies/GoodLookinDri/shell" }
 
+# The SDK takes GoodLookin DRI from GitHub; use the same checkout as the direct dependency, so
+# both are one crate (pinned in scripts/build.sh and the CI workflow).
+[patch."https://github.com/MistaMin/GoodLookinDri"]
+goodlookindri = { path = "../../Dependencies/GoodLookinDri" }
+goodlookindri-shell = { path = "../../Dependencies/GoodLookinDri/shell" }
+
 [workspace]
 members = ["crates/*"]
 

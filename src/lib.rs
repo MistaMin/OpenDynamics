@@ -27,6 +27,7 @@
 //! difference plays at the matched level. The meters keep showing the processed signal.
 
 mod autogain;
+mod text;
 mod shared;
 mod ui;
 
@@ -111,6 +112,16 @@ fn info_for(key: &'static str, label: &'static str, d: &ParamDesc) -> ParamInfo 
     if d.log {
         info = info.with_taper(Taper::Log);
     }
+    // Value text hosts show and read, the same as the editor's.
+    info = match d.kind {
+        Kind::Db => info.with_text(text::db, text::parse_db),
+        Kind::Ratio if key == "decomp" => info.with_text(text::upward_ratio, text::parse_upward_ratio),
+        Kind::Ratio => info.with_text(text::ratio, text::parse_ratio),
+        Kind::Ms => info.with_text(text::ms, text::parse_ms),
+        Kind::Hz => info.with_text(text::hz, text::parse_hz),
+        Kind::Plain => info.with_text(text::plain, text::parse_plain),
+        _ => info,
+    };
     if let Kind::Choice(labels) = d.kind {
         info = info.with_choices(labels);
     }
@@ -119,8 +130,8 @@ fn info_for(key: &'static str, label: &'static str, d: &ParamDesc) -> ParamInfo 
 
 static TABLE: LazyLock<(Vec<ParamInfo>, Vec<SectionInfo>)> = LazyLock::new(|| {
     let mut params = vec![
-        ParamInfo::new("input", "Input Gain", -24.0, 24.0, 0.0, Unit::Db).with_steps(49).with_group("Global"),
-        ParamInfo::new("output", "Output Gain", -24.0, 24.0, 0.0, Unit::Db).with_steps(49).with_group("Global"),
+        ParamInfo::new("input", "Input Gain", -24.0, 24.0, 0.0, Unit::Db).with_steps(49).with_group("Global").with_text(text::db, text::parse_db),
+        ParamInfo::new("output", "Output Gain", -24.0, 24.0, 0.0, Unit::Db).with_steps(49).with_group("Global").with_text(text::db, text::parse_db),
         ParamInfo::new("zeroLatency", "Zero Latency", 0.0, 1.0, 0.0, Unit::Toggle).with_group("Global"),
         ParamInfo::new("autoGain", "Auto Gain", 0.0, 1.0, 0.0, Unit::Toggle).with_group("Global"),
         ParamInfo::new("delta", "Delta", 0.0, 1.0, 0.0, Unit::Toggle).with_group("Global"),
@@ -695,6 +706,31 @@ mod tests {
         assert_eq!(LAYOUT[CHAIN[0]].key, "decomp");
         assert_eq!(LAYOUT[CHAIN[1]].key, "gate");
         assert_eq!(LAYOUT[CHAIN[SECTIONS - 1]].key, "limit");
+    }
+
+    /// What hosts show (automation lanes, tooltips) follows the display rules and reads back:
+    /// every numeric parameter at min, middle and max prints at most three digits per number,
+    /// whole dB and ratios, no "0.x" except the key boost's Q (an EQ control), no "-0", and the
+    /// printed text parses to the same value within its printed precision.
+    #[test]
+    fn host_text_follows_the_display_rules() {
+        for p in INFO.params.iter().filter(|p| !matches!(p.unit, Unit::Toggle | Unit::Choice)) {
+            for n in [0.0f32, 0.5, 1.0] {
+                let v = p.from_normalized(n);
+                let t = p.format(v);
+                for num in t.split(|c: char| !(c.is_ascii_digit() || c == '.')).filter(|x| !x.is_empty()) {
+                    assert!(num.chars().filter(|c| c.is_ascii_digit()).count() <= 3, "{}: {t:?}", p.id);
+                    assert!(!num.starts_with("0.") || p.id.ends_with("keyBoostQ"), "{}: {t:?}", p.id);
+                }
+                assert!(!t.starts_with("-0"), "{}: {t:?}", p.id);
+                if matches!(p.unit, Unit::Db | Unit::Ratio) {
+                    assert!(!t.contains('.'), "{}: {t:?}", p.id);
+                }
+                let back = p.parse(&t).unwrap_or_else(|| panic!("{}: cannot read back {t:?}", p.id));
+                let tol = (v.abs() * 0.006).max(0.006);
+                assert!((back - p.clamp(v)).abs() <= tol.max(0.5 * (p.max - p.min) / p.steps.max(1) as f32), "{}: {v} -> {t:?} -> {back}", p.id);
+            }
+        }
     }
 
     #[test]

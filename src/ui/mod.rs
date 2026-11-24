@@ -301,11 +301,6 @@ fn whole_db(v: f32) -> String {
     if r == 0.0 { "0".into() } else { format!("{r:+.0}") }
 }
 
-/// The decompressor's ratio is the x of 1:x, in whole steps.
-fn upward_ratio(v: f32) -> String {
-    format!("1:{:.0}", v.round().max(1.0))
-}
-
 /// Output level (dBFS) of the section's static curve at an input level, as the editor draws it.
 fn curve_out(tab: usize, l: f64, v: &dyn Fn(usize) -> f32) -> f64 {
     let p = |i: usize| v(i) as f64;
@@ -468,11 +463,7 @@ impl DynEditor {
         let local = cell.param - LAYOUT[self.tab].base;
         let v = |i: usize| self.local(i);
         let zero = self.values[P_ZERO_LATENCY] >= 0.5;
-        let mut cell = cell.dim(dimmed(self.tab, local, &v) || (zero && zero_latency_dims(self.tab, local)));
-        if self.tab == 3 && local == dyn_decompress::index::RATIO {
-            cell = cell.format(upward_ratio);
-        }
-        cell
+        cell.dim(dimmed(self.tab, local, &v) || (zero && zero_latency_dims(self.tab, local)))
     }
 
     /// The cells of the open tab and panel, plus the global ones. Panel cells come last.

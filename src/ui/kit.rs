@@ -149,20 +149,7 @@ impl Cell {
     pub fn text(&self, v: f32) -> String {
         let s = match self.format {
             Some(f) => f(v),
-            None => INFO.params.get(self.param).map_or_else(String::new, |p| match p.unit {
-                // Whole-step dB and ratio controls read as whole numbers, never "-0".
-                Unit::Db | Unit::Ratio if p.steps > 1 && (p.max - p.min - (p.steps - 1) as f32).abs() < 1e-3 => {
-                    let r = v.round();
-                    let r = if r == 0.0 { 0.0 } else { r };
-                    if p.unit == Unit::Db { format!("{r:.0} dB") } else { format!("{r:.0}:1") }
-                }
-                // No "0.x ms": under a millisecond reads in microseconds, zero as "0 ms".
-                Unit::Ms if v < 1.0 => {
-                    let us = (v * 1000.0).round();
-                    if us < 0.5 { "0 ms".into() } else { format!("{us:.0} µs") }
-                }
-                _ => p.format(v),
-            }),
+            None => INFO.params.get(self.param).map_or_else(String::new, |p| p.format(v)),
         };
         three_digits(&s)
     }
