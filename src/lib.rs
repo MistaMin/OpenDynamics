@@ -733,6 +733,27 @@ mod tests {
         }
     }
 
+    /// Writes docs/PARAMETERS.md for the manual: every parameter by section, as hosts show it.
+    #[test]
+    #[ignore]
+    fn dump_manual_params() {
+        let mut out = String::from("# OpenDynamics parameter reference\n\nGenerated from the plugin (`cargo test --release --lib dump_manual_params -- --ignored`). Every parameter, by section (the order hosts list them), with its range and default as hosts and the editor show them.\n");
+        let mut group = "";
+        for p in INFO.params.iter() {
+            if p.group != group {
+                group = p.group;
+                out += &format!("\n## {group}\n\n| Parameter | Range or choices | Default |\n|---|---|---|\n");
+            }
+            let (range, default) = match p.unit {
+                Unit::Toggle => ("Off, On".to_string(), if p.default >= 0.5 { "On" } else { "Off" }.to_string()),
+                Unit::Choice => (p.choices.join(", "), p.choices.get(p.default as usize).copied().unwrap_or("").to_string()),
+                _ => (format!("{} to {}", p.format(p.min), p.format(p.max)), p.format(p.default)),
+            };
+            out += &format!("| {} | {range} | {default} |\n", p.name);
+        }
+        std::fs::write(concat!(env!("CARGO_MANIFEST_DIR"), "/docs/PARAMETERS.md"), out).expect("write");
+    }
+
     #[test]
     fn all_off_is_a_wire() {
         let mut p = OpenDynamics::default();
