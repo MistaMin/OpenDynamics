@@ -56,7 +56,7 @@ jobs:
           $version = $version.Split('-')[0]
           powershell -NoProfile -ExecutionPolicy Bypass -File Dependencies\OpenPluginSDK\scripts\windows\build_plugin.ps1 `
             -ManifestPath w\opendynamics\Cargo.toml -Name OpenDynamics -Version $version -Manufacturer OpenGrid `
-            -BundleId com.opengrid.opendynamics -Editor -AllowLib UIAutomationCore.DLL -Formats clap,vst3,lv2 `
+            -BundleId com.opengrid.opendynamics -Editor -AllowLib UIAutomationCore.DLL -TtlBin lv2_ttl -Formats clap,vst3,lv2 `
             -Vst3Sdk "$root\Dependencies\vst3sdk" -Out "$root\dist-windows" -WorkDir "$root\build-windows"
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
       - name: Installer
