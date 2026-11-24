@@ -1,0 +1,41 @@
+# Build outputs
+target/
+/build/
+/dist/
+/output/
+/build.log
+# Planning notes and design hand-offs stay out of the public repository
+/NOTES.md
+/design/
+# Large or machine-specific QA files
+qa/**/*.wav
+qa/**/*.ppm
+qa/**/resp.txt
+qa/**/build*.log
+qa/**/montage*.png
+# System files
+.DS_Store
+._*
+# Per-module session reports stay local
+crates/*/REPORT.md
+qa/**/*.rpp
+# Host bridge housekeeping and load experiments
+qa/**/cmd.txt
+qa/**/seq.txt
+qa/**/ready.txt
+qa/**/*.pid
+qa/**/hide_pid
+qa/**/reaper.log
+qa/**/load-repro/
+qa/**/reaper-clap-debug*/
+# Host sweep captures, waveform caches, host test sessions and signed test bundles
+qa/**/editor_*.png
+qa/**/peaks/
+qa/**/scratch/
+qa/**/signed/
+qa/**/*.aaxplugin
+qa/**/.burnthrough.lock
+# Avid material under the developer agreement (AAX Validator output, the burnthrough grid): local only
+qa/**/aax/
+qa/**/aax-run.log
+qa/**/protools/

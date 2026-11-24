@@ -1,0 +1,218 @@
+PASS     loads VST3: OpenDynamics (OpenGrid), 110 parameters
+PASS     finite output peak -7.7 dBFS
+PASS     not silent rms -22.1 dBFS
+PASS     deterministic render repeat differs by -240.0 dB
+PASS     editor opens 1040x773, 2.2% animates by itself
+  Input Gain                       audio=ok       visual=ok
+  Output Gain                      audio=ok       visual=ok
+  Zero Latency                     audio=ok       visual=ok
+  Auto Gain                        audio=ok       visual=ok
+  Delta                            audio=ok       visual=ok
+  Gate / Expander On               audio=ok       visual=ok
+  Gate / Expander Mode             audio=DEAD     visual=ok
+  Gate / Expander Threshold        audio=ok       visual=ok
+  Gate / Expander Ratio            audio=DEAD     visual=ok
+  Gate / Expander Range            audio=ok       visual=ok
+  Gate / Expander Knee             audio=SILENT (no sound at either end)
+  Gate / Expander Knee             audio=SILENT   visual=ok
+  Gate / Expander Hysteresis       audio=SILENT (no sound at either end)
+  Gate / Expander Hysteresis       audio=SILENT   visual=ok
+  Gate / Expander Attack           audio=SILENT (no sound at either end)
+  Gate / Expander Attack           audio=SILENT   visual=ok
+  Gate / Expander Hold             audio=SILENT (no sound at either end)
+  Gate / Expander Hold             audio=SILENT   visual=ok
+  Gate / Expander Release          audio=SILENT (no sound at either end)
+  Gate / Expander Release          audio=SILENT   visual=ok
+  Gate / Expander Detector         audio=SILENT (no sound at either end)
+  Gate / Expander Detector         audio=SILENT   visual=ok
+  Gate / Expander RMS Window       audio=SILENT (no sound at either end)
+  Gate / Expander RMS Window       audio=SILENT   visual=ok
+  Gate / Expander Look-Ahead       audio=SILENT (no sound at either end)
+  Gate / Expander Look-Ahead       audio=SILENT   visual=ok
+  Gate / Expander Stereo Link      audio=SILENT (no sound at either end)
+  Gate / Expander Stereo Link      audio=SILENT   visual=ok
+  Gate / Expander Key Source       audio=excused  visual=NOT SHOWN
+  Gate / Expander Key High-Pass    audio=SILENT (no sound at either end)
+  Gate / Expander Key High-Pass    audio=SILENT   visual=ok
+  Gate / Expander Key Low-Pass     audio=SILENT (no sound at either end)
+  Gate / Expander Key Low-Pass     audio=SILENT   visual=ok
+  Gate / Expander Auto Attack      audio=SILENT (no sound at either end)
+  Gate / Expander Auto Attack      audio=SILENT   visual=ok
+  Gate / Expander Auto Release     audio=SILENT (no sound at either end)
+  Gate / Expander Auto Release     audio=SILENT   visual=ok
+  Gate / Expander Key Boost Freq   audio=SILENT (no sound at either end)
+  Gate / Expander Key Boost Freq   audio=SILENT   visual=ok
+  Gate / Expander Key Boost        audio=SILENT (no sound at either end)
+  Gate / Expander Key Boost        audio=SILENT   visual=ok
+  Gate / Expander Key Boost Q      audio=SILENT (no sound at either end)
+  Gate / Expander Key Boost Q      audio=SILENT   visual=ok
+  Compressor On                    audio=SILENT (no sound at either end)
+  Compressor On                    audio=SILENT   visual=ok
+  Compressor Threshold             audio=SILENT (no sound at either end)
+  Compressor Threshold             audio=SILENT   visual=ok
+  Compressor Ratio                 audio=SILENT (no sound at either end)
+  Compressor Ratio                 audio=SILENT   visual=ok
+  Compressor Knee                  audio=SILENT (no sound at either end)
+  Compressor Knee                  audio=SILENT   visual=ok
+  Compressor Attack                audio=SILENT (no sound at either end)
+  Compressor Attack                audio=SILENT   visual=ok
+  Compressor Release               audio=SILENT (no sound at either end)
+  Compressor Release               audio=SILENT   visual=ok
+  Compressor Detector              audio=SILENT (no sound at either end)
+  Compressor Detector              audio=SILENT   visual=NOT SHOWN
+  Compressor RMS Window            audio=SILENT (no sound at either end)
+  Compressor RMS Window            audio=SILENT   visual=NOT SHOWN
+  Compressor Look-Ahead            audio=SILENT (no sound at either end)
+  Compressor Look-Ahead            audio=SILENT   visual=NOT SHOWN
+  Compressor Stereo Link           audio=SILENT (no sound at either end)
+  Compressor Stereo Link           audio=SILENT   visual=NOT SHOWN
+  Compressor Key Source            audio=excused  visual=NOT SHOWN
+  Compressor Key High-Pass         audio=SILENT (no sound at either end)
+  Compressor Key High-Pass         audio=SILENT   visual=NOT SHOWN
+  Compressor Key Low-Pass          audio=SILENT (no sound at either end)
+  Compressor Key Low-Pass          audio=SILENT   visual=NOT SHOWN
+  Compressor Make-Up               audio=SILENT (no sound at either end)
+  Compressor Make-Up               audio=SILENT   visual=ok
+  Compressor Mix                   audio=SILENT (no sound at either end)
+  Compressor Mix                   audio=SILENT   visual=ok
+  Compressor Auto Attack           audio=SILENT (no sound at either end)
+  Compressor Auto Attack           audio=SILENT   visual=NOT SHOWN
+  Compressor Auto Release          audio=SILENT (no sound at either end)
+  Compressor Auto Release          audio=SILENT   visual=NOT SHOWN
+  Compressor Key Boost Freq        audio=SILENT (no sound at either end)
+  Compressor Key Boost Freq        audio=SILENT   visual=NOT SHOWN
+  Compressor Key Boost             audio=SILENT (no sound at either end)
+  Compressor Key Boost             audio=SILENT   visual=NOT SHOWN
+  Compressor Key Boost Q           audio=SILENT (no sound at either end)
+  Compressor Key Boost Q           audio=SILENT   visual=NOT SHOWN
+  De-Expander On                   audio=SILENT (no sound at either end)
+  De-Expander On                   audio=SILENT   visual=ok
+  De-Expander Threshold            audio=SILENT (no sound at either end)
+  De-Expander Threshold            audio=SILENT   visual=ok
+  De-Expander Ratio                audio=SILENT (no sound at either end)
+  De-Expander Ratio                audio=SILENT   visual=ok
+  De-Expander Range                audio=SILENT (no sound at either end)
+  De-Expander Range                audio=SILENT   visual=ok
+  De-Expander Knee                 audio=SILENT (no sound at either end)
+  De-Expander Knee                 audio=SILENT   visual=ok
+  De-Expander Floor                audio=SILENT (no sound at either end)
+  De-Expander Floor                audio=SILENT   visual=ok
+  De-Expander Attack               audio=SILENT (no sound at either end)
+  De-Expander Attack               audio=SILENT   visual=ok
+  De-Expander Hold                 audio=SILENT (no sound at either end)
+  De-Expander Hold                 audio=SILENT   visual=ok
+  De-Expander Release              audio=SILENT (no sound at either end)
+  De-Expander Release              audio=SILENT   visual=ok
+  De-Expander Detector             audio=SILENT (no sound at either end)
+  De-Expander Detector             audio=SILENT   visual=ok
+  De-Expander RMS Window           audio=SILENT (no sound at either end)
+  De-Expander RMS Window           audio=SILENT   visual=ok
+  De-Expander Look-Ahead           audio=SILENT (no sound at either end)
+  De-Expander Look-Ahead           audio=SILENT   visual=ok
+  De-Expander Stereo Link          audio=SILENT (no sound at either end)
+  De-Expander Stereo Link          audio=SILENT   visual=ok
+  De-Expander Key Source           audio=excused  visual=NOT SHOWN
+  De-Expander Key High-Pass        audio=SILENT (no sound at either end)
+  De-Expander Key High-Pass        audio=SILENT   visual=ok
+  De-Expander Key Low-Pass         audio=SILENT (no sound at either end)
+  De-Expander Key Low-Pass         audio=SILENT   visual=ok
+  De-Expander Mix                  audio=SILENT (no sound at either end)
+  De-Expander Mix                  audio=SILENT   visual=ok
+  De-Expander Auto Attack          audio=SILENT (no sound at either end)
+  De-Expander Auto Attack          audio=SILENT   visual=ok
+  De-Expander Auto Release         audio=SILENT (no sound at either end)
+  De-Expander Auto Release         audio=SILENT   visual=ok
+  De-Expander Key Boost Freq       audio=SILENT (no sound at either end)
+  De-Expander Key Boost Freq       audio=SILENT   visual=ok
+  De-Expander Key Boost            audio=SILENT (no sound at either end)
+  De-Expander Key Boost            audio=SILENT   visual=ok
+  De-Expander Key Boost Q          audio=SILENT (no sound at either end)
+  De-Expander Key Boost Q          audio=SILENT   visual=ok
+  Decompressor On                  audio=SILENT (no sound at either end)
+  Decompressor On                  audio=SILENT   visual=ok
+  Decompressor Threshold           audio=SILENT (no sound at either end)
+  Decompressor Threshold           audio=SILENT   visual=ok
+  Decompressor Ratio               audio=SILENT (no sound at either end)
+  Decompressor Ratio               audio=SILENT   visual=ok
+  Decompressor Range               audio=SILENT (no sound at either end)
+  Decompressor Range               audio=SILENT   visual=ok
+  Decompressor Knee                audio=SILENT (no sound at either end)
+  Decompressor Knee                audio=SILENT   visual=ok
+  Decompressor Attack              audio=SILENT (no sound at either end)
+  Decompressor Attack              audio=SILENT   visual=ok
+  Decompressor Release             audio=SILENT (no sound at either end)
+  Decompressor Release             audio=SILENT   visual=ok
+  Decompressor Detector            audio=SILENT (no sound at either end)
+  Decompressor Detector            audio=SILENT   visual=ok
+  Decompressor RMS Window          audio=SILENT (no sound at either end)
+  Decompressor RMS Window          audio=SILENT   visual=ok
+  Decompressor Transient Crest     audio=SILENT (no sound at either end)
+  Decompressor Transient Crest     audio=SILENT   visual=ok
+  Decompressor Look-Ahead          audio=SILENT (no sound at either end)
+  Decompressor Look-Ahead          audio=SILENT   visual=ok
+  Decompressor Stereo Link         audio=SILENT (no sound at either end)
+  Decompressor Stereo Link         audio=SILENT   visual=ok
+  Decompressor Key Source          audio=excused  visual=NOT SHOWN
+  Decompressor Key High-Pass       audio=SILENT (no sound at either end)
+  Decompressor Key High-Pass       audio=SILENT   visual=ok
+  Decompressor Key Low-Pass        audio=SILENT (no sound at either end)
+  Decompressor Key Low-Pass        audio=SILENT   visual=ok
+  Decompressor Mix                 audio=SILENT (no sound at either end)
+  Decompressor Mix                 audio=SILENT   visual=ok
+  Decompressor Ceiling             audio=SILENT (no sound at either end)
+  Decompressor Ceiling             audio=SILENT   visual=ok
+  Decompressor Ceiling Level       audio=SILENT (no sound at either end)
+  Decompressor Ceiling Level       audio=SILENT   visual=ok
+  Decompressor Ceiling Type        audio=SILENT (no sound at either end)
+  Decompressor Ceiling Type        audio=SILENT   visual=ok
+  Decompressor Output Trim         audio=SILENT (no sound at either end)
+  Decompressor Output Trim         audio=SILENT   visual=ok
+  Decompressor Match               audio=SILENT (no sound at either end)
+  Decompressor Match               audio=SILENT   visual=ok
+  Decompressor Match Target Crest  audio=SILENT (no sound at either end)
+  Decompressor Match Target Crest  audio=SILENT   visual=ok
+  Decompressor Auto Attack         audio=SILENT (no sound at either end)
+  Decompressor Auto Attack         audio=SILENT   visual=ok
+  Decompressor Auto Release        audio=SILENT (no sound at either end)
+  Decompressor Auto Release        audio=SILENT   visual=ok
+  Decompressor Key Boost Freq      audio=SILENT (no sound at either end)
+  Decompressor Key Boost Freq      audio=SILENT   visual=ok
+  Decompressor Key Boost           audio=SILENT (no sound at either end)
+  Decompressor Key Boost           audio=SILENT   visual=ok
+  Decompressor Key Boost Q         audio=SILENT (no sound at either end)
+  Decompressor Key Boost Q         audio=SILENT   visual=ok
+  Limiter On                       audio=SILENT (no sound at either end)
+  Limiter On                       audio=SILENT   visual=ok
+  Limiter Threshold                audio=SILENT (no sound at either end)
+  Limiter Threshold                audio=SILENT   visual=NOT SHOWN
+  Limiter Ceiling                  audio=SILENT (no sound at either end)
+  Limiter Ceiling                  audio=SILENT   visual=NOT SHOWN
+  Limiter Attack                   audio=SILENT (no sound at either end)
+  Limiter Attack                   audio=SILENT   visual=NOT SHOWN
+  Limiter Release                  audio=SILENT (no sound at either end)
+  Limiter Release                  audio=SILENT   visual=NOT SHOWN
+  Limiter Stereo Link              audio=SILENT (no sound at either end)
+  Limiter Stereo Link              audio=SILENT   visual=NOT SHOWN
+  Limiter Clean                    audio=SILENT (no sound at either end)
+  Limiter Clean                    audio=SILENT   visual=NOT SHOWN
+  Limiter Bass Hold                audio=SILENT (no sound at either end)
+  Limiter Bass Hold                audio=SILENT   visual=NOT SHOWN
+  Limiter Auto Attack              audio=SILENT (no sound at either end)
+  Limiter Auto Attack              audio=SILENT   visual=NOT SHOWN
+  Limiter Auto Release             audio=SILENT (no sound at either end)
+  Limiter Auto Release             audio=SILENT   visual=NOT SHOWN
+  Bypass                           audio=SILENT (no sound at either end)
+  Bypass                           audio=SILENT   visual=NOT SHOWN
+  Bypass                           audio=SILENT (no sound at either end)
+  Bypass                           audio=SILENT   visual=NOT SHOWN
+  Wet                              audio=SILENT (no sound at either end)
+  Wet                              audio=SILENT   visual=NOT SHOWN
+  Delta                            audio=SILENT (no sound at either end)
+  Delta                            audio=SILENT   visual=ok
+  Gate / Expander Mode             audio=SKIPPED (every random-state render was silent)
+  Gate / Expander Ratio            audio=SKIPPED (every random-state render was silent)
+FAIL     every parameter changes the sound no sound at either end of the sweep, so these were never heard (the audio went silent mid-run, or the parameter mutes at both ends and needs an audio: exception): Gate / Expander Knee, Gate / Expander Hysteresis, Gate / Expander Attack, Gate / Expander Hold, Gate / Expander Release, Gate / Expander Detector, Gate / Expander RMS Window, Gate / Expander Look-Ahead, Gate / Expander Stereo Link, Gate / Expander Key High-Pass, Gate / Expander Key Low-Pass, Gate / Expander Auto Attack, Gate / Expander Auto Release, Gate / Expander Key Boost Freq, Gate / Expander Key Boost, Gate / Expander Key Boost Q, Compressor On, Compressor Threshold, Compressor Ratio, Compressor Knee, Compressor Attack, Compressor Release, Compressor Detector, Compressor RMS Window, Compressor Look-Ahead, Compressor Stereo Link, Compressor Key High-Pass, Compressor Key Low-Pass, Compressor Make-Up, Compressor Mix, Compressor Auto Attack, Compressor Auto Release, Compressor Key Boost Freq, Compressor Key Boost, Compressor Key Boost Q, De-Expander On, De-Expander Threshold, De-Expander Ratio, De-Expander Range, De-Expander Knee, De-Expander Floor, De-Expander Attack, De-Expander Hold, De-Expander Release, De-Expander Detector, De-Expander RMS Window, De-Expander Look-Ahead, De-Expander Stereo Link, De-Expander Key High-Pass, De-Expander Key Low-Pass, De-Expander Mix, De-Expander Auto Attack, De-Expander Auto Release, De-Expander Key Boost Freq, De-Expander Key Boost, De-Expander Key Boost Q, Decompressor On, Decompressor Threshold, Decompressor Ratio, Decompressor Range, Decompressor Knee, Decompressor Attack, Decompressor Release, Decompressor Detector, Decompressor RMS Window, Decompressor Transient Crest, Decompressor Look-Ahead, Decompressor Stereo Link, Decompressor Key High-Pass, Decompressor Key Low-Pass, Decompressor Mix, Decompressor Ceiling, Decompressor Ceiling Level, Decompressor Ceiling Type, Decompressor Output Trim, Decompressor Match, Decompressor Match Target Crest, Decompressor Auto Attack, Decompressor Auto Release, Decompressor Key Boost Freq, Decompressor Key Boost, Decompressor Key Boost Q, Limiter On, Limiter Threshold, Limiter Ceiling, Limiter Attack, Limiter Release, Limiter Stereo Link, Limiter Clean, Limiter Bass Hold, Limiter Auto Attack, Limiter Auto Release, Bypass, Bypass, Wet, Delta
+FAIL     every parameter is shown in the GUI Gate / Expander Key Source, Compressor Detector, Compressor RMS Window, Compressor Look-Ahead, Compressor Stereo Link, Compressor Key Source, Compressor Key High-Pass, Compressor Key Low-Pass, Compressor Auto Attack, Compressor Auto Release, Compressor Key Boost Freq, Compressor Key Boost, Compressor Key Boost Q, De-Expander Key Source, Decompressor Key Source, Limiter Threshold, Limiter Ceiling, Limiter Attack, Limiter Release, Limiter Stereo Link, Limiter Clean, Limiter Bass Hold, Limiter Auto Attack, Limiter Auto Release, Bypass, Bypass, Wet
+PASS     state survives save and reopen 
+PASS     editor reopens 5 close/open cycles
+report: /Volumes/Developer/OpenGrid/OpenDynamics/qa/2026-11-24-qa/reaper/report.md

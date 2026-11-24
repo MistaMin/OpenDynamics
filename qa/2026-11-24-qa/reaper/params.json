@@ -1,0 +1,884 @@
+{
+ "params": [
+  {
+   "name": "Input Gain",
+   "step": 0.02083333333,
+   "value": 0.5,
+   "text": "0.0",
+   "ident": "0:0",
+   "index": 0
+  },
+  {
+   "name": "Output Gain",
+   "step": 0.02083333333,
+   "value": 0.5,
+   "text": "0.0",
+   "ident": "1:1",
+   "index": 1
+  },
+  {
+   "name": "Zero Latency",
+   "step": 1,
+   "value": 0,
+   "text": "Off",
+   "ident": "2:2",
+   "index": 2
+  },
+  {
+   "name": "Auto Gain",
+   "step": 1,
+   "value": 0,
+   "text": "Off",
+   "ident": "3:3",
+   "index": 3
+  },
+  {
+   "name": "Delta",
+   "step": 1,
+   "value": 0,
+   "text": "Off",
+   "ident": "4:4",
+   "index": 4
+  },
+  {
+   "name": "Gate / Expander On",
+   "step": 1,
+   "value": 0,
+   "text": "Off",
+   "ident": "5:5",
+   "index": 5
+  },
+  {
+   "name": "Gate / Expander Mode",
+   "step": 1,
+   "value": 0,
+   "text": "Gate",
+   "ident": "6:6",
+   "index": 6
+  },
+  {
+   "name": "Gate / Expander Threshold",
+   "step": 0.01111111111,
+   "value": 0.4444444478,
+   "text": "-50.0",
+   "ident": "7:7",
+   "index": 7
+  },
+  {
+   "name": "Gate / Expander Ratio",
+   "step": 0.05263157895,
+   "value": 0.2313782126,
+   "text": "2.0",
+   "ident": "8:8",
+   "index": 8
+  },
+  {
+   "name": "Gate / Expander Range",
+   "step": 0.01111111111,
+   "value": 0.4444444478,
+   "text": "40.0",
+   "ident": "9:9",
+   "index": 9
+  },
+  {
+   "name": "Gate / Expander Knee",
+   "step": 0.04166666667,
+   "value": 0.25,
+   "text": "6.0",
+   "ident": "10:10",
+   "index": 10
+  },
+  {
+   "name": "Gate / Expander Hysteresis",
+   "step": 0.08333333333,
+   "value": 0.25,
+   "text": "3.0",
+   "ident": "11:11",
+   "index": 11
+  },
+  {
+   "name": "Gate / Expander Attack",
+   "step": 0,
+   "value": 0.4247424901,
+   "text": "0.5",
+   "ident": "12:12",
+   "index": 12
+  },
+  {
+   "name": "Gate / Expander Hold",
+   "step": 0,
+   "value": 0.03999999911,
+   "text": "20.0",
+   "ident": "13:13",
+   "index": 13
+  },
+  {
+   "name": "Gate / Expander Release",
+   "step": 0,
+   "value": 0.4923737645,
+   "text": "150.0",
+   "ident": "14:14",
+   "index": 14
+  },
+  {
+   "name": "Gate / Expander Detector",
+   "step": 1,
+   "value": 0,
+   "text": "Peak",
+   "ident": "15:15",
+   "index": 15
+  },
+  {
+   "name": "Gate / Expander RMS Window",
+   "step": 0,
+   "value": 0.4036944211,
+   "text": "10.0",
+   "ident": "16:16",
+   "index": 16
+  },
+  {
+   "name": "Gate / Expander Look-Ahead",
+   "step": 0,
+   "value": 0.200000003,
+   "text": "2.0",
+   "ident": "17:17",
+   "index": 17
+  },
+  {
+   "name": "Gate / Expander Stereo Link",
+   "step": 0,
+   "value": 1,
+   "text": "100",
+   "ident": "18:18",
+   "index": 18
+  },
+  {
+   "name": "Gate / Expander Key Source",
+   "step": 1,
+   "value": 0,
+   "text": "Internal",
+   "ident": "19:19",
+   "index": 19
+  },
+  {
+   "name": "Gate / Expander Key High-Pass",
+   "step": 0,
+   "value": 0,
+   "text": "10.0",
+   "ident": "20:20",
+   "index": 20
+  },
+  {
+   "name": "Gate / Expander Key Low-Pass",
+   "step": 0,
+   "value": 1,
+   "text": "22.00 k",
+   "ident": "21:21",
+   "index": 21
+  },
+  {
+   "name": "Gate / Expander Auto Attack",
+   "step": 1,
+   "value": 0,
+   "text": "Off",
+   "ident": "22:22",
+   "index": 22
+  },
+  {
+   "name": "Gate / Expander Auto Release",
+   "step": 1,
+   "value": 0,
+   "text": "Off",
+   "ident": "23:23",
+   "index": 23
+  },
+  {
+   "name": "Gate / Expander Key Boost Freq",
+   "step": 0,
+   "value": 0.5663233399,
+   "text": "1.00 k",
+   "ident": "24:24",
+   "index": 24
+  },
+  {
+   "name": "Gate / Expander Key Boost",
+   "step": 0.02083333333,
+   "value": 0.5,
+   "text": "0.0",
+   "ident": "25:25",
+   "index": 25
+  },
+  {
+   "name": "Gate / Expander Key Boost Q",
+   "step": 0,
+   "value": 0.3433488905,
+   "text": "1.00",
+   "ident": "26:26",
+   "index": 26
+  },
+  {
+   "name": "Compressor On",
+   "step": 1,
+   "value": 1,
+   "text": "On",
+   "ident": "27:27",
+   "index": 27
+  },
+  {
+   "name": "Compressor Threshold",
+   "step": 0.01666666667,
+   "value": 0.6999999881,
+   "text": "-18.0",
+   "ident": "28:28",
+   "index": 28
+  },
+  {
+   "name": "Compressor Ratio",
+   "step": 0.03448275862,
+   "value": 0.4075900912,
+   "text": "4.0",
+   "ident": "29:29",
+   "index": 29
+  },
+  {
+   "name": "Compressor Knee",
+   "step": 0.04166666667,
+   "value": 0.25,
+   "text": "6.0",
+   "ident": "30:30",
+   "index": 30
+  },
+  {
+   "name": "Compressor Attack",
+   "step": 0,
+   "value": 0.6700734496,
+   "text": "10.0",
+   "ident": "31:31",
+   "index": 31
+  },
+  {
+   "name": "Compressor Release",
+   "step": 0,
+   "value": 0.4600704014,
+   "text": "120.0",
+   "ident": "32:32",
+   "index": 32
+  },
+  {
+   "name": "Compressor Detector",
+   "step": 1,
+   "value": 0,
+   "text": "Peak",
+   "ident": "33:33",
+   "index": 33
+  },
+  {
+   "name": "Compressor RMS Window",
+   "step": 0,
+   "value": 0.4036944211,
+   "text": "10.0",
+   "ident": "34:34",
+   "index": 34
+  },
+  {
+   "name": "Compressor Look-Ahead",
+   "step": 0,
+   "value": 0.200000003,
+   "text": "2.0",
+   "ident": "35:35",
+   "index": 35
+  },
+  {
+   "name": "Compressor Stereo Link",
+   "step": 0,
+   "value": 1,
+   "text": "100",
+   "ident": "36:36",
+   "index": 36
+  },
+  {
+   "name": "Compressor Key Source",
+   "step": 1,
+   "value": 0,
+   "text": "Internal",
+   "ident": "37:37",
+   "index": 37
+  },
+  {
+   "name": "Compressor Key High-Pass",
+   "step": 0,
+   "value": 0,
+   "text": "10.0",
+   "ident": "38:38",
+   "index": 38
+  },
+  {
+   "name": "Compressor Key Low-Pass",
+   "step": 0,
+   "value": 1,
+   "text": "22.00 k",
+   "ident": "39:39",
+   "index": 39
+  },
+  {
+   "name": "Compressor Make-Up",
+   "step": 0.02777777778,
+   "value": 0.3333333433,
+   "text": "0.0",
+   "ident": "40:40",
+   "index": 40
+  },
+  {
+   "name": "Compressor Mix",
+   "step": 0,
+   "value": 1,
+   "text": "100",
+   "ident": "41:41",
+   "index": 41
+  },
+  {
+   "name": "Compressor Auto Attack",
+   "step": 1,
+   "value": 0,
+   "text": "Off",
+   "ident": "42:42",
+   "index": 42
+  },
+  {
+   "name": "Compressor Auto Release",
+   "step": 1,
+   "value": 0,
+   "text": "Off",
+   "ident": "43:43",
+   "index": 43
+  },
+  {
+   "name": "Compressor Key Boost Freq",
+   "step": 0,
+   "value": 0.5663233399,
+   "text": "1.00 k",
+   "ident": "44:44",
+   "index": 44
+  },
+  {
+   "name": "Compressor Key Boost",
+   "step": 0.02083333333,
+   "value": 0.5,
+   "text": "0.0",
+   "ident": "45:45",
+   "index": 45
+  },
+  {
+   "name": "Compressor Key Boost Q",
+   "step": 0,
+   "value": 0.3433488905,
+   "text": "1.00",
+   "ident": "46:46",
+   "index": 46
+  },
+  {
+   "name": "De-Expander On",
+   "step": 1,
+   "value": 0,
+   "text": "Off",
+   "ident": "47:47",
+   "index": 47
+  },
+  {
+   "name": "De-Expander Threshold",
+   "step": 0.0125,
+   "value": 0.5,
+   "text": "-40.0",
+   "ident": "48:48",
+   "index": 48
+  },
+  {
+   "name": "De-Expander Ratio",
+   "step": 0.1428571429,
+   "value": 0.3333333433,
+   "text": "2.0",
+   "ident": "49:49",
+   "index": 49
+  },
+  {
+   "name": "De-Expander Range",
+   "step": 0.02777777778,
+   "value": 0.3333333433,
+   "text": "12.0",
+   "ident": "50:50",
+   "index": 50
+  },
+  {
+   "name": "De-Expander Knee",
+   "step": 0.04166666667,
+   "value": 0.25,
+   "text": "6.0",
+   "ident": "51:51",
+   "index": 51
+  },
+  {
+   "name": "De-Expander Floor",
+   "step": 0.01,
+   "value": 0.4799999893,
+   "text": "-72.0",
+   "ident": "52:52",
+   "index": 52
+  },
+  {
+   "name": "De-Expander Attack",
+   "step": 0,
+   "value": 0.4247424901,
+   "text": "0.5",
+   "ident": "53:53",
+   "index": 53
+  },
+  {
+   "name": "De-Expander Hold",
+   "step": 0,
+   "value": 0.03999999911,
+   "text": "20.0",
+   "ident": "54:54",
+   "index": 54
+  },
+  {
+   "name": "De-Expander Release",
+   "step": 0,
+   "value": 0.5882965922,
+   "text": "150.0",
+   "ident": "55:55",
+   "index": 55
+  },
+  {
+   "name": "De-Expander Detector",
+   "step": 1,
+   "value": 1,
+   "text": "RMS",
+   "ident": "56:56",
+   "index": 56
+  },
+  {
+   "name": "De-Expander RMS Window",
+   "step": 0,
+   "value": 0.3705117106,
+   "text": "10.0",
+   "ident": "57:57",
+   "index": 57
+  },
+  {
+   "name": "De-Expander Look-Ahead",
+   "step": 0,
+   "value": 0.200000003,
+   "text": "2.0",
+   "ident": "58:58",
+   "index": 58
+  },
+  {
+   "name": "De-Expander Stereo Link",
+   "step": 0,
+   "value": 1,
+   "text": "100",
+   "ident": "59:59",
+   "index": 59
+  },
+  {
+   "name": "De-Expander Key Source",
+   "step": 1,
+   "value": 0,
+   "text": "Internal",
+   "ident": "60:60",
+   "index": 60
+  },
+  {
+   "name": "De-Expander Key High-Pass",
+   "step": 0,
+   "value": 0,
+   "text": "10.0",
+   "ident": "61:61",
+   "index": 61
+  },
+  {
+   "name": "De-Expander Key Low-Pass",
+   "step": 0,
+   "value": 1,
+   "text": "22.00 k",
+   "ident": "62:62",
+   "index": 62
+  },
+  {
+   "name": "De-Expander Mix",
+   "step": 0,
+   "value": 1,
+   "text": "100",
+   "ident": "63:63",
+   "index": 63
+  },
+  {
+   "name": "De-Expander Auto Attack",
+   "step": 1,
+   "value": 0,
+   "text": "Off",
+   "ident": "64:64",
+   "index": 64
+  },
+  {
+   "name": "De-Expander Auto Release",
+   "step": 1,
+   "value": 0,
+   "text": "Off",
+   "ident": "65:65",
+   "index": 65
+  },
+  {
+   "name": "De-Expander Key Boost Freq",
+   "step": 0,
+   "value": 0.5663233399,
+   "text": "1.00 k",
+   "ident": "66:66",
+   "index": 66
+  },
+  {
+   "name": "De-Expander Key Boost",
+   "step": 0.02083333333,
+   "value": 0.5,
+   "text": "0.0",
+   "ident": "67:67",
+   "index": 67
+  },
+  {
+   "name": "De-Expander Key Boost Q",
+   "step": 0,
+   "value": 0.3433488905,
+   "text": "1.00",
+   "ident": "68:68",
+   "index": 68
+  },
+  {
+   "name": "Decompressor On",
+   "step": 1,
+   "value": 0,
+   "text": "Off",
+   "ident": "69:69",
+   "index": 69
+  },
+  {
+   "name": "Decompressor Threshold",
+   "step": 0.01666666667,
+   "value": 0.6999999881,
+   "text": "-18.0",
+   "ident": "70:70",
+   "index": 70
+  },
+  {
+   "name": "Decompressor Ratio",
+   "step": 0.3333333333,
+   "value": 0.3333333433,
+   "text": "2.0",
+   "ident": "71:71",
+   "index": 71
+  },
+  {
+   "name": "Decompressor Range",
+   "step": 0.04166666667,
+   "value": 0.25,
+   "text": "6.0",
+   "ident": "72:72",
+   "index": 72
+  },
+  {
+   "name": "Decompressor Knee",
+   "step": 0.04166666667,
+   "value": 0.25,
+   "text": "6.0",
+   "ident": "73:73",
+   "index": 73
+  },
+  {
+   "name": "Decompressor Attack",
+   "step": 0,
+   "value": 0.5,
+   "text": "1.0",
+   "ident": "74:74",
+   "index": 74
+  },
+  {
+   "name": "Decompressor Release",
+   "step": 0,
+   "value": 0.5765140057,
+   "text": "80.0",
+   "ident": "75:75",
+   "index": 75
+  },
+  {
+   "name": "Decompressor Detector",
+   "step": 0.5,
+   "value": 0,
+   "text": "Peak",
+   "ident": "76:76",
+   "index": 76
+  },
+  {
+   "name": "Decompressor RMS Window",
+   "step": 0,
+   "value": 0.5472907424,
+   "text": "30.0",
+   "ident": "77:77",
+   "index": 77
+  },
+  {
+   "name": "Decompressor Transient Crest",
+   "step": 0.04166666667,
+   "value": 0.25,
+   "text": "6.0",
+   "ident": "78:78",
+   "index": 78
+  },
+  {
+   "name": "Decompressor Look-Ahead",
+   "step": 0,
+   "value": 0.200000003,
+   "text": "2.0",
+   "ident": "79:79",
+   "index": 79
+  },
+  {
+   "name": "Decompressor Stereo Link",
+   "step": 0,
+   "value": 1,
+   "text": "100",
+   "ident": "80:80",
+   "index": 80
+  },
+  {
+   "name": "Decompressor Key Source",
+   "step": 1,
+   "value": 0,
+   "text": "Internal",
+   "ident": "81:81",
+   "index": 81
+  },
+  {
+   "name": "Decompressor Key High-Pass",
+   "step": 0,
+   "value": 0,
+   "text": "10.0",
+   "ident": "82:82",
+   "index": 82
+  },
+  {
+   "name": "Decompressor Key Low-Pass",
+   "step": 0,
+   "value": 1,
+   "text": "22.00 k",
+   "ident": "83:83",
+   "index": 83
+  },
+  {
+   "name": "Decompressor Mix",
+   "step": 0,
+   "value": 1,
+   "text": "100",
+   "ident": "84:84",
+   "index": 84
+  },
+  {
+   "name": "Decompressor Ceiling",
+   "step": 1,
+   "value": 0,
+   "text": "Off",
+   "ident": "85:85",
+   "index": 85
+  },
+  {
+   "name": "Decompressor Ceiling Level",
+   "step": 0.04166666667,
+   "value": 0.9583333135,
+   "text": "-1.0",
+   "ident": "86:86",
+   "index": 86
+  },
+  {
+   "name": "Decompressor Ceiling Type",
+   "step": 1,
+   "value": 1,
+   "text": "True peak",
+   "ident": "87:87",
+   "index": 87
+  },
+  {
+   "name": "Decompressor Output Trim",
+   "step": 0.04166666667,
+   "value": 1,
+   "text": "0.0",
+   "ident": "88:88",
+   "index": 88
+  },
+  {
+   "name": "Decompressor Match",
+   "step": 1,
+   "value": 0,
+   "text": "Off",
+   "ident": "89:89",
+   "index": 89
+  },
+  {
+   "name": "Decompressor Match Target Crest",
+   "step": 0.05555555556,
+   "value": 0.3333333433,
+   "text": "12.0",
+   "ident": "90:90",
+   "index": 90
+  },
+  {
+   "name": "Decompressor Auto Attack",
+   "step": 1,
+   "value": 0,
+   "text": "Off",
+   "ident": "91:91",
+   "index": 91
+  },
+  {
+   "name": "Decompressor Auto Release",
+   "step": 1,
+   "value": 0,
+   "text": "Off",
+   "ident": "92:92",
+   "index": 92
+  },
+  {
+   "name": "Decompressor Key Boost Freq",
+   "step": 0,
+   "value": 0.5663233399,
+   "text": "1.00 k",
+   "ident": "93:93",
+   "index": 93
+  },
+  {
+   "name": "Decompressor Key Boost",
+   "step": 0.02083333333,
+   "value": 0.5,
+   "text": "0.0",
+   "ident": "94:94",
+   "index": 94
+  },
+  {
+   "name": "Decompressor Key Boost Q",
+   "step": 0,
+   "value": 0.3433488905,
+   "text": "1.00",
+   "ident": "95:95",
+   "index": 95
+  },
+  {
+   "name": "Limiter On",
+   "step": 1,
+   "value": 1,
+   "text": "On",
+   "ident": "96:96",
+   "index": 96
+  },
+  {
+   "name": "Limiter Threshold",
+   "step": 0.04166666667,
+   "value": 1,
+   "text": "0.0",
+   "ident": "97:97",
+   "index": 97
+  },
+  {
+   "name": "Limiter Ceiling",
+   "step": 0.04166666667,
+   "value": 0.9583333135,
+   "text": "-1.0",
+   "ident": "98:98",
+   "index": 98
+  },
+  {
+   "name": "Limiter Attack",
+   "step": 0,
+   "value": 0,
+   "text": "0.0",
+   "ident": "99:99",
+   "index": 99
+  },
+  {
+   "name": "Limiter Release",
+   "step": 0,
+   "value": 0.6058714986,
+   "text": "100.0",
+   "ident": "100:100",
+   "index": 100
+  },
+  {
+   "name": "Limiter Stereo Link",
+   "step": 0,
+   "value": 1,
+   "text": "100",
+   "ident": "101:101",
+   "index": 101
+  },
+  {
+   "name": "Limiter Clean",
+   "step": 1,
+   "value": 1,
+   "text": "On",
+   "ident": "102:102",
+   "index": 102
+  },
+  {
+   "name": "Limiter Bass Hold",
+   "step": 0,
+   "value": 0.6999999881,
+   "text": "14.0",
+   "ident": "103:103",
+   "index": 103
+  },
+  {
+   "name": "Limiter Auto Attack",
+   "step": 1,
+   "value": 0,
+   "text": "Off",
+   "ident": "104:104",
+   "index": 104
+  },
+  {
+   "name": "Limiter Auto Release",
+   "step": 1,
+   "value": 0,
+   "text": "Off",
+   "ident": "105:105",
+   "index": 105
+  },
+  {
+   "name": "Bypass",
+   "step": 1,
+   "value": 0,
+   "text": "Off",
+   "ident": "106:1113149523",
+   "index": 106
+  },
+  {
+   "name": "Bypass",
+   "step": 0,
+   "value": 0,
+   "text": "normal",
+   "ident": "107:bypass",
+   "index": 107
+  },
+  {
+   "name": "Wet",
+   "step": 0,
+   "value": 1,
+   "text": "100",
+   "ident": "108:wet",
+   "index": 108
+  },
+  {
+   "name": "Delta",
+   "step": 0,
+   "value": 0,
+   "text": "normal",
+   "ident": "109:delta",
+   "index": 109
+  }
+ ]
+}

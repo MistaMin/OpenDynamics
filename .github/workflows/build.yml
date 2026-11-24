@@ -1,0 +1,104 @@
+# Windows and Linux builds of OpenDynamics. macOS is built on the owner's Mac (scripts/build.sh).
+# Each job builds the same commit, runs the tests and keeps the bundles as an artifact.
+name: Windows and Linux builds
+
+on:
+  workflow_dispatch:
+  push:
+    tags: ["v*"]
+
+env:
+  # The revisions this build is made and tested with (as in scripts/build.sh).
+  OPENPLUGIN_SDK_REF: fc294e7a31e64dd38cc6060dcca41a9bc884d2dd
+  GOODLOOKINDRI_REF: 3fe04263a7e1eb21931717393d0f1d705417e884
+  VST3_SDK_REF: v3.8.1_build_84
+  CARGO_TERM_COLOR: always
+
+jobs:
+  windows:
+    name: Windows x64 (VST3, CLAP, LV2)
+    runs-on: windows-latest
+    env:
+      CARGO_TARGET_X86_64_PC_WINDOWS_MSVC_RUSTFLAGS: -C target-feature=+crt-static
+    steps:
+      # Cargo.toml finds the SDK and DRI at ../../Dependencies.
+      - uses: actions/checkout@v4
+        with:
+          path: w/opendynamics
+      - uses: actions/checkout@v4
+        with:
+          repository: MistaMin/OpenPluginSDK
+          ref: ${{ env.OPENPLUGIN_SDK_REF }}
+          path: Dependencies/OpenPluginSDK
+      - uses: actions/checkout@v4
+        with:
+          repository: MistaMin/GoodLookinDri
+          ref: ${{ env.GOODLOOKINDRI_REF }}
+          path: Dependencies/GoodLookinDri
+      - uses: actions/checkout@v4
+        with:
+          repository: steinbergmedia/vst3sdk
+          ref: ${{ env.VST3_SDK_REF }}
+          submodules: recursive
+          path: Dependencies/vst3sdk
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Tests
+        working-directory: w/opendynamics
+        run: cargo test --release --workspace
+      # UIAutomationCore.DLL is the Windows accessibility library the editor's window uses.
+      - name: Build VST3, CLAP and LV2
+        shell: pwsh
+        run: |
+          $root = "$env:GITHUB_WORKSPACE"
+          $version = (Select-String -Path w\opendynamics\Cargo.toml -Pattern '^version = "(.*)"').Matches[0].Groups[1].Value
+          # Bundle versions are numbers only; the plugin itself reports the full version.
+          $version = $version.Split('-')[0]
+          powershell -NoProfile -ExecutionPolicy Bypass -File Dependencies\OpenPluginSDK\scripts\windows\build_plugin.ps1 `
+            -ManifestPath w\opendynamics\Cargo.toml -Name OpenDynamics -Version $version -Manufacturer OpenGrid `
+            -BundleId com.opengrid.opendynamics -Editor -AllowLib UIAutomationCore.DLL -Formats clap,vst3,lv2 `
+            -Vst3Sdk "$root\Dependencies\vst3sdk" -Out "$root\dist-windows" -WorkDir "$root\build-windows"
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - uses: actions/upload-artifact@v4
+        with:
+          name: windows-x64
+          path: dist-windows
+
+  linux:
+    name: Linux x86_64 (VST3, CLAP, LV2)
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: w/opendynamics
+      - uses: actions/checkout@v4
+        with:
+          repository: MistaMin/OpenPluginSDK
+          ref: ${{ env.OPENPLUGIN_SDK_REF }}
+          path: Dependencies/OpenPluginSDK
+      - uses: actions/checkout@v4
+        with:
+          repository: MistaMin/GoodLookinDri
+          ref: ${{ env.GOODLOOKINDRI_REF }}
+          path: Dependencies/GoodLookinDri
+      - uses: actions/checkout@v4
+        with:
+          repository: steinbergmedia/vst3sdk
+          ref: ${{ env.VST3_SDK_REF }}
+          submodules: recursive
+          path: Dependencies/vst3sdk
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Tests
+        working-directory: w/opendynamics
+        run: cargo test --release --workspace
+      - name: Build VST3, CLAP and LV2
+        run: |
+          version=$(sed -n 's/^version = "\(.*\)"/\1/p' w/opendynamics/Cargo.toml | head -1)
+          version="${version%%-*}"  # bundle versions are numbers only
+          Dependencies/OpenPluginSDK/scripts/build_plugin_linux.sh --manifest-path w/opendynamics/Cargo.toml \
+            --name OpenDynamics --version "$version" --ttl-bin lv2_ttl --formats clap,lv2,vst3 --editor \
+            --vst3-sdk "$GITHUB_WORKSPACE/Dependencies/vst3sdk" --strip \
+            --out "$GITHUB_WORKSPACE/dist-linux" --work-dir "$GITHUB_WORKSPACE/build-linux"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: linux-x86_64
+          path: dist-linux

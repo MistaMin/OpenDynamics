@@ -1,0 +1,75 @@
+input                        |       -24 dB |         0 dB |        24 dB
+output                       |       -24 dB |         0 dB |        24 dB
+gate.threshold               |       -90 dB |       -45 dB |         0 dB
+gate.ratio                   |          1:1 |          4:1 |         20:1
+gate.range                   |         0 dB |        45 dB |        90 dB
+gate.attack                  |        10 µs |       1.0 ms |       100 ms
+gate.hold                    |         0 ms |       250 ms |       500 ms
+gate.release                 |       5.0 ms |       158 ms |       5.00 s
+gate.knee                    |         0 dB |        12 dB |        24 dB
+gate.hysteresis              |         0 dB |         6 dB |        12 dB
+gate.stereoLink              |           0% |          50% |         100%
+gate.lookahead               |         0 ms |       5.0 ms |      10.0 ms
+gate.rmsWindow               |       1.0 ms |      17.3 ms |       300 ms
+gate.keyHighPass             |      10.0 Hz |       141 Hz |     2.00 kHz
+gate.keyLowPass              |       500 Hz |     3.32 kHz |     22.0 kHz
+gate.keyBoost                |       -24 dB |         0 dB |        24 dB
+gate.keyBoostFreq            |      20.0 Hz |       632 Hz |     20.0 kHz
+gate.keyBoostQ               |         0.30 |         1.73 |         10.0
+comp.threshold               |       -60 dB |       -30 dB |         0 dB
+comp.ratio                   |          1:1 |          5:1 |         30:1
+comp.attack                  |        10 µs |       1.7 ms |       300 ms
+comp.release                 |       5.0 ms |       158 ms |       5.00 s
+comp.makeup                  |       -12 dB |         6 dB |        24 dB
+comp.mix                     |           0% |          50% |         100%
+comp.knee                    |         0 dB |        12 dB |        24 dB
+comp.stereoLink              |           0% |          50% |         100%
+comp.lookahead               |         0 ms |       5.0 ms |      10.0 ms
+comp.rmsWindow               |       1.0 ms |      17.3 ms |       300 ms
+comp.keyHighPass             |      10.0 Hz |       141 Hz |     2.00 kHz
+comp.keyLowPass              |       500 Hz |     3.32 kHz |     22.0 kHz
+comp.keyBoost                |       -24 dB |         0 dB |        24 dB
+comp.keyBoostFreq            |      20.0 Hz |       632 Hz |     20.0 kHz
+comp.keyBoostQ               |         0.30 |         1.73 |         10.0
+deexp.threshold              |       -80 dB |       -40 dB |         0 dB
+deexp.ratio                  |          1:1 |          3:1 |          8:1
+deexp.range                  |         0 dB |        18 dB |        36 dB
+deexp.attack                 |        10 µs |       1.0 ms |       100 ms
+deexp.release                |       1.0 ms |      70.7 ms |       5.00 s
+deexp.mix                    |           0% |          50% |         100%
+deexp.knee                   |         0 dB |        12 dB |        24 dB
+deexp.floor                  |      -120 dB |       -70 dB |       -20 dB
+deexp.stereoLink             |           0% |          50% |         100%
+deexp.hold                   |         0 ms |       250 ms |       500 ms
+deexp.lookahead              |         0 ms |       5.0 ms |      10.0 ms
+deexp.detectorWindow         |       1.0 ms |      22.4 ms |       500 ms
+deexp.keyHighPass            |      10.0 Hz |       141 Hz |     2.00 kHz
+deexp.keyLowPass             |       500 Hz |     3.32 kHz |     22.0 kHz
+deexp.keyBoost               |       -24 dB |         0 dB |        24 dB
+deexp.keyBoostFreq           |      20.0 Hz |       632 Hz |     20.0 kHz
+deexp.keyBoostQ              |         0.30 |         1.73 |         10.0
+decomp.threshold             |       -60 dB |       -30 dB |         0 dB
+decomp.ratio                 |          1:1 |          1:3 |          1:4
+decomp.range                 |         0 dB |        12 dB |        24 dB
+decomp.attack                |        10 µs |       1.0 ms |       100 ms
+decomp.release               |       1.0 ms |      44.7 ms |       2.00 s
+decomp.mix                   |           0% |          50% |         100%
+decomp.knee                  |         0 dB |        12 dB |        24 dB
+decomp.trim                  |       -24 dB |       -12 dB |         0 dB
+decomp.stereoLink            |           0% |          50% |         100%
+decomp.lookahead             |         0 ms |       5.0 ms |      10.0 ms
+decomp.transientCrest        |         0 dB |        12 dB |        24 dB
+decomp.detectorWindow        |       1.0 ms |      22.4 ms |       500 ms
+decomp.keyHighPass           |      10.0 Hz |       141 Hz |     2.00 kHz
+decomp.keyLowPass            |       500 Hz |     3.32 kHz |     22.0 kHz
+decomp.keyBoost              |       -24 dB |         0 dB |        24 dB
+decomp.keyBoostFreq          |      20.0 Hz |       632 Hz |     20.0 kHz
+decomp.keyBoostQ             |         0.30 |         1.73 |         10.0
+decomp.ceiling               |       -24 dB |       -12 dB |         0 dB
+decomp.matchTarget           |         6 dB |        15 dB |        24 dB
+limit.threshold              |       -24 dB |       -12 dB |         0 dB
+limit.ceiling                |       -24 dB |       -12 dB |         0 dB
+limit.attack                 |         0 ms |       5.0 ms |      10.0 ms
+limit.release                |       1.0 ms |      44.7 ms |       2.00 s
+limit.stereoLink             |           0% |          50% |         100%
+limit.bassHold               |         0 ms |      10.0 ms |      20.0 ms

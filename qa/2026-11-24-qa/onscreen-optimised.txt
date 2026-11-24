@@ -1,0 +1,3 @@
+12:13  up  9:16, 19 users, load averages: 14.23 9.40 8.73
+editor closed: host_cpu% 17.6  windowserver% 28.1  gpu% 1.1
+comp 2D: host_cpu% 22.1  windowserver% 27.8  gpu% 1.6

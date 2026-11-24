@@ -1,0 +1,191 @@
+{
+ "fx": "VST3: OpenDynamics (OpenGrid)",
+ "checks": [
+  {
+   "check": "loads",
+   "status": "PASS",
+   "detail": "VST3: OpenDynamics (OpenGrid), 110 parameters"
+  },
+  {
+   "check": "finite output",
+   "status": "PASS",
+   "detail": "peak -0.1 dBFS"
+  },
+  {
+   "check": "not silent",
+   "status": "PASS",
+   "detail": "rms -11.8 dBFS"
+  },
+  {
+   "check": "deterministic render",
+   "status": "PASS",
+   "detail": "repeat differs by -240.0 dB"
+  },
+  {
+   "check": "editor opens",
+   "status": "PASS",
+   "detail": "1040x773, 9.5% animates by itself"
+  },
+  {
+   "check": "every parameter changes the sound",
+   "status": "PASS",
+   "detail": ""
+  },
+  {
+   "check": "every parameter is shown in the GUI",
+   "status": "PASS",
+   "detail": ""
+  },
+  {
+   "check": "state survives save and reopen",
+   "status": "PASS",
+   "detail": ""
+  },
+  {
+   "check": "editor reopens",
+   "status": "PASS",
+   "detail": "5 close/open cycles"
+  }
+ ],
+ "params": [
+  {
+   "index": 0,
+   "name": "Input Gain",
+   "ident": "0:0",
+   "default": 0.5,
+   "context": "",
+   "audioDiffDb": -6.0,
+   "audio": "ok",
+   "visualChange": 3.655,
+   "visual": "ok"
+  },
+  {
+   "index": 1,
+   "name": "Output Gain",
+   "ident": "1:1",
+   "default": 0.5,
+   "context": "",
+   "audioDiffDb": -1.4,
+   "audio": "ok",
+   "visualChange": 4.072,
+   "visual": "ok"
+  },
+  {
+   "index": 2,
+   "name": "Zero Latency",
+   "ident": "2:2",
+   "default": 0,
+   "context": "",
+   "audioDiffDb": -7.7,
+   "audio": "ok",
+   "visualChange": 4.174,
+   "visual": "ok"
+  },
+  {
+   "index": 3,
+   "name": "Auto Gain",
+   "ident": "3:3",
+   "default": 0,
+   "context": "",
+   "audioDiffDb": -10.1,
+   "audio": "ok",
+   "visualChange": 4.785,
+   "visual": "ok"
+  },
+  {
+   "index": 4,
+   "name": "Delta",
+   "ident": "4:4",
+   "default": 0,
+   "context": "",
+   "audioDiffDb": -3.5,
+   "audio": "ok",
+   "visualChange": 5.116,
+   "visual": "ok"
+  },
+  {
+   "index": 5,
+   "name": "Gate / Expander On",
+   "ident": "5:5",
+   "default": 0,
+   "context": "",
+   "audioDiffDb": -11.6,
+   "audio": "ok",
+   "visualChange": 5.044,
+   "visual": "ok"
+  },
+  {
+   "index": 6,
+   "name": "Gate / Expander Mode",
+   "ident": "6:6",
+   "default": 0,
+   "context": "Gate / Expander On=1",
+   "audioDiffDb": -6.3,
+   "audio": "ok",
+   "visualChange": 5.452,
+   "visual": "ok"
+  },
+  {
+   "index": 7,
+   "name": "Gate / Expander Threshold",
+   "ident": "7:7",
+   "default": 0.4444444478,
+   "context": "Gate / Expander On=1",
+   "audioDiffDb": -9.1,
+   "audio": "ok",
+   "visualChange": 5.265,
+   "visual": "ok"
+  },
+  {
+   "index": 8,
+   "name": "Gate / Expander Ratio",
+   "ident": "8:8",
+   "default": 0.2313782126,
+   "context": "Gate / Expander On=1, Gate / Expander Mode=1",
+   "audioDiffDb": -8.5,
+   "audio": "ok",
+   "visualChange": 5.764,
+   "visual": "ok"
+  },
+  {
+   "index": 9,
+   "name": "Gate / Expander Range",
+   "ident": "9:9",
+   "default": 0.4444444478,
+   "context": "Gate / Expander On=1",
+   "audioDiffDb": -9.1,
+   "audio": "ok",
+   "visualChange": 5.756,
+   "visual": "ok"
+  },
+  {
+   "index": 10,
+   "name": "Gate / Expander Knee",
+   "ident": "10:10",
+   "default": 0.25,
+   "context": "Gate / Expander On=1, Gate / Expander Mode=1",
+   "audioDiffDb": -9.2,
+   "audio": "ok",
+   "visualChange": 6.159,
+   "visual": "ok"
+  },
+  {
+   "index": 109,
+   "name": "Delta",
+   "ident": "109:delta",
+   "default": 0,
+   "context": "",
+   "audioDiffDb": -3.5,
+   "audio": "ok",
+   "visualChange": 5.692,
+   "visual": "ok"
+  }
+ ],
+ "info": {
+  "name": "VST3: OpenDynamics (OpenGrid)",
+  "numParams": 110,
+  "fx": 0,
+  "latency": "0"
+ },
+ "failed": []
+}

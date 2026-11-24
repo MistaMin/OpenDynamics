@@ -1,0 +1,2 @@
+note: REAPER already running for another session (pids 62639, 69117). It is left alone; this session starts its own instance and closes only that one.
+{"pid": 72581}

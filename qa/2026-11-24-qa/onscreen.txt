@@ -1,0 +1,9 @@
+11:53  up  8:55, 19 users, load averages: 6.50 9.86 10.01
+editor closed: host_cpu% 14.4  windowserver% 32.3  gpu% 1.6
+tab 0: host_cpu% 31.3  windowserver% 35.0  gpu% 1.7
+tab 1: host_cpu% 30.8  windowserver% 34.4  gpu% 1.6
+tab 2: host_cpu% 31.1  windowserver% 34.5  gpu% 1.7
+tab 3: host_cpu% 31.3  windowserver% 34.3  gpu% 1.7
+tab 4: host_cpu% 30.9  windowserver% 34.6  gpu% 1.7
+comp 3D: host_cpu% 68.0  windowserver% 37.2  gpu% 1.7
+11:57  up  8:59, 19 users, load averages: 6.60 8.11 9.19

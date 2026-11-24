@@ -1,0 +1,75 @@
+# OpenDynamics REAPER suite contexts and exceptions (2026-11-24). Values are normalised 0..1.
+Gate / Expander Mode @ Gate / Expander On=1
+Gate / Expander Threshold @ Gate / Expander On=1
+Gate / Expander Ratio @ Gate / Expander On=1, Gate / Expander Mode=1
+Gate / Expander Range @ Gate / Expander On=1
+Gate / Expander Knee @ Gate / Expander On=1, Gate / Expander Mode=1
+Gate / Expander Hysteresis @ Gate / Expander On=1
+Gate / Expander Attack @ Gate / Expander On=1
+Gate / Expander Hold @ Gate / Expander On=1
+Gate / Expander Release @ Gate / Expander On=1
+Gate / Expander Detector @ Gate / Expander On=1
+Gate / Expander RMS Window @ Gate / Expander On=1, Gate / Expander Detector=1
+Gate / Expander Look-Ahead @ Gate / Expander On=1
+Gate / Expander Stereo Link @ Gate / Expander On=1
+audio:Gate / Expander Key Source   # External needs a sidechain signal the REAPER test has not got; covered by comp::external_key_through_boost_hp_and_lp
+Gate / Expander Key High-Pass @ Gate / Expander On=1
+Gate / Expander Key Low-Pass @ Gate / Expander On=1
+Gate / Expander Auto Attack @ Gate / Expander On=1
+Gate / Expander Auto Release @ Gate / Expander On=1
+Gate / Expander Key Boost Freq @ Gate / Expander On=1, Gate / Expander Key Boost=1
+Gate / Expander Key Boost @ Gate / Expander On=1
+Gate / Expander Key Boost Q @ Gate / Expander On=1, Gate / Expander Key Boost=1
+Compressor RMS Window @ Compressor Detector=1
+audio:Compressor Key Source   # External needs a sidechain signal the REAPER test has not got; covered by comp::external_key_through_boost_hp_and_lp
+Compressor Key Boost Freq @ Compressor Key Boost=1
+Compressor Key Boost Q @ Compressor Key Boost=1
+De-Expander Threshold @ De-Expander On=1
+De-Expander Ratio @ De-Expander On=1
+De-Expander Range @ De-Expander On=1
+De-Expander Knee @ De-Expander On=1
+De-Expander Floor @ De-Expander On=1
+De-Expander Attack @ De-Expander On=1
+De-Expander Hold @ De-Expander On=1
+De-Expander Release @ De-Expander On=1
+De-Expander Detector @ De-Expander On=1
+De-Expander RMS Window @ De-Expander On=1, De-Expander Detector=1
+De-Expander Look-Ahead @ De-Expander On=1
+De-Expander Stereo Link @ De-Expander On=1
+audio:De-Expander Key Source   # External needs a sidechain signal the REAPER test has not got; covered by comp::external_key_through_boost_hp_and_lp
+De-Expander Key High-Pass @ De-Expander On=1
+De-Expander Key Low-Pass @ De-Expander On=1
+De-Expander Mix @ De-Expander On=1
+De-Expander Auto Attack @ De-Expander On=1
+De-Expander Auto Release @ De-Expander On=1
+De-Expander Key Boost Freq @ De-Expander On=1, De-Expander Key Boost=1
+De-Expander Key Boost @ De-Expander On=1
+De-Expander Key Boost Q @ De-Expander On=1, De-Expander Key Boost=1
+Decompressor Threshold @ Decompressor On=1
+Decompressor Ratio @ Decompressor On=1
+Decompressor Range @ Decompressor On=1, Decompressor Match=0
+Decompressor Knee @ Decompressor On=1
+Decompressor Attack @ Decompressor On=1
+Decompressor Release @ Decompressor On=1
+Decompressor Detector @ Decompressor On=1
+Decompressor RMS Window @ Decompressor On=1, Decompressor Detector=0.5
+Decompressor Transient Crest @ Decompressor On=1, Decompressor Detector=1
+Decompressor Look-Ahead @ Decompressor On=1
+Decompressor Stereo Link @ Decompressor On=1
+audio:Decompressor Key Source   # External needs a sidechain signal the REAPER test has not got; covered by comp::external_key_through_boost_hp_and_lp
+Decompressor Key High-Pass @ Decompressor On=1
+Decompressor Key Low-Pass @ Decompressor On=1
+Decompressor Mix @ Decompressor On=1
+Decompressor Ceiling @ Decompressor On=1
+Decompressor Ceiling Level @ Decompressor On=1, Decompressor Ceiling=1
+Decompressor Ceiling Type @ Decompressor On=1, Decompressor Ceiling=1
+Decompressor Output Trim @ Decompressor On=1
+Decompressor Match @ Decompressor On=1
+Decompressor Match Target Crest @ Decompressor On=1, Decompressor Match=1
+Decompressor Auto Attack @ Decompressor On=1
+Decompressor Auto Release @ Decompressor On=1
+Decompressor Key Boost Freq @ Decompressor On=1, Decompressor Key Boost=1
+Decompressor Key Boost @ Decompressor On=1
+Decompressor Key Boost Q @ Decompressor On=1, Decompressor Key Boost=1
+Limiter Release @ Limiter Clean=0
+Limiter Auto Release @ Limiter Clean=0

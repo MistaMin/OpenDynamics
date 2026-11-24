@@ -1,0 +1,28 @@
+[package]
+name = "opendynamics"
+description = "OpenDynamics: gate/expander, compressor, de-expander, decompressor and limiter on OpenPluginSDK with GoodLookin DRI"
+version = "1.0.0-beta"
+edition = "2021"
+license = "MIT"
+publish = false
+
+[lib]
+crate-type = ["cdylib", "staticlib", "rlib"]
+
+[dependencies]
+olm-api = { path = "crates/api" }
+dynamics = { path = "crates/dynamics" }
+dyn-deexpand = { path = "crates/dyn-deexpand" }
+dyn-decompress = { path = "crates/dyn-decompress" }
+# OpenPluginSDK main (fc294e7) and GoodLookin DRI main (3fe0426) side by side in
+# ../../Dependencies, the same layout on the owner's Mac and in GitHub Actions.
+openplugin = { path = "../../Dependencies/OpenPluginSDK/crates/openplugin" }
+# Text measuring for the kit; the SDK takes the same checkout.
+goodlookindri-shell = { path = "../../Dependencies/GoodLookinDri/shell" }
+
+[workspace]
+members = ["crates/*"]
+
+[profile.release]
+opt-level = 3
+lto = "thin"
