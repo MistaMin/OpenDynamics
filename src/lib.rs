@@ -64,6 +64,15 @@ pub const P_ZERO_LATENCY: usize = 2;
 pub const P_AUTO_GAIN: usize = 3;
 pub const P_DELTA: usize = 4;
 
+/// Host index of the Auto Target and Auto Ceiling parameters (the last two).
+pub fn p_auto_target() -> usize {
+    INFO.params.len() - 2
+}
+
+pub fn p_auto_ceiling() -> usize {
+    INFO.params.len() - 1
+}
+
 fn modules() -> [Box<dyn Module>; SECTIONS] {
     [
         Box::new(dynamics::Gate::default()),
@@ -149,6 +158,9 @@ static TABLE: LazyLock<(Vec<ParamInfo>, Vec<SectionInfo>)> = LazyLock::new(|| {
         }
         sections.push(SectionInfo { key, label, on: on_index, base, count: m.params().len() });
     }
+    // Auto Loudness (after the sections: the indices of 1.0 sessions stay as they were).
+    params.push(ParamInfo::new("autoTarget", "Auto Target", -30.0, -6.0, -14.0, Unit::Db).with_steps(25).with_group("Auto").with_text(text::lufs, text::parse_lufs));
+    params.push(ParamInfo::new("autoCeiling", "Auto Ceiling", -3.0, 0.0, -1.0, Unit::Db).with_steps(31).with_group("Auto").with_text(text::dbtp, text::parse_dbtp));
     (params, sections)
 });
 
@@ -242,6 +254,10 @@ pub struct OpenDynamics {
     silent_for: usize,
     silence_logged: bool,
     nonfinite_logged: bool,
+    /// Auto Loudness: the input after the input gain and the final output, measured while learning.
+    meter_in: Option<Box<loudness::Meter>>,
+    meter_out: Option<Box<loudness::Meter>>,
+    publish_in: usize,
     delta_step: f32,
     /// The input after the input gain, delayed by the latency, for the editor's spectrum.
     pre: [Vec<f32>; 2],
@@ -326,6 +342,9 @@ impl Default for OpenDynamics {
             silent_for: 0,
             silence_logged: false,
             nonfinite_logged: false,
+            meter_in: None,
+            meter_out: None,
+            publish_in: 0,
             delta_step: 1.0,
             pre: Default::default(),
             pre_delay: Default::default(),
@@ -360,6 +379,17 @@ impl OpenDynamics {
             right[i] *= self.gain[1];
             peak_in[0] = peak_in[0].max(left[i].abs());
             peak_in[1] = peak_in[1].max(right[i].abs());
+        }
+        let learning = self.shared.learning();
+        if learning {
+            if self.shared.take_learn_reset() {
+                for m in [&mut self.meter_in, &mut self.meter_out].into_iter().flatten() {
+                    m.clear();
+                }
+            }
+            if let Some(m) = &mut self.meter_in {
+                m.feed(left, right);
+            }
         }
         let lat = self.total_latency();
         for i in 0..n {
@@ -447,6 +477,19 @@ impl OpenDynamics {
         }
         self.autogain.apply(left, right);
         self.shared.set_auto_gain(self.autogain.gain_db());
+        if learning {
+            if let Some(m) = &mut self.meter_out {
+                m.feed(left, right);
+            }
+            // The measurement reaches the editor about ten times a second.
+            self.publish_in += n;
+            if self.publish_in as f32 >= 0.1 * self.sample_rate {
+                self.publish_in = 0;
+                if let (Some(i), Some(o)) = (&self.meter_in, &self.meter_out) {
+                    self.shared.publish_loudness(i.stats(), o.stats());
+                }
+            }
+        }
         if !self.nonfinite_logged && left.iter().chain(right.iter()).any(|v| !v.is_finite()) {
             self.nonfinite_logged = true;
             log_line(&format!("non-finite final output: peak_in {peak_in:?} gain {:?} out {} dip {} delta_mix {} autogain {}", self.gain, self.values[P_OUTPUT], self.dip, self.delta_mix, self.autogain.gain_db()));
@@ -503,6 +546,8 @@ impl Plugin for OpenDynamics {
     fn prepare(&mut self, sample_rate: f32, max_block: usize, _channels: usize) {
         self.sample_rate = sample_rate.max(1.0);
         self.max_block = max_block.max(1);
+        self.meter_in = Some(loudness::Meter::new(self.sample_rate));
+        self.meter_out = Some(loudness::Meter::new(self.sample_rate));
         let dry_len = (MAX_LATENCY_MS * 1e-3 * self.sample_rate).ceil() as usize + 2;
         for s in &mut self.sections {
             s.module.prepare(self.sample_rate, self.max_block);
@@ -556,7 +601,7 @@ impl Plugin for OpenDynamics {
             self.gain_target = [db_to_gain(value); 2];
             return true;
         }
-        if index == P_OUTPUT {
+        if index == P_OUTPUT || index == p_auto_target() || index == p_auto_ceiling() {
             return true;
         }
         if index == P_DELTA {
@@ -1127,6 +1172,85 @@ mod tests {
             for &(j, _) in &c {
                 p.set_param_index(j, INFO.params[j].default);
             }
+        }
+    }
+    /// Auto Loudness end to end: learn a quiet, wide programme with a noise floor, plan, apply,
+    /// learn the output, correct, apply: the output lands on the target under the ceiling.
+    #[test]
+    fn auto_loudness_reaches_the_target() {
+        auto_loudness_case(&[(-14.0, -1.0), (-23.0, -2.0), (-16.0, -1.0)]);
+    }
+
+    /// Open (ledger A7): a very loud target under a tight true-peak ceiling. Hard limiting of
+    /// bright material makes peaks between samples well over the limiter's sample peaks (2.75 dB
+    /// on this noise), and the planner's margin for them costs the loudness the target needs.
+    /// Needs a true-peak (oversampled) limiter mode.
+    #[test]
+    #[ignore]
+    fn auto_loudness_loud_target_tight_ceiling() {
+        auto_loudness_case(&[(-9.0, -0.5)]);
+    }
+
+    fn auto_loudness_case(cases: &[(f64, f64)]) {
+        for &(target, ceiling) in cases {
+            let mut p = OpenDynamics::default();
+            p.prepare(48_000.0, 512, 2);
+            let mut seed = 7u32;
+            let mut lp = [0.0f32; 2];
+            // 30 s: phrases at -38, -22 and -30 dBFS-ish with gaps down to a -75 dB floor.
+            let mut programme = |p: &mut OpenDynamics| {
+                for b in 0..(30 * 48_000 / 512) {
+                    let phrase = (b / 94) % 4;
+                    let level = [10f32.powf(-38.0 / 20.0), 10f32.powf(-22.0 / 20.0), 10f32.powf(-30.0 / 20.0), 10f32.powf(-75.0 / 20.0)][phrase];
+                    let mut l = vec![0.0f32; 512];
+                    let mut r = vec![0.0f32; 512];
+                    for i in 0..512 {
+                        let beat = ((b * 512 + i) % 12_000) as f32 / 12_000.0;
+                        let env = if phrase == 3 { 1.0 } else { (1.0 - beat).powi(3) * 0.8 + 0.2 };
+                        for (c, out) in [&mut l, &mut r].into_iter().enumerate() {
+                            seed = seed.wrapping_mul(1_664_525).wrapping_add(1_013_904_223);
+                            let w = (seed >> 8) as f32 / (1u32 << 24) as f32 - 0.5;
+                            lp[c] += (w - lp[c]) * 0.2;
+                            out[i] = 3.0 * lp[c] * level * env;
+                        }
+                    }
+                    block(p, &mut l, &mut r);
+                }
+            };
+            let learn = |p: &mut OpenDynamics, programme: &mut dyn FnMut(&mut OpenDynamics)| {
+                p.shared.set_learning(true);
+                p.reset();
+                programme(p);
+                p.shared.set_learning(false);
+                p.shared.loudness().1.expect("a measurement")
+            };
+            let apply = |p: &mut OpenDynamics, plan: &auto::Plan| {
+                for (id, v) in plan.settings {
+                    assert!(p.set_param(id, v), "{id}");
+                }
+            };
+            let (input, _) = learn(&mut p, &mut programme);
+            let mut plan = auto::plan(&input, 0.0, None, target, ceiling).expect("a plan");
+            apply(&mut p, &plan);
+            let mut passes = vec![];
+            let (mut out1, mut out2) = (None, None);
+            // Learn and Apply again until the output is within 0.5 LU, at most four times.
+            for _ in 0..4 {
+                let (seen, out) = learn(&mut p, &mut programme);
+                passes.push(out.integrated);
+                out1.get_or_insert(out);
+                out2 = Some(out);
+                if (out.integrated - target).abs() <= 0.5 && out.true_peak_db <= ceiling {
+                    break;
+                }
+                plan = auto::plan(&seen, plan.gains.input, Some((&out, &plan)), target, ceiling).expect("a plan");
+                apply(&mut p, &plan);
+            }
+            let (out1, out2) = (out1.unwrap(), out2.unwrap());
+            println!("passes {passes:.2?}");
+            println!("target {target} ceiling {ceiling}: input {:.1} LUFS LRA {:.1}; pass 1 {:.2} LUFS; pass 2 {:.2} LUFS, LRA {:.1}, true peak {:.2} dBTP", input.integrated, input.range, out1.integrated, out2.integrated, out2.range, out2.true_peak_db);
+            assert!((out2.integrated - target).abs() <= 1.0, "target {target}: {out2:?}");
+            assert!(out2.true_peak_db <= ceiling + 0.1, "ceiling {ceiling}: {out2:?}");
         }
     }
 }

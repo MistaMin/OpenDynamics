@@ -17,11 +17,12 @@ Owner's answers: feature branch + PR; target LUFS + true-peak ceiling; full ARA 
 
 | # | Item | Code | GUI | Test evidence | Status |
 |---|---|---|---|---|---|
-| A1 | Auto mode switch, Target (LUFS) and Ceiling (dBTP) parameters | | | | open |
-| A2 | Measure the input: integrated loudness (BS.1770, gated), loudness range, crest/peak, noise floor | `src/loudness.rs` | - | `loudness::tests`: EBU Tech 3341 cases 1 and 3 (-23.0 LUFS +-0.1), Tech 3342 LRA 10 LU, true peak between samples, silence | code done, not wired |
+| A1 | Auto mode switch, Target (LUFS) and Ceiling (dBTP) parameters | `autoTarget` -30..-6 LUFS (default -14), `autoCeiling` -3.0..0.0 dBTP (default -1.0), appended after the sections | not yet | `text` tests (LUFS whole, dBTP tenths) | params done, GUI open |
+| A2 | Measure the input: integrated loudness (BS.1770, gated), loudness range, crest/peak, noise floor | `src/loudness.rs` | - | `loudness::tests`: EBU Tech 3341 cases 1 and 3 (-23.0 LUFS +-0.1), Tech 3342 LRA 10 LU, true peak between samples, silence | wired (`Meter` in `run` while learning, published to `Shared`) |
 | A3 | Set all five sections from the measurement to reach the target (decompress, expand, compress, de-expand, limit) | `src/auto.rs` `plan` | - | `auto::tests`: ids and ranges, quiet/wide, loud/squashed, measured correction, silence | code done, not wired |
 | A4 | Without ARA: a Learn pass over the played audio, then hold the settings | | | | open |
-| A5 | Result hits the target within a tolerance on test material (offline render, integrated LUFS and true peak measured) | | | | open |
+| A5 | Result hits the target within a tolerance on test material (offline render, integrated LUFS and true peak measured) | `auto_loudness_reaches_the_target` | - | 30 s quiet, wide programme (-37.8 LUFS): -14/-1: -14.87 LUFS, -1.43 dBTP in 4 passes; -23/-2: -23.00 in 1; -16/-1: -16.28, -1.41 dBTP in 3 | PASS (within 1 LU, true peak at or under the ceiling) |
+| A7 | Very loud targets under a tight true-peak ceiling (-9 LUFS, -0.5 dBTP) | - | - | ignored test `auto_loudness_loud_target_tight_ceiling`: stuck near -12 LUFS: hard limiting of bright material puts true peaks 2.75 dB over the limiter's sample peaks | OPEN: needs a true-peak (oversampled) limiter mode |
 | A6 | The sections' own controls show what Auto set; the user can still change them | | | | open |
 | R1 | SDK: ARA factory and document controller over a C interface, VST3 shell (ARAVST3.h) | | | | open |
 | R2 | SDK: read audio sources ahead of playback (ARA audio reader) | | | | open |

@@ -2,7 +2,10 @@
 //! Values merge between editor frames: peaks and levels keep the highest, gains the one
 //! furthest from 0 dB.
 
-use std::sync::atomic::{AtomicBool, AtomicU32, AtomicUsize, Ordering, Ordering::Relaxed};
+use std::sync::atomic::{AtomicBool, AtomicU32, AtomicU64, AtomicUsize, Ordering, Ordering::Relaxed};
+use std::sync::Mutex;
+
+use crate::loudness::Stats;
 
 use crate::SECTIONS;
 
@@ -70,6 +73,13 @@ pub struct Shared {
     key: AtomicBool,
     rate: F,
     auto_gain: F,
+    learn: AtomicBool,
+    learn_reset: AtomicBool,
+    /// Bumped each time a measurement is published, so the editor knows it is new.
+    loudness_seq: AtomicU64,
+    /// Input and output loudness. Written by the audio thread with `try_lock` only, so it
+    /// never waits: a frame the editor is reading is simply published on the next tick.
+    loudness: Mutex<Option<(Stats, Stats)>>,
 }
 
 /// One section as of the last editor frame.
@@ -131,6 +141,34 @@ impl Shared {
     }
 
     /// The gain Auto Gain applies now, dB.
+    /// Auto Loudness: start (clearing what was measured) or stop measuring.
+    pub fn set_learning(&self, on: bool) {
+        if on {
+            self.learn_reset.store(true, Relaxed);
+        }
+        self.learn.store(on, Relaxed);
+    }
+
+    pub fn learning(&self) -> bool {
+        self.learn.load(Relaxed)
+    }
+
+    pub(crate) fn take_learn_reset(&self) -> bool {
+        self.learn_reset.swap(false, Relaxed)
+    }
+
+    pub(crate) fn publish_loudness(&self, input: Stats, output: Stats) {
+        if let Ok(mut l) = self.loudness.try_lock() {
+            *l = Some((input, output));
+            self.loudness_seq.fetch_add(1, Relaxed);
+        }
+    }
+
+    /// The last measurement of the input and the output, and its sequence number.
+    pub fn loudness(&self) -> (u64, Option<(Stats, Stats)>) {
+        (self.loudness_seq.load(Relaxed), self.loudness.lock().map(|l| *l).unwrap_or(None))
+    }
+
     pub fn auto_gain_db(&self) -> f32 {
         let v = self.auto_gain.get();
         if v.is_nan() { 0.0 } else { v }

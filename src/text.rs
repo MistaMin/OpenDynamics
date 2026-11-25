@@ -38,6 +38,27 @@ pub fn db(v: f32) -> String {
     format!("{} dB", signed_whole(v))
 }
 
+/// Loudness in whole LUFS.
+pub fn lufs(v: f32) -> String {
+    format!("{} LUFS", signed_whole(v))
+}
+
+pub fn parse_lufs(s: &str) -> Option<f32> {
+    let (n, rest) = split(s)?;
+    matches!(rest.as_str(), "" | "lufs" | "lu").then_some(n)
+}
+
+/// True peak keeps a tenth: the ceiling is set in tenths of a dB.
+pub fn dbtp(v: f32) -> String {
+    let t = (v * 10.0).round() / 10.0;
+    if t == 0.0 { "0.0 dBTP".into() } else { format!("{t:.1} dBTP") }
+}
+
+pub fn parse_dbtp(s: &str) -> Option<f32> {
+    let (n, rest) = split(s)?;
+    matches!(rest.as_str(), "" | "db" | "dbtp").then_some(n)
+}
+
 pub fn parse_db(s: &str) -> Option<f32> {
     let (n, rest) = split(s)?;
     matches!(rest.as_str(), "" | "db").then_some(n)
@@ -122,5 +143,10 @@ mod tests {
         assert_eq!(parse_ms("2.5 s"), Some(2500.0));
         assert_eq!(parse_hz("2.25 kHz"), Some(2250.0));
         assert_eq!(parse_db("loud"), None);
+        assert_eq!(lufs(-14.2), "-14 LUFS");
+        assert_eq!(dbtp(-1.04), "-1.0 dBTP");
+        assert_eq!(dbtp(-0.01), "0.0 dBTP");
+        assert_eq!(parse_lufs("-23 LUFS"), Some(-23.0));
+        assert_eq!(parse_dbtp("-0.5 dBTP"), Some(-0.5));
     }
 }
