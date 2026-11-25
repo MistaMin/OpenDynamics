@@ -29,6 +29,7 @@
 mod autogain;
 mod loudness;
 mod auto;
+pub mod ara;
 mod text;
 mod shared;
 mod ui;
@@ -269,7 +270,7 @@ pub struct OpenDynamics {
 /// silent plugin can be diagnosed: `~/Library/Logs/OpenDynamics/panic.log` on macOS, the
 /// settings folder elsewhere.
 /// Appends one line to `~/Library/Logs/OpenDynamics/panic.log` (macOS) or the settings folder.
-fn log_line(msg: &str) {
+pub(crate) fn log_line(msg: &str) {
     if cfg!(test) {
         return;
     }
