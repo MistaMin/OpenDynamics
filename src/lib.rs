@@ -739,14 +739,23 @@ mod tests {
         assert_eq!(ids.len(), INFO.params.len());
         assert_eq!(LAYOUT.len(), SECTIONS);
         let last = LAYOUT.last().unwrap();
-        assert_eq!(last.base + last.count, INFO.params.len());
+        // The Auto Loudness parameters follow the sections, so 1.0 sessions keep their indices.
+        assert_eq!(last.base + last.count, p_auto_target());
+        assert_eq!((INFO.params[p_auto_target()].id, INFO.params[p_auto_ceiling()].id), ("autoTarget", "autoCeiling"));
+        assert_eq!(p_auto_ceiling(), INFO.params.len() - 1);
+    }
+
+    /// The one control that keeps a tenth: a true-peak ceiling (readability rules: "true peak
+    /// keeps a tenth for the ceiling").
+    fn true_peak_tenth(id: &str) -> bool {
+        id == "autoCeiling"
     }
 
     /// Owner rule (2026-11-24): every dB and ratio control moves in whole steps, defaults
     /// included, so a host or a typed value lands on a whole number.
     #[test]
     fn dynamics_controls_move_in_whole_steps() {
-        for p in INFO.params.iter().filter(|p| matches!(p.unit, Unit::Db | Unit::Ratio)) {
+        for p in INFO.params.iter().filter(|p| matches!(p.unit, Unit::Db | Unit::Ratio) && !true_peak_tenth(p.id)) {
             assert!(p.steps > 1, "{} is not stepped", p.id);
             assert_eq!(p.default, p.default.round(), "{} default {}", p.id, p.default);
             for v in [p.min + 0.37, (p.min + p.max) * 0.5 + 0.21, p.max - 0.4] {
@@ -780,10 +789,10 @@ mod tests {
                 let t = p.format(v);
                 for num in t.split(|c: char| !(c.is_ascii_digit() || c == '.')).filter(|x| !x.is_empty()) {
                     assert!(num.chars().filter(|c| c.is_ascii_digit()).count() <= 3, "{}: {t:?}", p.id);
-                    assert!(!num.starts_with("0.") || p.id.ends_with("keyBoostQ"), "{}: {t:?}", p.id);
+                    assert!(!num.starts_with("0.") || p.id.ends_with("keyBoostQ") || true_peak_tenth(p.id), "{}: {t:?}", p.id);
                 }
                 assert!(!t.starts_with("-0"), "{}: {t:?}", p.id);
-                if matches!(p.unit, Unit::Db | Unit::Ratio) {
+                if matches!(p.unit, Unit::Db | Unit::Ratio) && !true_peak_tenth(p.id) {
                     assert!(!t.contains('.'), "{}: {t:?}", p.id);
                 }
                 let back = p.parse(&t).unwrap_or_else(|| panic!("{}: cannot read back {t:?}", p.id));
