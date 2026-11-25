@@ -18,7 +18,7 @@ pub const RANGE_DB: f32 = 24.0;
 const QUIET: f64 = 1e-6;
 
 /// BS.1770 K-weighting: high shelf, then high-pass, as biquad `[b0, b1, b2, a1, a2]`.
-fn k_weighting(sr: f64) -> ([f64; 5], [f64; 5]) {
+pub(crate) fn k_weighting(sr: f64) -> ([f64; 5], [f64; 5]) {
     if (sr - 48_000.0).abs() < 0.5 {
         return (
             [1.53512485958697, -2.69169618940638, 1.19839281085285, -1.69065929318241, 0.73248077421585],
@@ -39,13 +39,13 @@ fn k_weighting(sr: f64) -> ([f64; 5], [f64; 5]) {
 }
 
 #[derive(Clone, Copy, Default)]
-struct Biquad {
-    c: [f64; 5],
-    z: [f64; 2],
+pub(crate) struct Biquad {
+    pub(crate) c: [f64; 5],
+    pub(crate) z: [f64; 2],
 }
 
 impl Biquad {
-    fn run(&mut self, x: f64) -> f64 {
+    pub(crate) fn run(&mut self, x: f64) -> f64 {
         let [b0, b1, b2, a1, a2] = self.c;
         let y = b0 * x + self.z[0];
         self.z[0] = b1 * x - a1 * y + self.z[1];

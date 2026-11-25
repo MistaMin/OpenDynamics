@@ -27,6 +27,8 @@
 //! difference plays at the matched level. The meters keep showing the processed signal.
 
 mod autogain;
+mod loudness;
+mod auto;
 mod text;
 mod shared;
 mod ui;
