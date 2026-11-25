@@ -1,0 +1,26 @@
+   Compiling openplugin-dsp v1.0.0-beta (/Volumes/Developer/Dependencies/OpenPluginSDK/crates/openplugin-dsp)
+   Compiling openplugin v1.0.0-beta (/Volumes/Developer/Dependencies/OpenPluginSDK/crates/openplugin)
+   Compiling opendynamics v1.0.0-beta (/Volumes/Developer/OpenGrid/OpenDynamics)
+    Finished `release` profile [optimized] target(s) in 15.92s
+     Running unittests src/lib.rs (target/release/deps/opendynamics-7e0fb5fba4689c87)
+
+running 1 test
+Gate / Expander  closed    dirty 100.0% of window per frame, render  14.55 ms per frame
+Gate / Expander  SIDECHAIN dirty 100.0% of window per frame, render  20.53 ms per frame
+Gate / Expander  3D        dirty 100.0% of window per frame, render  25.35 ms per frame
+Compressor       closed    dirty 100.0% of window per frame, render  14.94 ms per frame
+Compressor       SIDECHAIN dirty 100.0% of window per frame, render  20.70 ms per frame
+Compressor       3D        dirty 100.0% of window per frame, render  25.40 ms per frame
+De-Expander      closed    dirty 100.0% of window per frame, render  14.65 ms per frame
+De-Expander      SIDECHAIN dirty 100.0% of window per frame, render  20.80 ms per frame
+De-Expander      3D        dirty 100.0% of window per frame, render  25.34 ms per frame
+Decompressor     closed    dirty 100.0% of window per frame, render  14.09 ms per frame
+Decompressor     CEILING   dirty 100.0% of window per frame, render  18.43 ms per frame
+Decompressor     3D        dirty 100.0% of window per frame, render  25.17 ms per frame
+Limiter          closed    dirty 100.0% of window per frame, render  16.30 ms per frame
+Limiter          TIMING    dirty 100.0% of window per frame, render  18.48 ms per frame
+Limiter          3D        dirty 100.0% of window per frame, render  27.26 ms per frame
+test ui::tests::frame_cost ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 28 filtered out; finished in 11.72s
+

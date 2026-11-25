@@ -1,0 +1,116 @@
+PASS     loads OpenDynamics, 114 parameters
+PASS     finite output peak -11.3 dBFS
+PASS     not silent rms -21.7 dBFS
+FAIL     deterministic render repeat differs by -42.7 dB
+SKIPPED  editor opens visual checks disabled
+  Input Gain                       audio=skipped (render not deterministic) visual=-
+  Output Gain                      audio=skipped (render not deterministic) visual=-
+  Zero Latency                     audio=skipped (render not deterministic) visual=-
+  Auto Gain                        audio=skipped (render not deterministic) visual=-
+  Delta                            audio=skipped (render not deterministic) visual=-
+  Gate / Expander On               audio=skipped (render not deterministic) visual=-
+  Gate / Expander Mode             audio=skipped (render not deterministic) visual=-
+  Gate / Expander Threshold        audio=skipped (render not deterministic) visual=-
+  Gate / Expander Ratio            audio=skipped (render not deterministic) visual=-
+  Gate / Expander Range            audio=skipped (render not deterministic) visual=-
+  Gate / Expander Knee             audio=skipped (render not deterministic) visual=-
+  Gate / Expander Hysteresis       audio=skipped (render not deterministic) visual=-
+  Gate / Expander Attack           audio=skipped (render not deterministic) visual=-
+  Gate / Expander Hold             audio=skipped (render not deterministic) visual=-
+  Gate / Expander Release          audio=skipped (render not deterministic) visual=-
+  Gate / Expander Detector         audio=skipped (render not deterministic) visual=-
+  Gate / Expander RMS Window       audio=skipped (render not deterministic) visual=-
+  Gate / Expander Look-Ahead       audio=skipped (render not deterministic) visual=-
+  Gate / Expander Stereo Link      audio=skipped (render not deterministic) visual=-
+  Gate / Expander Key Source       audio=skipped (render not deterministic) visual=-
+  Gate / Expander Key High-Pass    audio=skipped (render not deterministic) visual=-
+  Gate / Expander Key Low-Pass     audio=skipped (render not deterministic) visual=-
+  Gate / Expander Auto Attack      audio=skipped (render not deterministic) visual=-
+  Gate / Expander Auto Release     audio=skipped (render not deterministic) visual=-
+  Gate / Expander Key Boost Freq   audio=skipped (render not deterministic) visual=-
+  Gate / Expander Key Boost        audio=skipped (render not deterministic) visual=-
+  Gate / Expander Key Boost Q      audio=skipped (render not deterministic) visual=-
+  Compressor On                    audio=skipped (render not deterministic) visual=-
+  Compressor Threshold             audio=skipped (render not deterministic) visual=-
+  Compressor Ratio                 audio=skipped (render not deterministic) visual=-
+  Compressor Knee                  audio=skipped (render not deterministic) visual=-
+  Compressor Attack                audio=skipped (render not deterministic) visual=-
+  Compressor Release               audio=skipped (render not deterministic) visual=-
+  Compressor Detector              audio=skipped (render not deterministic) visual=-
+  Compressor RMS Window            audio=skipped (render not deterministic) visual=-
+  Compressor Look-Ahead            audio=skipped (render not deterministic) visual=-
+  Compressor Stereo Link           audio=skipped (render not deterministic) visual=-
+  Compressor Key Source            audio=skipped (render not deterministic) visual=-
+  Compressor Key High-Pass         audio=skipped (render not deterministic) visual=-
+  Compressor Key Low-Pass          audio=skipped (render not deterministic) visual=-
+  Compressor Make-Up               audio=skipped (render not deterministic) visual=-
+  Compressor Mix                   audio=skipped (render not deterministic) visual=-
+  Compressor Auto Attack           audio=skipped (render not deterministic) visual=-
+  Compressor Auto Release          audio=skipped (render not deterministic) visual=-
+  Compressor Key Boost Freq        audio=skipped (render not deterministic) visual=-
+  Compressor Key Boost             audio=skipped (render not deterministic) visual=-
+  Compressor Key Boost Q           audio=skipped (render not deterministic) visual=-
+  De-Expander On                   audio=skipped (render not deterministic) visual=-
+  De-Expander Threshold            audio=skipped (render not deterministic) visual=-
+  De-Expander Ratio                audio=skipped (render not deterministic) visual=-
+  De-Expander Range                audio=skipped (render not deterministic) visual=-
+  De-Expander Knee                 audio=skipped (render not deterministic) visual=-
+  De-Expander Floor                audio=skipped (render not deterministic) visual=-
+  De-Expander Attack               audio=skipped (render not deterministic) visual=-
+  De-Expander Hold                 audio=skipped (render not deterministic) visual=-
+  De-Expander Release              audio=skipped (render not deterministic) visual=-
+  De-Expander Detector             audio=skipped (render not deterministic) visual=-
+  De-Expander RMS Window           audio=skipped (render not deterministic) visual=-
+  De-Expander Look-Ahead           audio=skipped (render not deterministic) visual=-
+  De-Expander Stereo Link          audio=skipped (render not deterministic) visual=-
+  De-Expander Key Source           audio=skipped (render not deterministic) visual=-
+  De-Expander Key High-Pass        audio=skipped (render not deterministic) visual=-
+  De-Expander Key Low-Pass         audio=skipped (render not deterministic) visual=-
+  De-Expander Mix                  audio=skipped (render not deterministic) visual=-
+  De-Expander Auto Attack          audio=skipped (render not deterministic) visual=-
+  De-Expander Auto Release         audio=skipped (render not deterministic) visual=-
+  De-Expander Key Boost Freq       audio=skipped (render not deterministic) visual=-
+  De-Expander Key Boost            audio=skipped (render not deterministic) visual=-
+  De-Expander Key Boost Q          audio=skipped (render not deterministic) visual=-
+  Decompressor On                  audio=skipped (render not deterministic) visual=-
+  Decompressor Threshold           audio=skipped (render not deterministic) visual=-
+  Decompressor Ratio               audio=skipped (render not deterministic) visual=-
+  Decompressor Range               audio=skipped (render not deterministic) visual=-
+  Decompressor Knee                audio=skipped (render not deterministic) visual=-
+  Decompressor Attack              audio=skipped (render not deterministic) visual=-
+  Decompressor Release             audio=skipped (render not deterministic) visual=-
+  Decompressor Detector            audio=skipped (render not deterministic) visual=-
+  Decompressor RMS Window          audio=skipped (render not deterministic) visual=-
+  Decompressor Transient Crest     audio=skipped (render not deterministic) visual=-
+  Decompressor Look-Ahead          audio=skipped (render not deterministic) visual=-
+  Decompressor Stereo Link         audio=skipped (render not deterministic) visual=-
+  Decompressor Key Source          audio=skipped (render not deterministic) visual=-
+  Decompressor Key High-Pass       audio=skipped (render not deterministic) visual=-
+  Decompressor Key Low-Pass        audio=skipped (render not deterministic) visual=-
+  Decompressor Mix                 audio=skipped (render not deterministic) visual=-
+  Decompressor Ceiling             audio=skipped (render not deterministic) visual=-
+  Decompressor Ceiling Level       audio=skipped (render not deterministic) visual=-
+  Decompressor Ceiling Type        audio=skipped (render not deterministic) visual=-
+  Decompressor Output Trim         audio=skipped (render not deterministic) visual=-
+  Decompressor Match               audio=skipped (render not deterministic) visual=-
+  Decompressor Match Target Crest  audio=skipped (render not deterministic) visual=-
+  Decompressor Auto Attack         audio=skipped (render not deterministic) visual=-
+  Decompressor Auto Release        audio=skipped (render not deterministic) visual=-
+  Decompressor Key Boost Freq      audio=skipped (render not deterministic) visual=-
+  Decompressor Key Boost           audio=skipped (render not deterministic) visual=-
+  Decompressor Key Boost Q         audio=skipped (render not deterministic) visual=-
+  Limiter On                       audio=skipped (render not deterministic) visual=-
+  Limiter Threshold                audio=skipped (render not deterministic) visual=-
+  Limiter Ceiling                  audio=skipped (render not deterministic) visual=-
+  Limiter Attack                   audio=skipped (render not deterministic) visual=-
+  Limiter Release                  audio=skipped (render not deterministic) visual=-
+  Limiter Stereo Link              audio=skipped (render not deterministic) visual=-
+  Limiter Clean                    audio=skipped (render not deterministic) visual=-
+  Limiter Bass Hold                audio=skipped (render not deterministic) visual=-
+  Limiter Auto Attack              audio=skipped (render not deterministic) visual=-
+  Limiter Auto Release             audio=skipped (render not deterministic) visual=-
+  Freewheel                        audio=skipped (render not deterministic) visual=-
+PASS     every parameter changes the sound 
+PASS     state survives save and reopen 
+PASS     editor reopens 5 close/open cycles
+report: /Volumes/Developer/OpenGrid/OpenDynamics/qa/2026-11-24-wiki-qa/og9-LV2/report.md

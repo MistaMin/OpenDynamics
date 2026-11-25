@@ -1,0 +1,129 @@
+PASS     loads OpenDynamics, 107 parameters
+PASS     finite output peak -7.9 dBFS
+PASS     not silent rms -21.7 dBFS
+PASS     deterministic render repeat differs by -240.0 dB
+SKIPPED  editor opens visual checks disabled
+  Input Gain                       audio=ok       visual=-
+  Output Gain                      audio=ok       visual=-
+  Zero Latency                     audio=ok       visual=-
+  Auto Gain                        audio=ok       visual=-
+  Delta                            audio=ok       visual=-
+  Gate / Expander On               audio=ok       visual=-
+  Gate / Expander Mode             audio=DEAD     visual=-
+  Gate / Expander Threshold        audio=ok       visual=-
+  Gate / Expander Ratio            audio=ok       visual=-
+  Gate / Expander Range            audio=ok       visual=-
+  Gate / Expander Knee             audio=ok       visual=-
+  Gate / Expander Hysteresis       audio=ok       visual=-
+  Gate / Expander Attack           audio=ok       visual=-
+  Gate / Expander Hold             audio=ok       visual=-
+  Gate / Expander Release          audio=ok       visual=-
+  Gate / Expander Detector         audio=ok       visual=-
+  Gate / Expander RMS Window       audio=ok       visual=-
+  Gate / Expander Look-Ahead       audio=ok       visual=-
+  Gate / Expander Stereo Link      audio=ok       visual=-
+  Gate / Expander Key Source       audio=excused  visual=-
+  Gate / Expander Key High-Pass    audio=ok       visual=-
+  Gate / Expander Key Low-Pass     audio=ok       visual=-
+  Gate / Expander Auto Attack      audio=ok       visual=-
+  Gate / Expander Auto Release     audio=ok       visual=-
+  Gate / Expander Key Boost Freq   audio=ok       visual=-
+  Gate / Expander Key Boost        audio=ok       visual=-
+  Gate / Expander Key Boost Q      audio=ok       visual=-
+  Compressor On                    audio=ok       visual=-
+  Compressor Threshold             audio=ok       visual=-
+  Compressor Ratio                 audio=ok       visual=-
+  Compressor Knee                  audio=ok       visual=-
+  Compressor Attack                audio=ok       visual=-
+  Compressor Release               audio=ok       visual=-
+  Compressor Detector              audio=ok       visual=-
+  Compressor RMS Window            audio=ok       visual=-
+  Compressor Look-Ahead            audio=ok       visual=-
+  Compressor Stereo Link           audio=ok       visual=-
+  Compressor Key Source            audio=excused  visual=-
+  Compressor Key High-Pass         audio=ok       visual=-
+  Compressor Key Low-Pass          audio=ok       visual=-
+  Compressor Make-Up               audio=ok       visual=-
+  Compressor Mix                   audio=ok       visual=-
+  Compressor Auto Attack           audio=ok       visual=-
+  Compressor Auto Release          audio=ok       visual=-
+  Compressor Key Boost Freq        audio=ok       visual=-
+  Compressor Key Boost             audio=ok       visual=-
+  Compressor Key Boost Q           audio=ok       visual=-
+  De-Expander On                   audio=ok       visual=-
+  De-Expander Threshold            audio=ok       visual=-
+  De-Expander Ratio                audio=DEAD     visual=-
+  De-Expander Range                audio=DEAD     visual=-
+  De-Expander Knee                 audio=DEAD     visual=-
+  De-Expander Floor                audio=DEAD     visual=-
+  De-Expander Attack               audio=ok       visual=-
+  De-Expander Hold                 audio=DEAD     visual=-
+  De-Expander Release              audio=DEAD     visual=-
+  De-Expander Detector             audio=DEAD     visual=-
+  De-Expander RMS Window           audio=ok       visual=-
+  De-Expander Look-Ahead           audio=ok       visual=-
+  De-Expander Stereo Link          audio=ok       visual=-
+  De-Expander Key Source           audio=excused  visual=-
+  De-Expander Key High-Pass        audio=ok       visual=-
+  De-Expander Key Low-Pass         audio=ok       visual=-
+  De-Expander Mix                  audio=DEAD     visual=-
+  De-Expander Auto Attack          audio=DEAD     visual=-
+  De-Expander Auto Release         audio=DEAD     visual=-
+  De-Expander Key Boost Freq       audio=DEAD     visual=-
+  De-Expander Key Boost            audio=ok       visual=-
+  De-Expander Key Boost Q          audio=DEAD     visual=-
+  Decompressor On                  audio=ok       visual=-
+  Decompressor Threshold           audio=ok       visual=-
+  Decompressor Ratio               audio=ok       visual=-
+  Decompressor Range               audio=ok       visual=-
+  Decompressor Knee                audio=ok       visual=-
+  Decompressor Attack              audio=ok       visual=-
+  Decompressor Release             audio=ok       visual=-
+  Decompressor Detector            audio=ok       visual=-
+  Decompressor RMS Window          audio=ok       visual=-
+  Decompressor Transient Crest     audio=ok       visual=-
+  Decompressor Look-Ahead          audio=ok       visual=-
+  Decompressor Stereo Link         audio=ok       visual=-
+  Decompressor Key Source          audio=excused  visual=-
+  Decompressor Key High-Pass       audio=ok       visual=-
+  Decompressor Key Low-Pass        audio=ok       visual=-
+  Decompressor Mix                 audio=ok       visual=-
+  Decompressor Ceiling             audio=ok       visual=-
+  Decompressor Ceiling Level       audio=ok       visual=-
+  Decompressor Ceiling Type        audio=ok       visual=-
+  Decompressor Output Trim         audio=ok       visual=-
+  Decompressor Match               audio=ok       visual=-
+  Decompressor Match Target Crest  audio=ok       visual=-
+  Decompressor Auto Attack         audio=ok       visual=-
+  Decompressor Auto Release        audio=ok       visual=-
+  Decompressor Key Boost Freq      audio=ok       visual=-
+  Decompressor Key Boost           audio=ok       visual=-
+  Decompressor Key Boost Q         audio=ok       visual=-
+  Limiter On                       audio=ok       visual=-
+  Limiter Threshold                audio=ok       visual=-
+  Limiter Ceiling                  audio=ok       visual=-
+  Limiter Attack                   audio=ok       visual=-
+  Limiter Release                  audio=ok       visual=-
+  Limiter Stereo Link              audio=ok       visual=-
+  Limiter Clean                    audio=ok       visual=-
+  Limiter Bass Hold                audio=ok       visual=-
+  Limiter Auto Attack              audio=ok       visual=-
+  Limiter Auto Release             audio=ok       visual=-
+  Bypass                           audio=ok       visual=-
+  De-Expander Ratio                audio=CONDITIONAL (acts in random state 1)
+  De-Expander Range                audio=CONDITIONAL (acts in random state 1)
+  De-Expander Knee                 audio=CONDITIONAL (acts in random state 1)
+  De-Expander Floor                audio=CONDITIONAL (acts in random state 1)
+  De-Expander Hold                 audio=CONDITIONAL (acts in random state 1)
+  De-Expander Release              audio=CONDITIONAL (acts in random state 1)
+  De-Expander Detector             audio=CONDITIONAL (acts in random state 1)
+  De-Expander Mix                  audio=CONDITIONAL (acts in random state 1)
+  De-Expander Auto Attack          audio=CONDITIONAL (acts in random state 1)
+  De-Expander Auto Release         audio=CONDITIONAL (acts in random state 1)
+  De-Expander Key Boost Freq       audio=CONDITIONAL (acts in random state 1)
+  De-Expander Key Boost Q          audio=CONDITIONAL (acts in random state 1)
+  Gate / Expander Mode             audio=CONDITIONAL (acts in random state 5)
+PASS     every parameter changes the sound 
+PASS     state survives save and reopen 
+PASS     editor reopens 5 close/open cycles
+report: /Volumes/Developer/OpenGrid/OpenDynamics/qa/2026-11-24-wiki-qa/og9-VST3/report.md

@@ -239,6 +239,7 @@ pub struct OpenDynamics {
     /// Diagnosis: samples of exact silence while the input had signal, and whether logged.
     silent_for: usize,
     silence_logged: bool,
+    nonfinite_logged: bool,
     delta_step: f32,
     /// The input after the input gain, delayed by the latency, for the editor's spectrum.
     pre: [Vec<f32>; 2],
@@ -322,6 +323,7 @@ impl Default for OpenDynamics {
             key_hold: 0,
             silent_for: 0,
             silence_logged: false,
+            nonfinite_logged: false,
             delta_step: 1.0,
             pre: Default::default(),
             pre_delay: Default::default(),
@@ -397,6 +399,13 @@ impl OpenDynamics {
                     right[i] = dr + (right[i] - dr) * s.fade;
                 }
             }
+            if !self.nonfinite_logged && left.iter().chain(right.iter()).any(|v| !v.is_finite()) {
+                self.nonfinite_logged = true;
+                let base = LAYOUT[si].base;
+                let vals: Vec<f32> = self.values[base..base + LAYOUT[si].count].to_vec();
+                let dry_bad = self.dry[0][..n].iter().chain(&self.dry[1][..n]).any(|v| !v.is_finite());
+                log_line(&format!("non-finite output from section {si} (input non-finite: {dry_bad}), fade {}, values {vals:?}, block {n}, sr {}", s.fade, self.sample_rate));
+            }
             let got = s.module.view(&mut self.view);
             let lift = s.module.lift_db();
             let red = s.module.meters().reduction_db;
@@ -436,6 +445,10 @@ impl OpenDynamics {
         }
         self.autogain.apply(left, right);
         self.shared.set_auto_gain(self.autogain.gain_db());
+        if !self.nonfinite_logged && left.iter().chain(right.iter()).any(|v| !v.is_finite()) {
+            self.nonfinite_logged = true;
+            log_line(&format!("non-finite final output: peak_in {peak_in:?} gain {:?} out {} dip {} delta_mix {} autogain {}", self.gain, self.values[P_OUTPUT], self.dip, self.delta_mix, self.autogain.gain_db()));
+        }
     }
 
     /// Diagnosis (QA 2026-11-24, the VST3 in a host went silent for good, not reproduced on demand):
@@ -1046,5 +1059,72 @@ mod tests {
         }
         // A 0.5-peak sine at this rate moves at most 0.01 a sample; a click would jump.
         assert!(worst < 0.02, "{worst}");
+    }
+    /// Host QA 2026-11-24: the REAPER suite's sweep, offline. The suite's test signal (with its
+    /// digital silence), each render from a reset, every parameter at both ends with the suite's
+    /// contexts. `SIGNAL=<testsignal.wav> CONTEXTS=<exceptions.txt>`.
+    #[test]
+    #[ignore]
+    fn host_sweep_stays_alive() {
+        let wav = std::fs::read(std::env::var("SIGNAL").expect("SIGNAL")).unwrap();
+        let data = wav.windows(4).position(|w| w == b"data").unwrap() + 8;
+        let frames: Vec<[f32; 2]> = wav[data..]
+            .chunks_exact(6)
+            .map(|c| {
+                let s = |b: &[u8]| ((i32::from(b[0]) << 8 | i32::from(b[1]) << 16 | i32::from(b[2]) << 24) >> 8) as f32 / 8_388_608.0;
+                [s(&c[0..3]), s(&c[3..6])]
+            })
+            .collect();
+        let name_of = |n: &str| INFO.params.iter().position(|p| p.name == n.trim());
+        let plain = |i: usize, v: f32| INFO.params[i].min + v * (INFO.params[i].max - INFO.params[i].min);
+        let mut ctx: std::collections::HashMap<usize, Vec<(usize, f32)>> = Default::default();
+        if let Ok(text) = std::fs::read_to_string(std::env::var("CONTEXTS").unwrap_or_default()) {
+            for line in text.lines().filter(|l| !l.starts_with('#') && l.contains('@')) {
+                let (name, rest) = line.split_once('@').unwrap();
+                let Some(i) = name_of(name) else { continue };
+                for kv in rest.split(',') {
+                    let (k, v) = kv.split_once('=').unwrap();
+                    if let Some(j) = name_of(k) {
+                        ctx.entry(i).or_default().push((j, v.trim().parse().unwrap()));
+                    }
+                }
+            }
+        }
+        let block_len = std::env::var("BLOCK").ok().and_then(|b| b.parse().ok()).unwrap_or(512usize);
+        let mut p = OpenDynamics::default();
+        p.prepare(48_000.0, block_len, 2);
+        let render = |p: &mut OpenDynamics, what: &str, alive: bool| {
+            p.set_offline(true);
+            p.reset();
+            let (mut peak, mut bad) = (0.0f32, 0usize);
+            for chunk in frames.chunks(block_len) {
+                let mut l: Vec<f32> = chunk.iter().map(|f| f[0]).collect();
+                let mut r: Vec<f32> = chunk.iter().map(|f| f[1]).collect();
+                block(p, &mut l, &mut r);
+                for v in l.iter().chain(&r) {
+                    if v.is_finite() { peak = peak.max(v.abs()) } else { bad += 1 }
+                }
+            }
+            p.set_offline(false);
+            assert!(bad == 0 && (!alive || peak > 1e-4), "{what}: peak {peak}, {bad} non-finite samples");
+        };
+        render(&mut p, "base", true);
+        for i in 0..INFO.params.len() {
+            let info = &INFO.params[i];
+            let c = ctx.get(&i).cloned().unwrap_or_default();
+            for &(j, v) in &c {
+                p.set_param_index(j, plain(j, v));
+            }
+            for v in [0.0, 1.0] {
+                p.set_param_index(i, plain(i, v));
+                // An end may mute (gate range, a section's mix): only finite is asked of it.
+                render(&mut p, &format!("{} = {v}", info.name), false);
+            }
+            p.set_param_index(i, info.default);
+            render(&mut p, &format!("{} back to default", info.name), true);
+            for &(j, _) in &c {
+                p.set_param_index(j, INFO.params[j].default);
+            }
+        }
     }
 }
