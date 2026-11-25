@@ -30,7 +30,7 @@ VST3_SDK="$(find_sdk "$VST3_SDK" vst3sdk)" || { echo "VST3 SDK not found; set VS
 AU_SDK="$(find_sdk "$AU_SDK" AudioUnitSDK)" || { echo "AudioUnitSDK not found; set AU_SDK" >&2; exit 1; }
 FORMATS="${OD_FORMATS:-vst3,au,clap,lv2}"
 # ARA 2 in the VST3 (Celemony's ARA SDK, Apache 2.0): found next to the other SDKs, or OP_ARA_SDK.
-if ARA_SDK="$(find_sdk "${OP_ARA_SDK:-}" ARA_SDK)"; then :; else ARA_SDK=""; echo "no ARA SDK: the VST3 is built without ARA" >&2; fi
+if [ -z "${OD_NO_ARA:-}" ] && ARA_SDK="$(find_sdk "${OP_ARA_SDK:-}" ARA_SDK)"; then :; else ARA_SDK=""; echo "no ARA SDK (or OD_NO_ARA): the VST3 is built without ARA" >&2; fi
 if [ -n "${OD_FORMATS:-}" ]; then AAX_SDK=""; elif AAX_SDK="$(find_sdk "$AAX_SDK" aax-sdk-2-8-1)"; then FORMATS="$FORMATS,aax"; else AAX_SDK=""; echo "no AAX SDK: AAX is not built" >&2; fi
 
 [ "$(git -C "$SDK" rev-parse HEAD 2>/dev/null)" = "$SDK_REV" ] || echo "note: OpenPluginSDK is not at $SDK_REV" >&2

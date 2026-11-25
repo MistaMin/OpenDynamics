@@ -17,22 +17,32 @@ Owner's answers: feature branch + PR; target LUFS + true-peak ceiling; full ARA 
 
 | # | Item | Code | GUI | Test evidence | Status |
 |---|---|---|---|---|---|
-| A1 | Auto mode switch, Target (LUFS) and Ceiling (dBTP) parameters | `autoTarget` -30..-6 LUFS (default -14), `autoCeiling` -3.0..0.0 dBTP (default -1.0), appended after the sections | not yet | `text` tests (LUFS whole, dBTP tenths) | params done, GUI open |
+| A1 | Auto mode switch, Target (LUFS) and Ceiling (dBTP) parameters | `autoTarget`, `autoCeiling` after the sections | LOUDNESS button in the section bar opens the AUTO LOUDNESS panel (Target and Ceiling sliders) | `every_parameter_has_a_control`, text and layout audits over the panel, `loudness_button_keeps_clear_of_the_section_bar`, screenshots `*-auto-*` | verified |
 | A2 | Measure the input: integrated loudness (BS.1770, gated), loudness range, crest/peak, noise floor | `src/loudness.rs` | - | `loudness::tests`: EBU Tech 3341 cases 1 and 3 (-23.0 LUFS +-0.1), Tech 3342 LRA 10 LU, true peak between samples, silence | wired (`Meter` in `run` while learning, published to `Shared`) |
 | A3 | Set all five sections from the measurement to reach the target (decompress, expand, compress, de-expand, limit) | `src/auto.rs` `plan` | - | `auto::tests`: ids and ranges, quiet/wide, loud/squashed, measured correction, silence | code done, not wired |
-| A4 | Without ARA: a Learn pass over the played audio, then hold the settings | `Shared::set_learning`, meters in `run` | not yet | end-to-end test drives it | audio side done, GUI open (`every_parameter_has_a_control` fails until the Auto panel exists: correct) |
+| A4 | Without ARA: a Learn pass over the played audio, then hold the settings | `Shared::set_learning`, meters in `run` | LEARN / APPLY buttons, input and output readouts | end-to-end test `auto_loudness_reaches_the_target` | verified (offline); host Learn not run by hand |
 | A5 | Result hits the target within a tolerance on test material (offline render, integrated LUFS and true peak measured) | `auto_loudness_reaches_the_target` | - | 30 s quiet, wide programme (-37.8 LUFS): -14/-1: -14.87 LUFS, -1.43 dBTP in 4 passes; -23/-2: -23.00 in 1; -16/-1: -16.28, -1.41 dBTP in 3 | PASS (within 1 LU, true peak at or under the ceiling) |
 | A7 | Very loud targets under a tight true-peak ceiling (-9 LUFS, -0.5 dBTP) | - | - | ignored test `auto_loudness_loud_target_tight_ceiling`: stuck near -12 LUFS: hard limiting of bright material puts true peaks 2.75 dB over the limiter's sample peaks | OPEN: needs a true-peak (oversampled) limiter mode |
-| A6 | The sections' own controls show what Auto set; the user can still change them | | | | open |
-| R1 | SDK: ARA factory and document controller over a C interface, VST3 shell (ARAVST3.h) | | | | open |
-| R2 | SDK: read audio sources ahead of playback (ARA audio reader) | | | | open |
-| R3 | SDK: playback renderer / editor renderer roles for the plugin instance | | | | open |
-| R4 | Plugin: whole-clip analysis per audio source feeds A2/A3 (true integrated LUFS of the clip) | | | | open |
-| R5 | Plugin: full ARA editing: per region results shown and editable in the editor | | | | open |
+| A6 | The sections' own controls show what Auto set; the user can still change them | `apply_plan` writes every setting through `EditorHost::set` | the controls move | `loudness_panel_applies_an_ara_clip` | verified |
+| R1 | SDK: ARA factory and document controller over a C interface, VST3 shell (ARAVST3.h) | OpenPluginSDK `ara-vst3`: `native/vst3/ara_glue.{h,cpp}`, `OpenPluginVST3.cpp`, `--ara-sdk` | - | ARA TestHost 2.3.0: 12 test cases, 0 API violations (`testhost/all-final.log`) | verified |
+| R2 | SDK: read audio sources ahead of playback (ARA audio reader) | `Source::read` on sample access, `op_ara_analyze` | - | TestHost and REAPER: analysis lines in the plugin log (clip.wav -25.8 LUFS; REAPER testsignal.wav -11.1 LUFS) | verified |
+| R3 | SDK: playback renderer / editor renderer roles for the plugin instance | `Renderer::render`; renderer-only instances play clips unprocessed, editor instances process | - | TestHost playback renders the clip (RMS 0.026210 = source 0.026206); REAPER binds two instances (roles 1 and 6) and the default render nulls with 1.0.0 Beta at -240 dB | verified |
+| R4 | Plugin: whole-clip analysis per audio source feeds A2/A3 (true integrated LUFS of the clip) | `ara::analyze`, `fit_clip` (renders the whole clip through the sections, corrects up to six passes) | panel shows the ARA clip; APPLY fits it in the background | `fit_clip_reaches_the_target` (-14.22 LUFS / -1.83 dBTP; -23.08), `loudness_panel_applies_an_ara_clip` | verified |
+| R5 | Plugin: full ARA editing: per region results shown and editable in the editor | - | - | - | OPEN: v1 keeps settings as the track instance's parameters (so automation and per-track settings work); per-region settings in the ARA model and an editor view of the regions are not built |
 | R6 | ARA in Audio Unit (ARAAudioUnit.h) | | | | open |
 | R7 | ARA in CLAP (ARACLAP.h) | | | | open |
 | R8 | ARA in AAX | | | | BLOCKED: neither AAX SDK 2.8.1 nor JUCE_ARA's AAX wrapper (bundled AAX SDK 2.9) has an ARA interface; needs Avid's AAX ARA extension |
-| R9 | Host tests: an ARA host (REAPER ARA, Studio One, Logic, Pro Tools) loads the ARA plugin and analyses clips | | | | open |
-| X1 | Released behaviour unchanged with Auto off (renders null against 1.0.0 Beta) | | | | open |
+| R9 | Host tests: an ARA host (REAPER ARA, Studio One, Logic, Pro Tools) loads the ARA plugin and analyses clips | - | - | ARA TestHost (VST3) and REAPER 7.80 (VST3, ARA bound, clips analysed) | partly: Studio One, Logic, Cubase not run |
+| X1 | Released behaviour unchanged with Auto off (renders null against 1.0.0 Beta) | - | - | REAPER default render: non-ARA build -240 dB; ARA build -240 dB (after the role fix; before it -20 dB: processed twice) | verified |
 
 Stage order: A1-A6 (no SDK change) -> R1-R4 (VST3) -> R5 -> R6, R7 -> R8 when the AAX extension is available.
+
+## Findings while making ARA work
+
+- ARA TestHost on macOS logs to the unified log (`/usr/bin/log show`), not the terminal; zsh has its own `log`.
+- The ICST WAV reader in the ARA examples loops forever on a file without an iXML chunk (it seeks past the end
+  looking for one); test clips carry an iXML chunk.
+- REAPER splits the roles: a hidden renderer instance (role 1) per clip and the track instance (roles 2 + 4). With
+  both processing, clips were processed twice. Now the renderer-only instance plays the clips unprocessed and the
+  track instance processes them with its own parameters.
+- ARA needs a non-empty information URL: the plugin exports `op_ara_url`.

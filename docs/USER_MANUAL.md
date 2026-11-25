@@ -24,7 +24,8 @@ New instances start with the Compressor and the Limiter on.
 
 - **Tabs** along the top select a section. The dot on a tab is lit when that section is on.
 - **Input and output** strips on the left and right: level meters and the Input Gain and Output Gain knobs (-24 to 24 dB).
-- **Section bar:** the section's ON switch and the global DELTA, AUTO GAIN and ZERO LATENCY switches.
+- **Section bar:** the section's ON switch, LOUDNESS (Auto Loudness, below) and the global DELTA, AUTO GAIN and ZERO
+  LATENCY switches.
 - **Panels:** SHAPE, TIMING, SIDECHAIN (and CEILING on the Decompressor) open sliders for the less frequent controls. Click
   the panel's button again, or elsewhere, to close it.
 - **Readouts:** the current gain reduction (GR) and, while Auto Gain is on, the gain it applies.
@@ -115,9 +116,39 @@ A peak limiter that keeps the output under **Ceiling**; **Threshold** sets how h
 the gain moving inside the waveform, and sets the release from the programme's crest factor. With Clean on, the release
 is always automatic; Release and Auto Release apply with Clean off.
 
+## Auto Loudness
+
+**LOUDNESS** in the section bar opens the Auto Loudness panel. It sets all five sections so the output reaches a
+loudness target under a true-peak ceiling, and writes the result into the sections' own controls, where you can see
+and change every value.
+
+| Control | What it does |
+|---|---|
+| Target | The integrated loudness to reach, -30 to -6 LUFS (default -14) |
+| Ceiling | The highest true peak, -3.0 to 0.0 dBTP in tenths (default -1.0) |
+| LEARN | Measures the input and the output while the song plays (BS.1770 loudness, loudness range, true peak, quiet and loud passages). Click again to stop |
+| APPLY | Plans the five sections from the measurement and sets them |
+
+What Apply asks of each section: the Decompressor gives back transients a squashed programme lost; the Gate /
+Expander pulls a noise floor down; the Compressor narrows a wide loudness range or shares the peaks with the limiter;
+the De-Expander lifts quiet passages; the Limiter takes the level to the target and keeps true peaks under the
+ceiling. The gain goes through the limiter first, then Input Gain; a programme louder than the target is turned down
+with Output Gain.
+
+Without ARA: play the song with LEARN on, then APPLY. LEARN and APPLY again measures the result and corrects it; two
+or three rounds land within a dB of the target.
+
+With ARA (VST3, in a host that supports ARA 2): the host gives OpenDynamics each clip's whole audio. The panel shows the
+clip's loudness, and APPLY renders the whole clip through the sections in the background, measures it and corrects
+until it lands on the target, then sets the controls. No playing is needed. The plugin processes the track as it does
+without ARA, with its own controls and automation.
+
+Very loud targets under a tight ceiling (for example -9 LUFS at -0.5 dBTP) are not reached on bright material: the
+limiter limits sample peaks, and the peaks between samples need a true-peak limiter.
+
 ## Formats and hosts
 
-- macOS 11 or later, Apple silicon and Intel: VST3, Audio Unit, CLAP, LV2 and AAX (Pro Tools).
+- macOS 11 or later, Apple silicon and Intel: VST3 (with ARA 2), Audio Unit, CLAP, LV2 and AAX (Pro Tools).
 - Windows 10 or later, x64: VST3, CLAP and LV2.
 - Linux x86_64: VST3, CLAP and LV2.
 
@@ -129,4 +160,4 @@ The source code is MIT licensed. The official binaries are freeware under `BINAR
 and their licences are listed in `THIRD_PARTY_LICENSES.md`. Copyright (c) 2026 Marcos Quirino Deida.
 
 VST is a trademark of Steinberg Media Technologies GmbH. Audio Units is a trademark of Apple Inc. AAX and Pro Tools are
-trademarks of Avid Technology, Inc.
+trademarks of Avid Technology, Inc. ARA Audio Random Access is a trademark of Celemony Software GmbH.

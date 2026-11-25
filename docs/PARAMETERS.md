@@ -137,3 +137,10 @@ Generated from the plugin (`cargo test --release --lib dump_manual_params -- --i
 | Limiter Bass Hold | 0 ms to 20.0 ms | 14.0 ms |
 | Limiter Auto Attack | Off, On | Off |
 | Limiter Auto Release | Off, On | Off |
+
+## Auto
+
+| Parameter | Range or choices | Default |
+|---|---|---|
+| Auto Target | -30 LUFS to -6 LUFS | -14 LUFS |
+| Auto Ceiling | -3.0 dBTP to 0.0 dBTP | -1.0 dBTP |

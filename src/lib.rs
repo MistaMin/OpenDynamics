@@ -65,6 +65,51 @@ pub const P_ZERO_LATENCY: usize = 2;
 pub const P_AUTO_GAIN: usize = 3;
 pub const P_DELTA: usize = 4;
 
+/// Auto Loudness on a whole clip (an ARA source): renders it through the five sections with
+/// the current `values` and the planner's settings, measures the output and corrects, until
+/// the output is within 0.3 LU of the target with true peak under the ceiling (at most six
+/// passes). Returns the last plan and the output it measured. Runs on any thread but the
+/// audio thread; it allocates.
+pub fn fit_clip(audio: &[Vec<f32>; 2], sample_rate: f64, input: &loudness::Stats, values: &[f32], target: f64, ceiling: f64) -> Option<(auto::Plan, loudness::Stats)> {
+    let mut p = OpenDynamics::default();
+    for (i, v) in values.iter().enumerate() {
+        p.set_param_index(i, *v);
+    }
+    let block = 1024;
+    p.prepare(sample_rate as f32, block, 2);
+    p.set_offline(true);
+    // The clip as measured is before Input Gain.
+    let mut plan = auto::plan(input, 0.0, None, target, ceiling)?;
+    // The best plan measured so far: under the ceiling first, then closest to the target.
+    let mut best: Option<(auto::Plan, loudness::Stats)> = None;
+    let score = |s: &loudness::Stats| (s.true_peak_db > ceiling, (s.integrated - target).abs());
+    for _ in 0..6 {
+        for (id, v) in plan.settings {
+            p.set_param(id, v);
+        }
+        p.reset();
+        let mut meter = loudness::Meter::new(sample_rate as f32);
+        let (mut l, mut r) = (vec![0.0f32; block], vec![0.0f32; block]);
+        for (cl, cr) in audio[0].chunks(block).zip(audio[1].chunks(block)) {
+            let n = cl.len();
+            l[..n].copy_from_slice(cl);
+            r[..n].copy_from_slice(cr);
+            let mut io: [&mut [f32]; 2] = [&mut l[..n], &mut r[..n]];
+            p.process(&mut io, n);
+            meter.feed(&l[..n], &r[..n]);
+        }
+        let measured = meter.stats();
+        if best.as_ref().is_none_or(|(_, b)| score(&measured) < score(b)) {
+            best = Some((plan, measured));
+        }
+        if !score(&measured).0 && score(&measured).1 <= 0.3 {
+            break;
+        }
+        plan = auto::plan(input, 0.0, Some((&measured, &plan)), target, ceiling)?;
+    }
+    best
+}
+
 /// Host index of the Auto Target and Auto Ceiling parameters (the last two).
 pub fn p_auto_target() -> usize {
     INFO.params.len() - 2
@@ -1262,5 +1307,67 @@ mod tests {
             assert!((out2.integrated - target).abs() <= 1.0, "target {target}: {out2:?}");
             assert!(out2.true_peak_db <= ceiling + 0.1, "ceiling {ceiling}: {out2:?}");
         }
+    }
+    /// ARA: a whole clip fitted offline reaches the target in one call.
+    #[test]
+    fn fit_clip_reaches_the_target() {
+        let sr = 48_000.0;
+        let n = 20 * 48_000;
+        let mut seed = 11u32;
+        let mut lp = [0.0f32; 2];
+        let mut audio = [vec![0.0f32; n], vec![0.0f32; n]];
+        for i in 0..n {
+            let phrase = (i / 120_000) % 4;
+            let level = [10f32.powf(-36.0 / 20.0), 10f32.powf(-20.0 / 20.0), 10f32.powf(-28.0 / 20.0), 10f32.powf(-72.0 / 20.0)][phrase];
+            let env = if phrase == 3 { 1.0 } else { (1.0 - (i % 12_000) as f32 / 12_000.0).powi(3) * 0.8 + 0.2 };
+            for c in 0..2 {
+                seed = seed.wrapping_mul(1_664_525).wrapping_add(1_013_904_223);
+                let w = (seed >> 8) as f32 / (1u32 << 24) as f32 - 0.5;
+                lp[c] += (w - lp[c]) * 0.2;
+                audio[c][i] = 3.0 * lp[c] * level * env;
+            }
+        }
+        let mut m = loudness::Meter::new(sr as f32);
+        m.feed(&audio[0], &audio[1]);
+        let input = m.stats();
+        let values: Vec<f32> = INFO.params.iter().map(|p| p.default).collect();
+        for (target, ceiling) in [(-14.0, -1.0), (-23.0, -2.0)] {
+            let (plan, out) = fit_clip(&audio, sr, &input, &values, target, ceiling).expect("a fit");
+            println!("fit {target}/{ceiling}: input {:.1} -> {:.2} LUFS, true peak {:.2}, gains {:?}", input.integrated, out.integrated, out.true_peak_db, plan.gains);
+            assert!((out.integrated - target).abs() <= 1.0 && out.true_peak_db <= ceiling + 0.1, "{out:?}");
+        }
+    }
+    /// Diagnosis: renders WAV (16-bit stereo, `CLIP`) through the defaults offline and prints
+    /// each channel's RMS and peak, to compare with a host's ARA render of the same file.
+    #[test]
+    #[ignore]
+    fn render_clip_defaults() {
+        let wav = std::fs::read(std::env::var("CLIP").expect("CLIP")).unwrap();
+        let data = wav.windows(4).position(|w| w == b"data").unwrap() + 8;
+        let len = u32::from_le_bytes(wav[data - 4..data].try_into().unwrap()) as usize;
+        let frames: Vec<[f32; 2]> = wav[data..data + len].chunks_exact(4).map(|c| [i16::from_le_bytes([c[0], c[1]]) as f32 / 32768.0, i16::from_le_bytes([c[2], c[3]]) as f32 / 32768.0]).collect();
+        let block = 2048;
+        let mut p = OpenDynamics::default();
+        p.prepare(48_000.0, block, 2);
+        p.set_offline(true);
+        let (mut sum, mut peak) = ([0.0f64; 2], [0.0f32; 2]);
+        for chunk in frames.chunks(block) {
+            let mut l: Vec<f32> = chunk.iter().map(|f| f[0]).collect();
+            let mut r: Vec<f32> = chunk.iter().map(|f| f[1]).collect();
+            block_fn(&mut p, &mut l, &mut r);
+            for (c, x) in [&l, &r].into_iter().enumerate() {
+                for v in x.iter() {
+                    sum[c] += f64::from(*v) * f64::from(*v);
+                    peak[c] = peak[c].max(v.abs());
+                }
+            }
+        }
+        for c in 0..2 {
+            println!("channel {c}: rms {:.6} peak {:.5}", (sum[c] / frames.len() as f64).sqrt(), peak[c]);
+        }
+    }
+
+    fn block_fn(p: &mut OpenDynamics, l: &mut [f32], r: &mut [f32]) {
+        block(p, l, r)
     }
 }

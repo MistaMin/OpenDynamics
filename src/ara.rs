@@ -7,16 +7,22 @@
 
 use std::ffi::{c_char, CStr};
 use std::sync::atomic::{AtomicU64, Ordering::Relaxed};
-use std::sync::{LazyLock, Mutex};
+use std::sync::{Arc, LazyLock, Mutex};
 
 use crate::loudness::{Meter, Stats};
 
-/// One analysed audio source.
+/// One analysed audio source, with its samples (left, right) so Auto Loudness can render the
+/// whole clip through the sections offline.
 #[derive(Clone, Debug)]
 pub struct Source {
     pub id: String,
     pub stats: Stats,
+    pub sample_rate: f64,
+    pub audio: Arc<[Vec<f32>; 2]>,
 }
+
+/// Clips kept with their samples (the oldest goes first): a few minutes of stereo each.
+const KEEP: usize = 8;
 
 static SOURCES: LazyLock<Mutex<Vec<Source>>> = LazyLock::new(|| Mutex::new(Vec::new()));
 static GENERATION: AtomicU64 = AtomicU64::new(0);
@@ -36,9 +42,13 @@ pub fn analyze(id: &str, sample_rate: f64, channels: &[&[f32]]) -> Option<Stats>
         "ARA analysis of {id}: {:.1} s, {:.1} LUFS, range {:.1} LU, true peak {:.1} dBTP, quiet {:.1}, loud {:.1}",
         stats.seconds, stats.integrated, stats.range, stats.true_peak_db, stats.quiet, stats.loud
     ));
+    let audio = Arc::new([left.to_vec(), right.to_vec()]);
     let mut sources = SOURCES.lock().ok()?;
     sources.retain(|s| s.id != id);
-    sources.push(Source { id: id.to_string(), stats });
+    if sources.len() >= KEEP {
+        sources.remove(0);
+    }
+    sources.push(Source { id: id.to_string(), stats, sample_rate, audio });
     GENERATION.fetch_add(1, Relaxed);
     Some(stats)
 }
