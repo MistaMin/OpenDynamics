@@ -19,13 +19,13 @@ By OpenGrid.
 
 ## Download
 
-From the [latest release](https://github.com/MistaMin/OpenDynamics/releases/latest):
+From the [1.0.0 Beta release](https://github.com/MistaMin/OpenDynamics/releases/tag/v1.0.0-Beta) (a pre-release):
 
 | Download | System | Formats |
 |---|---|---|
-| `OpenDynamics-1.0.0-Beta-macos.pkg` | macOS 11 or later, Apple silicon and Intel | VST3, Audio Unit, CLAP, LV2, AAX |
-| `OpenDynamics-1.0.0-Beta-windows-x64-setup.exe` | Windows 10 or later, x64 | VST3, CLAP, LV2 |
-| `OpenDynamics-1.0.0-Beta-linux-x86_64.tar.gz` | Linux x86_64 | VST3, CLAP, LV2 |
+| [`OpenDynamics-1.0.0-Beta-macos.pkg`](https://github.com/MistaMin/OpenDynamics/releases/download/v1.0.0-Beta/OpenDynamics-1.0.0-Beta-macos.pkg) | macOS 11 or later, Apple silicon and Intel | VST3, Audio Unit, CLAP, LV2, AAX |
+| [`OpenDynamics-1.0.0-Beta-windows-x64-setup.exe`](https://github.com/MistaMin/OpenDynamics/releases/download/v1.0.0-Beta/OpenDynamics-1.0.0-Beta-windows-x64-setup.exe) | Windows 10 or later, x64 | VST3, CLAP, LV2 |
+| [`OpenDynamics-1.0.0-Beta-linux-x86_64.tar.gz`](https://github.com/MistaMin/OpenDynamics/releases/download/v1.0.0-Beta/OpenDynamics-1.0.0-Beta-linux-x86_64.tar.gz) | Linux x86_64 | VST3, CLAP, LV2 |
 
 The macOS installer is signed with Developer ID and notarized by Apple; the AAX is signed with PACE Eden. The Windows
 installer is not code-signed, so SmartScreen may ask before it runs. The Windows and Linux builds are made by GitHub
