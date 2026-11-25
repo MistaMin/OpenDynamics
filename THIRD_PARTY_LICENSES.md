@@ -19,7 +19,7 @@ carry copies of the licence texts in `Licenses/`.
 | CLAP | CLAP format | MIT |
 | LV2 | LV2 format: the interface is written from the specification, and no LV2 code is linked | ISC |
 | VST3 SDK (Steinberg) | VST3 format | MIT |
-| ARA SDK: ARA API and ARA Library (Celemony Software GmbH) | ARA 2 in the VST3 (clips from an ARA host): compiled into the VST3; its licence and notice ship in the bundle (`Contents/Resources/ARA-SDK-LICENSE.txt`, `ARA-SDK-NOTICE.txt`) | Apache License 2.0 |
+| ARA SDK: ARA API and ARA Library (Celemony Software GmbH) | ARA 2 on macOS (clips from an ARA host): compiled into the VST3 and the Audio Unit, and into `libOpenPluginARA.dylib` in the CLAP bundle; its licence and notice ship in each bundle (`Contents/Resources/ARA-SDK-LICENSE.txt`, `ARA-SDK-NOTICE.txt`) | Apache License 2.0 |
 | AudioUnitSDK (Apple) | Audio Unit format | Apache License 2.0 |
 | AAX SDK (Avid) | AAX format | Avid AAX Developer Agreement / SDK License |
 

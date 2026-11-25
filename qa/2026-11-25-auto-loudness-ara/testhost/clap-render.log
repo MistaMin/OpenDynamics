@@ -1,0 +1,16 @@
+Testing ARA plug-in 'OpenDynamics' in CLAP @ /Users/marcosdeida/Library/Audio/Plug-Ins/CLAP/OpenDynamics.clap:
+    version: 1.0.0-beta
+    manufacturer: OpenGrid
+    website: https://github.com/MistaMin/OpenDynamics
+    documentArchiveID: com.opengrid.opendynamics.ara.archive.1
+    plug-in does not support content analysis.
+    plug-in does not support time-stretching.
+    plug-in does not support content-based fades.
+    plug-in does not support storing audio file chunks.
+[ARATestHost ARA_LOG]
+*** testing playback rendering (with time stretching if supported) ***
+[ARATestHost ARA_LOG]
+Adding playback region 0x152607740 (ARAPlaybackRegionRef 0x1526077a0) to playback renderer 0x152608df0
+Rendering 1 region(s) assigned to playback renderer 0x152608df0 with sample rate 48000Hz
+in file /private/tmp/claude-501/-Volumes-Developer-OpenGrid/7534d423-389a-4fb7-9bf7-7b9c0f05da37/scratchpad/ARA_SDK_patched/ARA_Examples/ExamplesCommon/PlugInHosting/CLAPLoader.c:360:
+	foundMatchingConfig

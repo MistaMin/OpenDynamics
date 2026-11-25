@@ -26,6 +26,8 @@ const KEEP: usize = 8;
 
 static SOURCES: LazyLock<Mutex<Vec<Source>>> = LazyLock::new(|| Mutex::new(Vec::new()));
 static GENERATION: AtomicU64 = AtomicU64::new(0);
+/// The clips the user selected in the host, by persistent ID (empty: none).
+static SELECTED: LazyLock<Mutex<Vec<String>>> = LazyLock::new(|| Mutex::new(Vec::new()));
 
 /// Measures a whole source and keeps the result under `id` (a newer one replaces it).
 pub fn analyze(id: &str, sample_rate: f64, channels: &[&[f32]]) -> Option<Stats> {
@@ -53,9 +55,24 @@ pub fn analyze(id: &str, sample_rate: f64, channels: &[&[f32]]) -> Option<Stats>
     Some(stats)
 }
 
-/// The analysed sources, oldest first, and a number that changes whenever they do.
+/// The analysed sources, oldest first, and a number that changes whenever they or the
+/// selection do.
 pub fn sources() -> (u64, Vec<Source>) {
     (GENERATION.load(Relaxed), SOURCES.lock().map(|s| s.clone()).unwrap_or_default())
+}
+
+/// The clip to work on: the first selected one that was analysed, else the newest.
+pub fn current(sources: &[Source]) -> Option<Source> {
+    let selected = SELECTED.lock().map(|s| s.clone()).unwrap_or_default();
+    selected.iter().find_map(|id| sources.iter().find(|s| &s.id == id)).or(sources.last()).cloned()
+}
+
+/// Sets the selection (as the host's editor view reports it).
+pub fn select(ids: &[String]) {
+    if let Ok(mut s) = SELECTED.lock() {
+        *s = ids.to_vec();
+    }
+    GENERATION.fetch_add(1, Relaxed);
 }
 
 /// Called by the VST3 shell's ARA document controller (OpenPluginSDK `op_shell.h`).
@@ -76,6 +93,27 @@ pub unsafe extern "C" fn op_ara_analyze(id: *const c_char, channels: u32, frames
         }
         let chans: Vec<&[f32]> = ptrs.iter().take(2).map(|&p| unsafe { std::slice::from_raw_parts(p, frames as usize) }).collect();
         analyze(&id, sample_rate, &chans);
+    });
+}
+
+/// The host's selection of clips (OpenPluginSDK `op_ara_select`).
+///
+/// # Safety
+/// `ids` holds `count` NUL-terminated strings, valid for the call.
+#[no_mangle]
+pub unsafe extern "C" fn op_ara_select(ids: *const *const c_char, count: u32) {
+    let _ = std::panic::catch_unwind(|| {
+        let list: Vec<String> = if ids.is_null() || count == 0 {
+            Vec::new()
+        } else {
+            unsafe { std::slice::from_raw_parts(ids, count as usize) }
+                .iter()
+                .filter(|p| !p.is_null())
+                .map(|&p| unsafe { CStr::from_ptr(p) }.to_string_lossy().into_owned())
+                .collect()
+        };
+        crate::log_line(&format!("ARA selection: {} clip(s)", list.len()));
+        select(&list);
     });
 }
 
@@ -106,6 +144,16 @@ mod tests {
         let hits: Vec<_> = list.iter().filter(|s| s.id == "test.source.1").collect();
         assert_eq!(hits.len(), 1);
         assert!((hits[0].stats.integrated + 23.0).abs() < 0.1, "{:?}", hits[0].stats);
+        // The selection picks the clip to work on; an unknown or empty selection falls back
+        // to the newest.
+        let other = c"test.source.2";
+        unsafe { op_ara_analyze(other.as_ptr(), 2, n as u64, 48_000.0, ptrs.as_ptr()) };
+        let (_, list) = sources();
+        assert_eq!(current(&list).unwrap().id, "test.source.2");
+        unsafe { op_ara_select([id.as_ptr()].as_ptr(), 1) };
+        assert_eq!(current(&sources().1).unwrap().id, "test.source.1");
+        unsafe { op_ara_select(std::ptr::null(), 0) };
+        assert_eq!(current(&sources().1).unwrap().id, "test.source.2");
         // Bad calls are ignored, never a crash.
         unsafe { op_ara_analyze(std::ptr::null(), 2, 10, 48_000.0, ptrs.as_ptr()) };
         unsafe { op_ara_analyze(id.as_ptr(), 2, 10, 48_000.0, std::ptr::null()) };

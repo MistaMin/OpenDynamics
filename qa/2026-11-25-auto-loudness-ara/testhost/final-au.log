@@ -1,0 +1,793 @@
+[com.apple.xpc:connection] [0x14c610ff0] activating connection: mach=true listener=false peer=false name=com.apple.cfprefsd.daemon
+[com.apple.xpc:connection] [0x14c704130] activating connection: mach=true listener=false peer=false name=com.apple.cfprefsd.agent
+[com.apple.xpc:connection] [0x14c610150] activating connection: mach=true listener=false peer=false name=com.apple.audio.AudioComponentRegistrar
+[com.apple.coreaudio:audiocomp] AudioComponentPluginMgr.mm:114   registrationsChanged
+[com.apple.coreaudio:audiocomp] AudioComponentPluginMgr.mm:906   First wildcard component search: 0/0/0
+[com.apple.xpc:connection] [0x14c62fa00] activating connection: mach=true listener=false peer=false name=com.apple.audioanalyticsd
+(libMobileGestalt.dylib) No persisted cache on this platform.
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.audioanalytics:carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=2181843386369, rateLimit=32hz }
+[com.apple.xpc:connection] [0x14c704ff0] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c704ff0] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14d013b10] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14d013b10] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14d013b10] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14d013b10] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c63d290] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c63d290] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14d013fd0] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14d013fd0] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c63d290] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c63d290] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14d013fd0] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14d013fd0] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c619d90] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c619d90] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14d014c70] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14d014c70] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c619d90] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c619d90] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14d014de0] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14d014de0] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c630f40] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c630f40] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c62f860] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c62f860] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c62f300] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c62f300] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14d015020] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14d015020] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c62f8e0] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c62f8e0] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14d5043e0] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14d5043e0] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14d107820] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14d107820] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c62f320] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c62f320] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c616380] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c616380] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c704ff0] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c704ff0] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c6184d0] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c6184d0] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c617f70] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c617f70] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c704ff0] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c704ff0] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c617f70] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c617f70] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c617aa0] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c617aa0] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c729360] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c729360] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c614dd0] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c614dd0] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c7293c0] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c7293c0] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c7293c0] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c7293c0] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c615ae0] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c615ae0] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c733ac0] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c733ac0] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c617c40] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c617c40] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c62a400] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c62a400] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c614a40] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c614a40] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c72c2f0] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c72c2f0] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c6147b0] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c6147b0] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c731770] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c731770] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c731770] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c731770] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c6147b0] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c6147b0] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c731770] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c731770] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c617150] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c617150] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c7242f0] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c7242f0] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c7248d0] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c7248d0] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c631200] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c631200] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c724e80] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c724e80] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c630120] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c630120] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14d00b930] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14d00b930] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c7251d0] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c7251d0] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c725f60] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c725f60] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c639ce0] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c639ce0] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c7251d0] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c7251d0] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c7251d0] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c7251d0] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c728340] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c728340] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c638e30] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c638e30] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c639f50] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c639f50] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c638e30] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c638e30] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c639fc0] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c639fc0] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c638e30] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c638e30] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c63a8b0] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c63a8b0] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c638990] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c638990] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c63a9c0] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c63a9c0] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c638ba0] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c638ba0] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c63a9f0] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c63a9f0] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c62f710] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c62f710] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c62f590] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c62f590] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14d107a30] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14d107a30] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c62f650] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c62f650] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14d107630] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14d107630] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c7288f0] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c7288f0] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c619900] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c619900] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c6375e0] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c6375e0] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c6372d0] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c6372d0] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14d107e00] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14d107e00] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14d015390] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14d015390] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14d107ed0] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14d107ed0] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c728340] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c728340] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c6372d0] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c6372d0] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c70e6e0] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c70e6e0] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14d108e00] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14d108e00] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14d504620] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14d504620] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14d109040] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14d109040] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14d0154b0] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14d0154b0] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14d015900] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14d015900] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c6374a0] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c6374a0] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14d1092e0] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14d1092e0] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14d109810] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14d109810] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c70de10] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c70de10] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c637140] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c637140] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14d015900] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14d015900] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c70e6e0] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c70e6e0] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14d5048c0] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14d5048c0] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c70e6e0] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c70e6e0] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14d1097e0] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14d1097e0] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c71f490] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c71f490] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c7205c0] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c7205c0] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14d109a20] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14d109a20] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c616140] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c616140] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c710b70] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c710b70] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14d109c60] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14d109c60] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14d015a40] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14d015a40] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14d109ea0] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14d109ea0] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14d015c80] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14d015c80] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14d109f60] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14d109f60] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14d404900] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14d404900] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c615d10] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c615d10] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c615990] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c615990] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14d10a4c0] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14d10a4c0] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c7224b0] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c7224b0] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14d015d40] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14d015d40] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14d0161e0] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14d0161e0] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14d10a6d0] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14d10a6d0] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14d10abe0] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14d10abe0] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14d0161e0] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14d0161e0] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14d0165b0] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14d0165b0] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14d0167e0] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14d0167e0] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c71f490] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c71f490] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c615990] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c615990] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c618890] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c618890] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c732450] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c732450] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c6188c0] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c6188c0] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c7043a0] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c7043a0] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c71ca30] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c71ca30] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14d016680] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14d016680] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14d504b20] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14d504b20] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c618a70] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c618a70] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14d10ac10] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14d10ac10] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14d10b130] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14d10b130] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14d016910] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14d016910] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c71ca30] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c71ca30] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c712710] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c712710] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14d016a90] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14d016a90] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14d016a90] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14d016a90] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c606900] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c606900] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14d016e10] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14d016e10] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14d10b340] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14d10b340] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c606b50] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c606b50] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c606b50] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c606b50] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c607220] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c607220] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14d10b5e0] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14d10b5e0] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14d016f30] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14d016f30] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c71ca30] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c71ca30] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c71bbc0] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c71bbc0] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14d10b820] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14d10b820] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14d504d90] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14d504d90] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c712870] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c712870] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c607270] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c607270] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14d10ba50] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14d10ba50] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c71c610] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c71c610] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14d017000] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14d017000] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14d017530] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14d017530] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14d505020] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14d505020] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c607390] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c607390] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14d10bc90] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14d10bc90] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14d017530] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14d017530] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14d5051c0] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14d5051c0] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c71bc80] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c71bc80] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14d10bed0] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14d10bed0] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14d017740] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14d017740] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14d505490] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14d505490] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c607600] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c607600] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c607a50] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c607a50] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14d0178c0] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14d0178c0] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14d017ca0] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14d017ca0] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14d017ea0] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14d017ea0] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14d10c0a0] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14d10c0a0] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c71d300] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c71d300] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14d017ee0] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14d017ee0] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c607a60] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c607a60] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c607fc0] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c607fc0] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c6082c0] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c6082c0] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14d017fc0] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14d017fc0] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c71d430] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c71d430] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c735cf0] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c735cf0] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14d10c2f0] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14d10c2f0] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14d10c810] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14d10c810] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14d10ca80] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14d10ca80] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14d0180e0] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14d0180e0] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c735cf0] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c735cf0] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c608290] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c608290] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c735cf0] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c735cf0] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c6084b0] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c6084b0] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14d0180e0] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14d0180e0] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14d10ca80] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14d10ca80] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c609400] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c609400] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c609e70] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c609e70] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14d0180e0] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14d0180e0] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c736070] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c736070] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14d10cb30] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14d10cb30] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14d0189a0] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14d0189a0] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14d018dc0] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14d018dc0] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14d10cda0] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14d10cda0] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c609e70] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c609e70] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c736260] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c736260] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14d10d060] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14d10d060] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c609fe0] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c609fe0] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14d018dc0] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14d018dc0] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14d0191a0] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14d0191a0] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c736450] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c736450] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c60a230] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c60a230] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c736690] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c736690] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c736a70] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c736a70] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c736c70] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c736c70] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c736de0] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c736de0] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14d019220] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14d019220] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c736f10] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c736f10] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c737290] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c737290] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c737530] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c737530] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c737850] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c737850] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c7377d0] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c7377d0] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c60a470] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c60a470] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c737950] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c737950] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14d019460] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14d019460] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c737af0] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c737af0] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14d019590] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14d019590] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c737d30] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c737d30] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14d0197d0] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14d0197d0] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c60a6f0] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c60a6f0] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c737e60] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c737e60] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14d019900] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14d019900] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c738000] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c738000] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c738340] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c738340] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c60a7f0] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c60a7f0] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c60ad40] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c60ad40] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14d5056f0] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14d5056f0] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c738340] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c738340] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14d10d240] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14d10d240] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c738540] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c738540] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14d019b40] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14d019b40] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14d10d480] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14d10d480] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14d404de0] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14d404de0] invalidated after the last release of the connection object
+[com.apple.extensionkit:NSExtension] Class EXGetExtensionClass(void) returning EXConcreteExtension
+[com.apple.xpc:connection] [0x14c738cc0] activating connection: mach=true listener=false peer=false name=com.apple.pluginkit.pkd
+(PlugInKit) discovery
+[com.apple.PlugInKit:discovery] [d <private>] <PKHost:0x14c738c00> Beginning discovery for flags: 1024, point: (null)
+[com.apple.PlugInKit:discovery] [d <private>] <PKHost:0x14c738c00> Completed discovery. Final # of matches: 1
+[com.apple.xpc:connection] [0x14c63ce90] activating connection: mach=true listener=false peer=false name=com.apple.lsd.mapdb
+[com.apple.xpc:connection] [0x14c61b8d0] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c61b8d0] invalidated after the last release of the connection object
+(PlugInKit) discovery
+[com.apple.PlugInKit:discovery] [d <private>] <PKHost:0x14c738c00> Beginning discovery for flags: 1024, point: (null)
+[com.apple.PlugInKit:discovery] [d <private>] <PKHost:0x14c738c00> Completed discovery. Final # of matches: 1
+[com.apple.xpc:connection] [0x14c73c1a0] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c73c1a0] invalidated after the last release of the connection object
+(PlugInKit) discovery
+[com.apple.PlugInKit:discovery] [d <private>] <PKHost:0x14c738c00> Beginning discovery for flags: 1024, point: (null)
+[com.apple.PlugInKit:discovery] [d <private>] <PKHost:0x14c738c00> Completed discovery. Final # of matches: 1
+[com.apple.xpc:connection] [0x14d01b550] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14d01b550] invalidated after the last release of the connection object
+(PlugInKit) discovery
+[com.apple.PlugInKit:discovery] [d <private>] <PKHost:0x14c738c00> Beginning discovery for flags: 1024, point: (null)
+[com.apple.PlugInKit:discovery] [d <private>] <PKHost:0x14c738c00> Completed discovery. Final # of matches: 1
+[com.apple.xpc:connection] [0x14c621850] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c621850] invalidated after the last release of the connection object
+(PlugInKit) discovery
+[com.apple.PlugInKit:discovery] [d <private>] <PKHost:0x14c738c00> Beginning discovery for flags: 1024, point: (null)
+[com.apple.PlugInKit:discovery] [d <private>] <PKHost:0x14c738c00> Completed discovery. Final # of matches: 1
+[com.apple.xpc:connection] [0x14c73f060] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c73f060] invalidated after the last release of the connection object
+(PlugInKit) discovery
+[com.apple.PlugInKit:discovery] [d <private>] <PKHost:0x14c738c00> Beginning discovery for flags: 1024, point: (null)
+[com.apple.PlugInKit:discovery] [d <private>] <PKHost:0x14c738c00> Completed discovery. Final # of matches: 1
+[com.apple.xpc:connection] [0x14c637e50] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c637e50] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c741840] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c741840] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c637f20] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c637f20] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c6345f0] activating connection: mach=false listener=false peer=false name=com.apple.audio.InfoHelper
+[com.apple.xpc:connection] [0x14d01f5c0] activating connection: mach=true listener=false peer=false name=com.apple.iconservices
+[com.apple.xpc:connection] [0x14d022140] activating connection: mach=true listener=false peer=false name=com.apple.iconservices.store
+in file /private/tmp/claude-501/-Volumes-Developer-OpenGrid/7534d423-389a-4fb7-9bf7-7b9c0f05da37/scratchpad/ARA_SDK_patched/ARA_Examples/ExamplesCommon/PlugInHosting/AudioUnitLoader.m:148:
+	This Audio Unit has not yet been updated to version 3 of the Audio Unit API, and therefore cannot use ARA when loaded out-of-process.
+Testing ARA plug-in 'OpenDynamics' in Audio Unit (aufx - ODyn - Ogrd):
+    version: 1.0.0-beta
+    manufacturer: OpenGrid
+    website: https://github.com/MistaMin/OpenDynamics
+    documentArchiveID: com.opengrid.opendynamics.ara.archive.1
+    plug-in does not support content analysis.
+    plug-in does not support time-stretching.
+    plug-in does not support content-based fades.
+    plug-in does not support storing audio file chunks.
+[ARATestHost ARA_LOG]
+*** testing property updates ***
+[ARATestHost ARA_LOG]
+Updating the name of audio source 0x14d1069a0 (ARAAudioSourceRef 0x14d108060)
+Updating the color of region sequence 0x14d109ed0 (ARARegionSequenceRef 0x14d10a340)
+Updating the start time of playback region 0x14d1075a0 (ARAPlaybackRegionRef 0x14d108710)
+[ARATestHost ARA_LOG]
+*** testing content updates ***
+[ARATestHost ARA_LOG]
+Updating musical context 0x14d505bd0 (ARAMusicalContextRef 0x14d505c50) with new tempo, bar signature, tuning, key signature, and chord data
+Updating audio source 0x14d505e50 (ARAAudioSourceRef 0x14d505ef0) with new notes, tempo, bar signature, tuning, key signature, and chord data
+[ARATestHost ARA_LOG]
+*** testing content reading ***
+[ARATestHost ARA_LOG]
+all content of ARAAudioSourceRef 0x14c705660 in range -inf to inf:
+no kARAContentTypeNotes available for ARAAudioSourceRef 0x14c705660
+no kARAContentTypeTempoEntries available for ARAAudioSourceRef 0x14c705660
+no kARAContentTypeBarSignatures available for ARAAudioSourceRef 0x14c705660
+no kARAContentTypeStaticTuning available for ARAAudioSourceRef 0x14c705660
+no kARAContentTypeKeySignatures available for ARAAudioSourceRef 0x14c705660
+no kARAContentTypeSheetChords available for ARAAudioSourceRef 0x14c705660
+all content of ARAAudioModificationRef 0x14c739db0 in range -inf to inf:
+no kARAContentTypeNotes available for ARAAudioModificationRef 0x14c739db0
+no kARAContentTypeTempoEntries available for ARAAudioModificationRef 0x14c739db0
+no kARAContentTypeBarSignatures available for ARAAudioModificationRef 0x14c739db0
+no kARAContentTypeStaticTuning available for ARAAudioModificationRef 0x14c739db0
+no kARAContentTypeKeySignatures available for ARAAudioModificationRef 0x14c739db0
+no kARAContentTypeSheetChords available for ARAAudioModificationRef 0x14c739db0
+all content of ARAPlaybackRegionRef 0x14c741b80 in range -inf to inf:
+no kARAContentTypeNotes available for ARAPlaybackRegionRef 0x14c741b80
+no kARAContentTypeTempoEntries available for ARAPlaybackRegionRef 0x14c741b80
+no kARAContentTypeBarSignatures available for ARAPlaybackRegionRef 0x14c741b80
+no kARAContentTypeStaticTuning available for ARAPlaybackRegionRef 0x14c741b80
+no kARAContentTypeKeySignatures available for ARAPlaybackRegionRef 0x14c741b80
+no kARAContentTypeSheetChords available for ARAPlaybackRegionRef 0x14c741b80
+[ARATestHost ARA_LOG]
+*** testing modification cloning ***
+[ARATestHost ARA_LOG]
+available content of ARAAudioModificationRef 0x14c63f410 in range -inf to inf:
+no content available for ARAAudioModificationRef 0x14c63f410
+ARAAudioModificationRef 0x14c63f410 modifies audio source signal.
+Cloned source audio modification 0x14c618aa0 (ARAAudioModificationRef 0x14c63f410) into new modification 0x14c60c720 (ARAAudioModificationRef 0x14c612090)
+available content of ARAAudioModificationRef 0x14c612090 in range -inf to inf:
+no content available for ARAAudioModificationRef 0x14c612090
+ARAAudioModificationRef 0x14c612090 modifies audio source signal.
+[ARATestHost ARA_LOG]
+*** testing archiving ***
+[ARATestHost ARA_LOG]
+Audio source 0x14c6217b0 (ARAAudioSourceRef 0x14c63e290) will be stored with persistent ID "audioSourceTestPersistentID 0"
+available content of ARAAudioSourceRef 0x14c63e290 in range -inf to inf:
+no content available for ARAAudioSourceRef 0x14c63e290
+Audio modification 0x14c60c720 (ARAAudioModificationRef 0x14c63f410) be stored with persistent ID "audioModificationTestPersistentID 0"
+available content of ARAAudioModificationRef 0x14c63f410 in range -inf to inf:
+no content available for ARAAudioModificationRef 0x14c63f410
+Audio source 0x14c7056d0 (ARAAudioSourceRef 0x14c739c30) with persistent ID "audioSourceTestPersistentID 0" has been restored
+available content of ARAAudioSourceRef 0x14c739c30 in range -inf to inf:
+no content available for ARAAudioSourceRef 0x14c739c30
+Audio modification 0x14c618ee0 (ARAAudioModificationRef 0x14c620ac0) with persistent ID "audioModificationTestPersistentID 0" has been restored
+available content of ARAAudioModificationRef 0x14c620ac0 in range -inf to inf:
+no content available for ARAAudioModificationRef 0x14c620ac0
+[ARATestHost ARA_LOG]
+*** testing split archives ***
+[ARATestHost ARA_LOG]
+Audio source 0x14c6217b0 (ARAAudioSourceRef 0x14c63e290) will be stored with persistent ID "audioSourceTestPersistentID 0"
+available content of ARAAudioSourceRef 0x14c63e290 in range -inf to inf:
+no content available for ARAAudioSourceRef 0x14c63e290
+Audio modification 0x14c618aa0 (ARAAudioModificationRef 0x14c63f410) be stored with persistent ID "audioModificationTestPersistentID 0"
+available content of ARAAudioModificationRef 0x14c63f410 in range -inf to inf:
+no content available for ARAAudioModificationRef 0x14c63f410
+Audio source 0x14d506200 (ARAAudioSourceRef 0x14d506360) with persistent ID "audioSourceTestPersistentID 0" has been restored
+available content of ARAAudioSourceRef 0x14d506360 in range -inf to inf:
+no content available for ARAAudioSourceRef 0x14d506360
+Audio modification 0x14d506450 (ARAAudioModificationRef 0x14d506540) with persistent ID "audioModificationTestPersistentID 0" has been restored
+available content of ARAAudioModificationRef 0x14d506540 in range -inf to inf:
+no content available for ARAAudioModificationRef 0x14d506540
+[ARATestHost ARA_LOG]
+*** testing drag and drop ***
+[ARATestHost ARA_LOG]
+Logging audio source content for document "Drag Document"
+Audio source 0x14c6217b0 (ARAAudioSourceRef 0x14c63e290) has persistent ID "audioSourceTestPersistentID 0"
+available content of ARAAudioSourceRef 0x14c63e290 in range -inf to inf:
+no content available for ARAAudioSourceRef 0x14c63e290
+Dragging audio source with persistent ID "audioSourceTestPersistentID 0" from Drag Document
+Dropping dragged data into audio source with persistent ID "audioSourceTestPersistentID 1" to Drop Document
+Logging audio source content for document "Drop Document"
+Audio source 0x14c60b010 (ARAAudioSourceRef 0x14c63c2a0) has persistent ID "audioSourceTestPersistentID 0"
+available content of ARAAudioSourceRef 0x14c63c2a0 in range -inf to inf:
+no content available for ARAAudioSourceRef 0x14c63c2a0
+Audio source 0x14c610dd0 (ARAAudioSourceRef 0x14c610cc0) has persistent ID "audioSourceTestPersistentID 1"
+available content of ARAAudioSourceRef 0x14c610cc0 in range -inf to inf:
+no content available for ARAAudioSourceRef 0x14c610cc0
+[ARATestHost ARA_LOG]
+*** testing playback rendering (with time stretching if supported) ***
+[ARATestHost ARA_LOG]
+Adding playback region 0x14c612090 (ARAPlaybackRegionRef 0x14c61f6b0) to playback renderer 0x14d7048b0
+Rendering 1 region(s) assigned to playback renderer 0x14d7048b0 with sample rate 48000Hz
+[com.apple.coreaudio:audiocomp] AudioComponentPluginMgr.mm:1117  component registrations changed
+[com.apple.xpc:connection] [0x14d707840] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14d707840] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14d024250] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14d024250] invalidated after the last release of the connection object
+[com.apple.coreaudio:audiocomp] AudioComponentPluginMgr.mm:1117  component registrations changed
+[com.apple.xpc:connection] [0x14c739c30] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c739c30] invalidated after the last release of the connection object
+[com.apple.xpc:connection] [0x14c741b20] activating connection: mach=false listener=false peer=false name=com.apple.audio.ComponentTagHelper
+[com.apple.xpc:connection] [0x14c741b20] invalidated after the last release of the connection object
+Render results:
+  channel 0: 480000 samples, 443790 non-zero, peak 0.35632, rms 0.026210
+  channel 1: 480000 samples, 444755 non-zero, peak 0.31812, rms 0.026203
+Time stretching requested, but plug-in doesn't support kARAPlaybackTransformationTimestretch
+[ARATestHost ARA_LOG]
+*** testing editor view communication ***
+[ARATestHost ARA_LOG]
+Notifying editor view 0x14c7426b0 of 1 selected playback region(s)
+Notifying editor view 0x14c7426b0 of 1 selected region sequence(s)
+Notifying editor view 0x14c7426b0 of 1 selected playback region(s) and 1 selected region sequence(s)
+Notifying editor view 0x14c7426b0 of 1 hidden region sequence(s)
+Notifying editor view 0x14c7426b0 that all region sequences are now un-hidden
+[ARATestHost ARA_LOG]
+*** testing processing algorithms ***
+[ARATestHost ARA_LOG]
+No processing algorithms available for plug-in OpenDynamics
+[ARATestHost ARA_LOG]
+*** testing ARA audio file saving XML chunks ***
+[ARATestHost ARA_LOG]
+ARA audio file chunk authoring is not supported by plug-in OpenDynamics
+[ARATestHost ARA_LOG]
+*** testing ARA audio file loading XML chunks ***
+[ARATestHost ARA_LOG]
+No matching ARA archive chunk found in iXML chunk in audio file Updated Audio Source Name

@@ -1,0 +1,18 @@
+Testing ARA plug-in 'OpenDynamics' in VST3 @ /Volumes/Developer/OpenGrid/OpenDynamics/dist/OpenDynamics.vst3:
+    version: 1.0.0-beta
+    manufacturer: OpenGrid
+    website: https://github.com/MistaMin/OpenDynamics
+    documentArchiveID: com.opengrid.opendynamics.ara.archive.1
+    plug-in does not support content analysis.
+    plug-in does not support time-stretching.
+    plug-in does not support content-based fades.
+    plug-in does not support storing audio file chunks.
+[ARATestHost ARA_LOG]
+*** testing playback rendering (with time stretching if supported) ***
+[ARATestHost ARA_LOG]
+Adding playback region 0x1317055f0 (ARAPlaybackRegionRef 0x131705650) to playback renderer 0x132105160
+Rendering 1 region(s) assigned to playback renderer 0x132105160 with sample rate 48000Hz
+Render results:
+  channel 0: 480000 samples, 443790 non-zero, peak 0.26693, rms 0.016099
+  channel 1: 480000 samples, 444755 non-zero, peak 0.24020, rms 0.016051
+Time stretching requested, but plug-in doesn't support kARAPlaybackTransformationTimestretch

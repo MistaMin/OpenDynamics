@@ -138,17 +138,18 @@ with Output Gain.
 Without ARA: play the song with LEARN on, then APPLY. LEARN and APPLY again measures the result and corrects it; two
 or three rounds land within a dB of the target.
 
-With ARA (VST3, in a host that supports ARA 2): the host gives OpenDynamics each clip's whole audio. The panel shows the
-clip's loudness, and APPLY renders the whole clip through the sections in the background, measures it and corrects
-until it lands on the target, then sets the controls. No playing is needed. The plugin processes the track as it does
-without ARA, with its own controls and automation.
+With ARA (macOS: VST3, Audio Unit and CLAP, in a host that supports ARA 2): the host gives OpenDynamics each clip's
+whole audio. The panel shows the selected clip's loudness (with no selection, the newest clip), and APPLY renders the
+whole clip through the sections in the background, measures it and corrects until it lands on the target, then sets
+the controls. No playing is needed. Select another clip in the host to work on it. The plugin processes the track as it
+does without ARA, with its own controls and automation.
 
 Very loud targets under a tight ceiling (for example -9 LUFS at -0.5 dBTP) are not reached on bright material: the
 limiter limits sample peaks, and the peaks between samples need a true-peak limiter.
 
 ## Formats and hosts
 
-- macOS 11 or later, Apple silicon and Intel: VST3 (with ARA 2), Audio Unit, CLAP, LV2 and AAX (Pro Tools).
+- macOS 11 or later, Apple silicon and Intel: VST3, Audio Unit and CLAP (each with ARA 2), LV2 and AAX (Pro Tools).
 - Windows 10 or later, x64: VST3, CLAP and LV2.
 - Linux x86_64: VST3, CLAP and LV2.
 

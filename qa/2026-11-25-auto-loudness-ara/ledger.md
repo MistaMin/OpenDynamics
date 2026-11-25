@@ -28,9 +28,9 @@ Owner's answers: feature branch + PR; target LUFS + true-peak ceiling; full ARA 
 | R2 | SDK: read audio sources ahead of playback (ARA audio reader) | `Source::read` on sample access, `op_ara_analyze` | - | TestHost and REAPER: analysis lines in the plugin log (clip.wav -25.8 LUFS; REAPER testsignal.wav -11.1 LUFS) | verified |
 | R3 | SDK: playback renderer / editor renderer roles for the plugin instance | `Renderer::render`; renderer-only instances play clips unprocessed, editor instances process | - | TestHost playback renders the clip (RMS 0.026210 = source 0.026206); REAPER binds two instances (roles 1 and 6) and the default render nulls with 1.0.0 Beta at -240 dB | verified |
 | R4 | Plugin: whole-clip analysis per audio source feeds A2/A3 (true integrated LUFS of the clip) | `ara::analyze`, `fit_clip` (renders the whole clip through the sections, corrects up to six passes) | panel shows the ARA clip; APPLY fits it in the background | `fit_clip_reaches_the_target` (-14.22 LUFS / -1.83 dBTP; -23.08), `loudness_panel_applies_an_ara_clip` | verified |
-| R5 | Plugin: full ARA editing: per region results shown and editable in the editor | - | - | - | OPEN: v1 keeps settings as the track instance's parameters (so automation and per-track settings work); per-region settings in the ARA model and an editor view of the regions are not built |
-| R6 | ARA in Audio Unit (ARAAudioUnit.h) | | | | open |
-| R7 | ARA in CLAP (ARACLAP.h) | | | | open |
+| R5 | Plugin: full ARA editing: per region results shown and editable in the editor | `View::doNotifySelection` -> `op_ara_select`; `ara::current` | the LOUDNESS panel shows and fits the selected clip (newest when none) | TestHost editor-view test: 3 selections arrive in VST3, AU and CLAP; `ara::tests::analyzes_sources_by_id` (selection picks the clip) | partly: selection-driven clip editing done; settings per region in the ARA model are not built (settings stay the track instance's parameters, so automation and per-track settings work) |
+| R6 | ARA in Audio Unit (ARAAudioUnit.h) | `OpenPluginAU.cpp`: ARAFactory and BindingWithRoles properties, ARA component tag, rendering | - | TestHost (AU): 12 cases, 0 violations, render = clip; auval PASS | verified |
+| R7 | ARA in CLAP (ARACLAP.h) | `native/ara/ara_c.cpp` library in the .clap, loaded by `clap.rs`; factory and plugin extension IDs `org.ara-audio.ara.*/2` (and draft) | - | TestHost (CLAP): 12 cases, 0 violations, render = clip; clap-validator 34 passed, 0 failed; REAPER CLAP suite all PASS, default render nulls with 1.0.0 Beta (-240 dB) | verified (macOS) |
 | R8 | ARA in AAX | | | | BLOCKED: neither AAX SDK 2.8.1 nor JUCE_ARA's AAX wrapper (bundled AAX SDK 2.9) has an ARA interface; needs Avid's AAX ARA extension |
 | R9 | Host tests: an ARA host (REAPER ARA, Studio One, Logic, Pro Tools) loads the ARA plugin and analyses clips | - | - | ARA TestHost (VST3) and REAPER 7.80 (VST3, ARA bound, clips analysed) | partly: Studio One, Logic, Cubase not run |
 | X1 | Released behaviour unchanged with Auto off (renders null against 1.0.0 Beta) | - | - | REAPER default render: non-ARA build -240 dB; ARA build -240 dB (after the role fix; before it -20 dB: processed twice) | verified |
@@ -51,3 +51,12 @@ Stage order: A1-A6 (no SDK change) -> R1-R4 (VST3) -> R5 -> R6, R7 -> R8 when th
   had that context (Limiter Clean off, Threshold -12 dB): `p106_0` differs from `base`, `p106_1` equals it at
   -240 dB. The release run has the same one-render lag (parameters 7, 22, 29), so it is not from ARA. Auto Target and
   Auto Ceiling change no sound by design: `exceptions.txt` here excuses them with that reason.
+- TestHost's AU loader describes non-interleaved formats with channels x 4 bytes per frame; the Audio Unit refuses that
+  (Apple: one sample per frame per buffer). Its CLAP loader asserts mono ports; OpenDynamics is stereo. Both were
+  fixed in a scratch copy of the examples for the tests, not in the ARA SDK checkout.
+- The first CLAP build guessed the ARA IDs (`com.celemony.*`); ARACLAP.h names `org.ara-audio.ara.factory/2` and
+  `org.ara-audio.ara.pluginextension/2`. clap-validator caught `ara:supported` in the factory descriptor but not in
+  the instance's; both list it now.
+- ARA forwards selections only to an open editor view; the view counts as open from the start.
+- Hosts: Studio One 7 is installed but drives only through its window (no scripting): not run. Logic and Cubase are
+  not installed.

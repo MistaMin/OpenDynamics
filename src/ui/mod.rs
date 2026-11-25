@@ -568,7 +568,7 @@ impl DynEditor {
         let (gen, clips) = crate::ara::sources();
         if gen != self.auto.ara_gen {
             self.auto.ara_gen = gen;
-            self.auto.clip = clips.last().cloned();
+            self.auto.clip = crate::ara::current(&clips);
             dirty = true;
         }
         if self.auto.fit.as_ref().is_some_and(|f| f.is_finished()) {
