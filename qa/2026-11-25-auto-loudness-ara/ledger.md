@@ -46,3 +46,8 @@ Stage order: A1-A6 (no SDK change) -> R1-R4 (VST3) -> R5 -> R6, R7 -> R8 when th
   both processing, clips were processed twice. Now the renderer-only instance plays the clips unprocessed and the
   track instance processes them with its own parameters.
 - ARA needs a non-empty information URL: the plugin exports `op_ara_url`.
+- REAPER suite on the ARA build (`reaper-VST3`): every check PASS, 0 silent renders, 112 parameters. It rated Auto
+  Target "changes the sound" only because the first render after the previous parameter's context was reset still
+  had that context (Limiter Clean off, Threshold -12 dB): `p106_0` differs from `base`, `p106_1` equals it at
+  -240 dB. The release run has the same one-render lag (parameters 7, 22, 29), so it is not from ARA. Auto Target and
+  Auto Ceiling change no sound by design: `exceptions.txt` here excuses them with that reason.
