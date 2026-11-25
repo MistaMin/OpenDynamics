@@ -36,7 +36,7 @@ mkdir -p "$WORK/stage" "$WORK/components" "$WORK/plists" "$WORK/resources"
 echo "== Developer ID signatures"
 for b in "$NAME.vst3" "$NAME.component" "$NAME.clap" "$NAME.lv2"; do
   rm -rf "${SIGNED:?}/$b"
-  COPYFILE_DISABLE=1 ditto --norsrc "$DIST/$b" "$SIGNED/$b"
+  COPYFILE_DISABLE=1 ditto --norsrc --noextattr --noqtn "$DIST/$b" "$SIGNED/$b"
 done
 for b in "$NAME.vst3" "$NAME.component" "$NAME.clap"; do
   codesign --force --timestamp --options runtime --sign "$APP_ID" "$SIGNED/$b"
@@ -49,7 +49,7 @@ done
 component() { # key, bundle or folder, install location, identifier
   local key="$1" item="$2" loc="$3" pid="$4" plist="$WORK/plists/$1.plist"
   mkdir -p "$WORK/stage/$key"
-  COPYFILE_DISABLE=1 ditto --norsrc "$item" "$WORK/stage/$key/$(basename "$item")"
+  COPYFILE_DISABLE=1 ditto --norsrc --noextattr --noqtn "$item" "$WORK/stage/$key/$(basename "$item")"
   pkgbuild --analyze --root "$WORK/stage/$key" "$plist"
   local i=0
   while /usr/libexec/PlistBuddy -c "Print :$i:BundleIsRelocatable" "$plist" >/dev/null 2>&1; do
@@ -58,6 +58,14 @@ component() { # key, bundle or folder, install location, identifier
   done
   pkgbuild --root "$WORK/stage/$key" --component-plist "$plist" --identifier "$pid" --version "$VERSION" \
     --install-location "$loc" --ownership recommended --sign "$INSTALLER_ID" --timestamp "$WORK/components/$NAME-$key.pkg"
+  # The payload lists extended attributes (com.apple.provenance) as ._ entries; the installer folds them back into
+  # attributes. What must not ship is a real ._ file, so expand the package as the installer does and look.
+  rm -rf "$WORK/check"
+  pkgutil --expand-full "$WORK/components/$NAME-$key.pkg" "$WORK/check" >/dev/null
+  if [ -n "$(find "$WORK/check" -name '._*' -print -quit)" ]; then
+    echo "AppleDouble files in the $key payload" >&2; exit 1
+  fi
+  rm -rf "$WORK/check"
 }
 
 echo "== component packages"
@@ -72,7 +80,7 @@ cp "$MANUAL" "$DOCS/$NAME-$LABEL-User-Manual.pdf"
 cp "$ROOT/LICENSE" "$DOCS/Licenses/LICENSE.txt"
 cp "$ROOT/BINARY_LICENSE.txt" "$ROOT/THIRD_PARTY_LICENSES.md" "$ROOT"/Licenses/* "$DOCS/Licenses/"
 mkdir -p "$WORK/stage/docs"
-COPYFILE_DISABLE=1 ditto --norsrc "$DOCS" "$WORK/stage/docs/$NAME"
+COPYFILE_DISABLE=1 ditto --norsrc --noextattr --noqtn "$DOCS" "$WORK/stage/docs/$NAME"
 pkgbuild --root "$WORK/stage/docs" --identifier "$ID.pkg.docs" --version "$VERSION" \
   --install-location "/Library/Application Support" --ownership recommended \
   --sign "$INSTALLER_ID" --timestamp "$WORK/components/$NAME-docs.pkg"
