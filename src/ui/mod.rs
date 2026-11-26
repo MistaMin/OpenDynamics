@@ -454,6 +454,8 @@ struct AutoState {
     ara_gen: u64,
     clip: Option<crate::ara::Source>,
     fit: Option<std::thread::JoinHandle<Option<(crate::auto::Plan, crate::loudness::Stats)>>>,
+    /// A dropped audio file being read and measured (its name, and the result).
+    dropped: Option<(String, std::thread::JoinHandle<Result<(), String>>)>,
     status: String,
 }
 
@@ -565,6 +567,16 @@ impl DynEditor {
                 dirty = true;
             }
         }
+        if self.auto.dropped.as_ref().is_some_and(|(_, d)| d.is_finished()) {
+            if let Some((name, job)) = self.auto.dropped.take() {
+                self.auto.status = match job.join() {
+                    Ok(Ok(())) => format!("{name}: APPLY fits it"),
+                    Ok(Err(e)) => format!("{name}: {e}"),
+                    Err(_) => format!("{name}: could not be read"),
+                };
+            }
+            dirty = true;
+        }
         let (gen, clips) = crate::ara::sources();
         if gen != self.auto.ara_gen {
             self.auto.ara_gen = gen;
@@ -601,7 +613,7 @@ impl DynEditor {
             }
         };
         if let Some(clip) = &self.auto.clip {
-            line(s, y, "ARA CLIP", fmt(&clip.stats));
+            line(s, y, "CLIP", fmt(&clip.stats));
             y += 18.0;
             line(s, y, "", format!("{:.0} s, the whole clip: APPLY fits it", clip.stats.seconds));
         } else if let Some((i, o)) = &self.auto.learned {
@@ -609,7 +621,7 @@ impl DynEditor {
             y += 18.0;
             line(s, y, "OUTPUT", fmt(o));
         } else {
-            line(s, y, "INPUT", "LEARN with the song playing".to_string());
+            line(s, y, "INPUT", "LEARN with the song playing, or drop a clip here".to_string());
         }
         y += 18.0;
         if !self.auto.status.is_empty() {
@@ -1350,6 +1362,38 @@ impl Editor for DynEditor {
         self.controls.accessibility_focus(node)
     }
 
+    // A clip dragged from the host (Pro Tools renders it to a WAV or AIFF file on drop) or from
+    // the Finder: read and measured on its own thread, then the LOUDNESS panel works on it.
+    fn wants_drops(&self) -> bool {
+        true
+    }
+
+    fn accepts_drop(&mut self, _x: f32, _y: f32) -> bool {
+        self.auto.dropped.is_none()
+    }
+
+    fn files_dropped(&mut self, paths: &[std::path::PathBuf], _x: f32, _y: f32) -> bool {
+        let Some(path) = paths.first().cloned() else { return false };
+        if self.auto.dropped.is_some() {
+            return false;
+        }
+        let name = path.file_name().map(|n| n.to_string_lossy().into_owned()).unwrap_or_default();
+        let job = std::thread::spawn(move || {
+            let audio = crate::audiofile::read(&path)?;
+            let id = path.to_string_lossy().into_owned();
+            crate::ara::analyze(&id, audio.sample_rate, &[&audio.left, &audio.right]).ok_or("too short or an unusual sample rate")?;
+            crate::ara::select(&[id]);
+            Ok(())
+        });
+        self.auto.status = format!("Reading {name}");
+        self.auto.dropped = Some((name, job));
+        if self.panel != Some(AUTO_PANEL) {
+            self.open_panel(Some(AUTO_PANEL));
+        }
+        self.damage.add_all();
+        true
+    }
+
     fn wants_keys(&self) -> bool {
         self.controls.wants_keys()
     }
@@ -1737,6 +1781,7 @@ mod tests {
     /// LOUDNESS panel; APPLY fits it offline and writes the plan into the controls.
     #[test]
     fn loudness_panel_applies_an_ara_clip() {
+        let _one_at_a_time = crate::ara::TEST_LOCK.lock().unwrap_or_else(|e| e.into_inner());
         let sr = 48_000.0;
         let n = 12 * 48_000;
         let mut seed = 5u32;
@@ -1771,6 +1816,54 @@ mod tests {
         let at = |id: &str| INFO.params.iter().position(|p| p.id == id).unwrap();
         assert_ne!(e.values[at("limit.threshold")], before[at("limit.threshold")], "the limiter was set");
         assert_eq!(e.values[at("limit.on")], 1.0);
+    }
+
+    /// A clip dropped on the window (as Pro Tools renders one) is read, measured and becomes the
+    /// clip the LOUDNESS panel works on.
+    #[test]
+    fn a_dropped_clip_becomes_the_current_clip() {
+        let _one_at_a_time = crate::ara::TEST_LOCK.lock().unwrap_or_else(|e| e.into_inner());
+        let n = 48_000 * 4;
+        let mut body = Vec::new();
+        for i in 0..n {
+            let v = (8_000.0 * (i as f32 * 0.05).sin()) as i16;
+            body.extend_from_slice(&v.to_le_bytes());
+            body.extend_from_slice(&v.to_le_bytes());
+        }
+        let mut wav = b"RIFF".to_vec();
+        let mut rest = b"WAVEfmt ".to_vec();
+        rest.extend_from_slice(&16u32.to_le_bytes());
+        for v in [1u16, 2] {
+            rest.extend_from_slice(&v.to_le_bytes());
+        }
+        rest.extend_from_slice(&48_000u32.to_le_bytes());
+        rest.extend_from_slice(&(48_000u32 * 4).to_le_bytes());
+        rest.extend_from_slice(&4u16.to_le_bytes());
+        rest.extend_from_slice(&16u16.to_le_bytes());
+        rest.extend_from_slice(b"data");
+        rest.extend_from_slice(&(body.len() as u32).to_le_bytes());
+        rest.extend_from_slice(&body);
+        wav.extend_from_slice(&(rest.len() as u32).to_le_bytes());
+        wav.extend_from_slice(&rest);
+        let path = std::env::temp_dir().join(format!("od-drop-test-{}.wav", std::process::id()));
+        std::fs::write(&path, &wav).unwrap();
+        let mut e = DynEditor::new(EditorHost::detached());
+        e.bind(Some(Arc::new(Shared::default()) as EditorState));
+        assert!(e.wants_drops() && e.accepts_drop(10.0, 10.0));
+        assert!(e.files_dropped(&[path.clone()], 10.0, 10.0));
+        assert_eq!(e.panel, Some(AUTO_PANEL));
+        for _ in 0..300 {
+            e.tick(1.0 / 30.0);
+            if e.auto.dropped.is_none() {
+                break;
+            }
+            std::thread::sleep(std::time::Duration::from_millis(10));
+        }
+        let _ = std::fs::remove_file(&path);
+        let clip = e.auto.clip.as_ref().expect("the dropped clip is current");
+        assert_eq!(clip.id, path.to_string_lossy());
+        assert!((clip.stats.seconds - 4.0).abs() < 0.2 && clip.stats.has_programme(), "{:?}", clip.stats);
+        assert!(e.auto.status.contains("APPLY"), "{}", e.auto.status);
     }
 
     /// The LOUDNESS button sits clear of every section-bar control, on every tab.

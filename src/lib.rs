@@ -30,6 +30,7 @@ mod autogain;
 mod loudness;
 mod auto;
 pub mod ara;
+mod audiofile;
 mod text;
 mod shared;
 mod ui;

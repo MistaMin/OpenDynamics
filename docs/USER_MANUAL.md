@@ -144,6 +144,10 @@ whole clip through the sections in the background, measures it and corrects unti
 the controls. No playing is needed. Select another clip in the host to work on it. The plugin processes the track as it
 does without ARA, with its own controls and automation.
 
+Without ARA, a clip can also be dropped on the window: drag it from the host (Pro Tools 2024.10 or later renders the
+clip, with its clip gain and effects, to a file when it is dropped on a plug-in window) or from the Finder. WAV and AIFF
+files are read. The panel shows the dropped clip, and APPLY fits it as it does an ARA clip.
+
 Very loud targets under a tight ceiling (for example -9 LUFS at -0.5 dBTP) are not reached on bright material: the
 limiter limits sample peaks, and the peaks between samples need a true-peak limiter.
 

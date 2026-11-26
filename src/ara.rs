@@ -26,6 +26,10 @@ const KEEP: usize = 8;
 
 static SOURCES: LazyLock<Mutex<Vec<Source>>> = LazyLock::new(|| Mutex::new(Vec::new()));
 static GENERATION: AtomicU64 = AtomicU64::new(0);
+/// Tests that change the clips or the selection (process-wide) take this, one at a time.
+#[cfg(test)]
+pub static TEST_LOCK: Mutex<()> = Mutex::new(());
+
 /// The clips the user selected in the host, by persistent ID (empty: none).
 static SELECTED: LazyLock<Mutex<Vec<String>>> = LazyLock::new(|| Mutex::new(Vec::new()));
 
@@ -131,6 +135,7 @@ mod tests {
     /// replaces it.
     #[test]
     fn analyzes_sources_by_id() {
+        let _one_at_a_time = TEST_LOCK.lock().unwrap_or_else(|e| e.into_inner());
         let n = 48_000 * 10;
         let a = 10f32.powf(-23.0 / 20.0);
         let x: Vec<f32> = (0..n).map(|i| a * (std::f32::consts::TAU * 1000.0 * i as f32 / 48_000.0).sin()).collect();
