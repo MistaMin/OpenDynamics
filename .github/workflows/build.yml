@@ -10,7 +10,7 @@ on:
 
 env:
   # The revisions this build is made and tested with (as in scripts/build.sh).
-  OPENPLUGIN_SDK_REF: 86d5c3e83eed06c3600b22db894dc17e0ccd3ca9
+  OPENPLUGIN_SDK_REF: f3f99629a43823b03f203726dfe3f7b5be31ec6f
   # Celemony's ARA SDK (Apache 2.0): ARA 2 in the VST3, and its TestHost for the ARA test step.
   ARA_SDK_REF: releases/2.3.0
   GOODLOOKINDRI_REF: 3fe04263a7e1eb21931717393d0f1d705417e884
