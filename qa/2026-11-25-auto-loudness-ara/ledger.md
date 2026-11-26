@@ -33,6 +33,7 @@ Owner's answers: feature branch + PR; target LUFS + true-peak ceiling; full ARA 
 | R7 | ARA in CLAP (ARACLAP.h) | `native/ara/ara_c.cpp` library in the .clap, loaded by `clap.rs`; factory and plugin extension IDs `org.ara-audio.ara.*/2` (and draft) | - | TestHost (CLAP): 12 cases, 0 violations, render = clip; clap-validator 34 passed, 0 failed; REAPER CLAP suite all PASS, default render nulls with 1.0.0 Beta (-240 dB) | verified (macOS) |
 | R8 | ARA in AAX | | | | BLOCKED: neither AAX SDK 2.8.1 nor JUCE_ARA's AAX wrapper (bundled AAX SDK 2.9) has an ARA interface; needs Avid's AAX ARA extension |
 | R9 | Host tests: an ARA host (REAPER ARA, Studio One, Logic, Pro Tools) loads the ARA plugin and analyses clips | - | - | ARA TestHost (VST3) and REAPER 7.80 (VST3, ARA bound, clips analysed) | partly: Studio One, Logic, Cubase not run |
+| R10 | ARA on Windows and Linux (VST3) | OpenPluginSDK `native/ara/ara.cmake`, `build_plugin_linux.sh --ara-sdk`, `build_plugin.ps1 -AraSdk`; workflow checks out Celemony/ARA_SDK releases/2.3.0 | - | GitHub Actions run 45734231804: ARA SDK TestHost (Debug) on the new Windows x64 and Linux x86_64 VST3: 12 test cases, 0 ARA API violations each | verified |
 | X1 | Released behaviour unchanged with Auto off (renders null against 1.0.0 Beta) | - | - | REAPER default render: non-ARA build -240 dB; ARA build -240 dB (after the role fix; before it -20 dB: processed twice) | verified |
 
 Stage order: A1-A6 (no SDK change) -> R1-R4 (VST3) -> R5 -> R6, R7 -> R8 when the AAX extension is available.
@@ -60,3 +61,6 @@ Stage order: A1-A6 (no SDK change) -> R1-R4 (VST3) -> R5 -> R6, R7 -> R8 when th
 - ARA forwards selections only to an open editor view; the view counts as open from the start.
 - Hosts: Studio One 7 is installed but drives only through its window (no scripting): not run. Logic and Cubase are
   not installed.
+- CI: TestHost on Windows and Linux loads the module file inside the bundle (`Contents/x86_64-win/*.vst3`,
+  `Contents/x86_64-linux/*.so`), not the bundle; with GCC it needs `<limits>` pre-included (ARAContentLogger.h uses
+  std::numeric_limits without it); on Windows a failed check opens an error box, so the step is limited to 15 minutes.
