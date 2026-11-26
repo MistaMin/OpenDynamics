@@ -77,8 +77,13 @@ jobs:
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           python w\opendynamics\tools\make_ara_clip.py clip.wav
           $host_exe = Get-ChildItem -Recurse build-ara -Filter ARATestHost.exe | Select-Object -First 1
-          & $host_exe.FullName -vst3 "$root\dist-windows\OpenDynamics.vst3" -file clip.wav 2>&1 | Tee-Object testhost.log
-          $code = $LASTEXITCODE
+          # A failed check in a Debug build can open an error box nobody clicks on a CI machine: the
+          # run is limited to 15 minutes and stopped after, and the log shows how far it got.
+          $p = Start-Process -FilePath $host_exe.FullName -ArgumentList @('-vst3', "$root\dist-windows\OpenDynamics.vst3", '-file', 'clip.wav') `
+            -RedirectStandardOutput testhost.out -RedirectStandardError testhost.log -NoNewWindow -PassThru
+          if (-not $p.WaitForExit(900000)) { $p.Kill(); Write-Host 'TestHost did not finish in 15 minutes' }
+          Get-Content testhost.out, testhost.log | Select-Object -Last 60
+          $code = if ($p.HasExited) { $p.ExitCode } else { -1 }
           $tests = (Select-String -Path testhost.log -Pattern '\*\*\* testing').Count
           $violations = (Select-String -Path testhost.log -Pattern 'ARA API violation|ARA_ASSERT').Count
           Write-Host "TestHost exit $code, $tests test cases, $violations violations"
@@ -143,7 +148,8 @@ jobs:
             --out "$GITHUB_WORKSPACE/dist-linux" --work-dir "$GITHUB_WORKSPACE/build-linux"
       - name: ARA test (ARA SDK TestHost)
         run: |
-          cmake -S Dependencies/ARA_SDK/ARA_Examples -B build-ara -DCMAKE_BUILD_TYPE=Debug \
+          # ARA_Library/Debug/ARAContentLogger.h uses std::numeric_limits without <limits>; GCC needs it.
+          cmake -S Dependencies/ARA_SDK/ARA_Examples -B build-ara -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_FLAGS="-include limits" \
             -DARA_VST3_SDK_DIR="$GITHUB_WORKSPACE/Dependencies/vst3sdk" -DARA_SETUP_DEBUGGING=OFF
           cmake --build build-ara --target ARATestHost -j 4
           python3 w/opendynamics/tools/make_ara_clip.py clip.wav
