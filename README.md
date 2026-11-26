@@ -58,8 +58,8 @@ each band lost or gained, and a 3D spectrum view over the full band. Seven colou
 
 ## Build from source
 
-Rust (stable). The project builds against OpenPluginSDK and GoodLookin DRI checked out next to it
-(`../../Dependencies/OpenPluginSDK`, `../../Dependencies/GoodLookinDri`).
+Rust (stable). The project builds against OpenPluginSDK checked out next to it
+(`../../Dependencies/OpenPluginSDK`), which carries GoodLookin DRI in its tree.
 
 ```bash
 cargo test --release --workspace   # DSP, plugin and editor tests
