@@ -19,6 +19,7 @@ carry copies of the licence texts in `Licenses/`.
 | CLAP | CLAP format | MIT |
 | LV2 | LV2 format: the interface is written from the specification, and no LV2 code is linked | ISC |
 | VST3 SDK (Steinberg) | VST3 format | MIT |
+| ARA SDK: ARA API and ARA Library (Celemony Software GmbH) | ARA 2 on macOS (clips from an ARA host): compiled into the VST3 and the Audio Unit, and into `libOpenPluginARA.dylib` in the CLAP bundle; its licence and notice ship in each bundle (`Contents/Resources/ARA-SDK-LICENSE.txt`, `ARA-SDK-NOTICE.txt`) | Apache License 2.0 |
 | AudioUnitSDK (Apple) | Audio Unit format | Apache License 2.0 |
 | AAX SDK (Avid) | AAX format | Avid AAX Developer Agreement / SDK License |
 
@@ -28,4 +29,5 @@ digitally signed with PACE Eden for Pro Tools compatibility.
 
 VST is a trademark of Steinberg Media Technologies GmbH. Audio Units is a
 trademark of Apple Inc. AAX and Pro Tools are trademarks of Avid Technology,
-Inc. Other format and host names are used only to describe compatibility.
+Inc. ARA Audio Random Access is a trademark of Celemony Software GmbH. Other
+format and host names are used only to describe compatibility.

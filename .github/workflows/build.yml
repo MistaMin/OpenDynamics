@@ -10,7 +10,9 @@ on:
 
 env:
   # The revisions this build is made and tested with (as in scripts/build.sh).
-  OPENPLUGIN_SDK_REF: c6fa6a03560443191e1045db47c45a1839c65696
+  OPENPLUGIN_SDK_REF: f3f99629a43823b03f203726dfe3f7b5be31ec6f
+  # Celemony's ARA SDK (Apache 2.0): ARA 2 in the VST3, and its TestHost for the ARA test step.
+  ARA_SDK_REF: releases/2.3.0
   GOODLOOKINDRI_REF: 3fe04263a7e1eb21931717393d0f1d705417e884
   VST3_SDK_REF: v3.8.1_build_84
   CARGO_TERM_COLOR: always
@@ -42,6 +44,12 @@ jobs:
           ref: ${{ env.VST3_SDK_REF }}
           submodules: recursive
           path: Dependencies/vst3sdk
+      - uses: actions/checkout@v4
+        with:
+          repository: Celemony/ARA_SDK
+          ref: ${{ env.ARA_SDK_REF }}
+          submodules: recursive
+          path: Dependencies/ARA_SDK
       - uses: dtolnay/rust-toolchain@stable
       - name: Tests
         working-directory: w/opendynamics
@@ -57,8 +65,29 @@ jobs:
           powershell -NoProfile -ExecutionPolicy Bypass -File Dependencies\OpenPluginSDK\scripts\windows\build_plugin.ps1 `
             -ManifestPath w\opendynamics\Cargo.toml -Name OpenDynamics -Version $version -Manufacturer OpenGrid `
             -BundleId com.opengrid.opendynamics -Editor -AllowLib UIAutomationCore.DLL -TtlBin lv2_ttl -Formats clap,vst3,lv2 `
-            -Vst3Sdk "$root\Dependencies\vst3sdk" -Out "$root\dist-windows" -WorkDir "$root\build-windows"
+            -Vst3Sdk "$root\Dependencies\vst3sdk" -AraSdk "$root\Dependencies\ARA_SDK" -Out "$root\dist-windows" -WorkDir "$root\build-windows"
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: ARA test (ARA SDK TestHost)
+        shell: pwsh
+        run: |
+          $root = "$env:GITHUB_WORKSPACE"
+          cmake -S Dependencies\ARA_SDK\ARA_Examples -B build-ara -A x64 "-DARA_VST3_SDK_DIR=$root\Dependencies\vst3sdk" -DARA_SETUP_DEBUGGING=OFF
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          cmake --build build-ara --config Debug --target ARATestHost
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python w\opendynamics\tools\make_ara_clip.py clip.wav
+          $host_exe = Get-ChildItem -Recurse build-ara -Filter ARATestHost.exe | Select-Object -First 1
+          # A failed check in a Debug build can open an error box nobody clicks on a CI machine: the
+          # run is limited to 15 minutes and stopped after, and the log shows how far it got.
+          $p = Start-Process -FilePath $host_exe.FullName -ArgumentList @('-vst3', "$root\dist-windows\OpenDynamics.vst3\Contents\x86_64-win\OpenDynamics.vst3", '-file', 'clip.wav') `
+            -RedirectStandardOutput testhost.out -RedirectStandardError testhost.log -NoNewWindow -PassThru
+          if (-not $p.WaitForExit(900000)) { $p.Kill(); Write-Host 'TestHost did not finish in 15 minutes' }
+          Get-Content testhost.out, testhost.log | Select-Object -Last 60
+          $code = if ($p.HasExited) { $p.ExitCode } else { -1 }
+          $tests = (Select-String -Path testhost.log -Pattern '\*\*\* testing').Count
+          $violations = (Select-String -Path testhost.log -Pattern 'ARA API violation|ARA_ASSERT').Count
+          Write-Host "TestHost exit $code, $tests test cases, $violations violations"
+          if ($code -ne 0 -or $tests -lt 12 -or $violations -ne 0) { exit 1 }
       - name: Installer
         shell: pwsh
         run: |
@@ -99,6 +128,12 @@ jobs:
           ref: ${{ env.VST3_SDK_REF }}
           submodules: recursive
           path: Dependencies/vst3sdk
+      - uses: actions/checkout@v4
+        with:
+          repository: Celemony/ARA_SDK
+          ref: ${{ env.ARA_SDK_REF }}
+          submodules: recursive
+          path: Dependencies/ARA_SDK
       - uses: dtolnay/rust-toolchain@stable
       - name: Tests
         working-directory: w/opendynamics
@@ -109,8 +144,26 @@ jobs:
           version="${version%%-*}"  # bundle versions are numbers only
           Dependencies/OpenPluginSDK/scripts/build_plugin_linux.sh --manifest-path w/opendynamics/Cargo.toml \
             --name OpenDynamics --version "$version" --ttl-bin lv2_ttl --formats clap,lv2,vst3 --editor \
-            --vst3-sdk "$GITHUB_WORKSPACE/Dependencies/vst3sdk" --strip \
+            --vst3-sdk "$GITHUB_WORKSPACE/Dependencies/vst3sdk" --ara-sdk "$GITHUB_WORKSPACE/Dependencies/ARA_SDK" --strip \
             --out "$GITHUB_WORKSPACE/dist-linux" --work-dir "$GITHUB_WORKSPACE/build-linux"
+      - name: ARA test (ARA SDK TestHost)
+        run: |
+          # ARA_Library/Debug/ARAContentLogger.h uses std::numeric_limits without <limits>; GCC needs it.
+          cmake -S Dependencies/ARA_SDK/ARA_Examples -B build-ara -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_FLAGS="-include limits" \
+            -DARA_VST3_SDK_DIR="$GITHUB_WORKSPACE/Dependencies/vst3sdk" -DARA_SETUP_DEBUGGING=OFF
+          cmake --build build-ara --target ARATestHost -j 4
+          python3 w/opendynamics/tools/make_ara_clip.py clip.wav
+          host=$(find build-ara -type f -name ARATestHost -perm -u+x | head -1)
+          set +e
+          # On Windows and Linux TestHost loads the module file inside the bundle.
+          "$host" -vst3 "$GITHUB_WORKSPACE/dist-linux/OpenDynamics.vst3/Contents/x86_64-linux/OpenDynamics.so" -file clip.wav > testhost.log 2>&1
+          code=$?
+          set -e
+          tests=$(grep -c '\*\*\* testing' testhost.log || true)
+          violations=$(grep -c 'ARA API violation\|ARA_ASSERT' testhost.log || true)
+          tail -40 testhost.log
+          echo "TestHost exit $code, $tests test cases, $violations violations"
+          [ "$code" = 0 ] && [ "$tests" -ge 12 ] && [ "$violations" = 0 ]
       - name: Archive
         run: |
           v=$(sed -n 's/^version = "\(.*\)"/\1/p' w/opendynamics/Cargo.toml | head -1 | sed 's/-beta$/-Beta/')

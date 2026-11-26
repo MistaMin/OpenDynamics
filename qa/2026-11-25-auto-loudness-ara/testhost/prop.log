@@ -1,0 +1,24 @@
+Testing ARA plug-in 'OpenDynamics' in VST3 @ /Volumes/Developer/OpenGrid/OpenDynamics/dist/OpenDynamics.vst3:
+    version: 1.0.0-beta
+    manufacturer: OpenGrid
+    website: https://github.com/MistaMin/OpenDynamics
+    documentArchiveID: com.opengrid.opendynamics.ara.archive.1
+    plug-in does not support content analysis.
+    plug-in does not support time-stretching.
+    plug-in does not support content-based fades.
+    plug-in does not support storing audio file chunks.
+Testing ARA plug-in 'OpenDynamics' in VST3 @ /Volumes/Developer/OpenGrid/OpenDynamics/dist/OpenDynamics.vst3:
+    version: 1.0.0-beta
+    manufacturer: OpenGrid
+    website: https://github.com/MistaMin/OpenDynamics
+    documentArchiveID: com.opengrid.opendynamics.ara.archive.1
+    plug-in does not support content analysis.
+    plug-in does not support time-stretching.
+    plug-in does not support content-based fades.
+    plug-in does not support storing audio file chunks.
+[ARATestHost ARA_LOG]
+*** testing property updates ***
+[ARATestHost ARA_LOG]
+Updating the name of audio source 0x138b05f60 (ARAAudioSourceRef 0x138b06020)
+Updating the color of region sequence 0x138b05e20 (ARARegionSequenceRef 0x138b05e70)
+Updating the start time of playback region 0x138b06390 (ARAPlaybackRegionRef 0x138b063f0)

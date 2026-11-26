@@ -27,6 +27,10 @@
 //! difference plays at the matched level. The meters keep showing the processed signal.
 
 mod autogain;
+mod loudness;
+mod auto;
+pub mod ara;
+mod audiofile;
 mod text;
 mod shared;
 mod ui;
@@ -61,6 +65,60 @@ pub const P_OUTPUT: usize = 1;
 pub const P_ZERO_LATENCY: usize = 2;
 pub const P_AUTO_GAIN: usize = 3;
 pub const P_DELTA: usize = 4;
+
+/// Auto Loudness on a whole clip (an ARA source): renders it through the five sections with
+/// the current `values` and the planner's settings, measures the output and corrects, until
+/// the output is within 0.3 LU of the target with true peak under the ceiling (at most six
+/// passes). Returns the last plan and the output it measured. Runs on any thread but the
+/// audio thread; it allocates.
+pub fn fit_clip(audio: &[Vec<f32>; 2], sample_rate: f64, input: &loudness::Stats, values: &[f32], target: f64, ceiling: f64) -> Option<(auto::Plan, loudness::Stats)> {
+    let mut p = OpenDynamics::default();
+    for (i, v) in values.iter().enumerate() {
+        p.set_param_index(i, *v);
+    }
+    let block = 1024;
+    p.prepare(sample_rate as f32, block, 2);
+    p.set_offline(true);
+    // The clip as measured is before Input Gain.
+    let mut plan = auto::plan(input, 0.0, None, target, ceiling)?;
+    // The best plan measured so far: under the ceiling first, then closest to the target.
+    let mut best: Option<(auto::Plan, loudness::Stats)> = None;
+    let score = |s: &loudness::Stats| (s.true_peak_db > ceiling, (s.integrated - target).abs());
+    for _ in 0..6 {
+        for (id, v) in plan.settings {
+            p.set_param(id, v);
+        }
+        p.reset();
+        let mut meter = loudness::Meter::new(sample_rate as f32);
+        let (mut l, mut r) = (vec![0.0f32; block], vec![0.0f32; block]);
+        for (cl, cr) in audio[0].chunks(block).zip(audio[1].chunks(block)) {
+            let n = cl.len();
+            l[..n].copy_from_slice(cl);
+            r[..n].copy_from_slice(cr);
+            let mut io: [&mut [f32]; 2] = [&mut l[..n], &mut r[..n]];
+            p.process(&mut io, n);
+            meter.feed(&l[..n], &r[..n]);
+        }
+        let measured = meter.stats();
+        if best.as_ref().is_none_or(|(_, b)| score(&measured) < score(b)) {
+            best = Some((plan, measured));
+        }
+        if !score(&measured).0 && score(&measured).1 <= 0.3 {
+            break;
+        }
+        plan = auto::plan(input, 0.0, Some((&measured, &plan)), target, ceiling)?;
+    }
+    best
+}
+
+/// Host index of the Auto Target and Auto Ceiling parameters (the last two).
+pub fn p_auto_target() -> usize {
+    INFO.params.len() - 2
+}
+
+pub fn p_auto_ceiling() -> usize {
+    INFO.params.len() - 1
+}
 
 fn modules() -> [Box<dyn Module>; SECTIONS] {
     [
@@ -147,6 +205,9 @@ static TABLE: LazyLock<(Vec<ParamInfo>, Vec<SectionInfo>)> = LazyLock::new(|| {
         }
         sections.push(SectionInfo { key, label, on: on_index, base, count: m.params().len() });
     }
+    // Auto Loudness (after the sections: the indices of 1.0 sessions stay as they were).
+    params.push(ParamInfo::new("autoTarget", "Auto Target", -30.0, -6.0, -14.0, Unit::Db).with_steps(25).with_group("Auto").with_text(text::lufs, text::parse_lufs));
+    params.push(ParamInfo::new("autoCeiling", "Auto Ceiling", -3.0, 0.0, -1.0, Unit::Db).with_steps(31).with_group("Auto").with_text(text::dbtp, text::parse_dbtp));
     (params, sections)
 });
 
@@ -240,6 +301,10 @@ pub struct OpenDynamics {
     silent_for: usize,
     silence_logged: bool,
     nonfinite_logged: bool,
+    /// Auto Loudness: the input after the input gain and the final output, measured while learning.
+    meter_in: Option<Box<loudness::Meter>>,
+    meter_out: Option<Box<loudness::Meter>>,
+    publish_in: usize,
     delta_step: f32,
     /// The input after the input gain, delayed by the latency, for the editor's spectrum.
     pre: [Vec<f32>; 2],
@@ -251,7 +316,7 @@ pub struct OpenDynamics {
 /// silent plugin can be diagnosed: `~/Library/Logs/OpenDynamics/panic.log` on macOS, the
 /// settings folder elsewhere.
 /// Appends one line to `~/Library/Logs/OpenDynamics/panic.log` (macOS) or the settings folder.
-fn log_line(msg: &str) {
+pub(crate) fn log_line(msg: &str) {
     if cfg!(test) {
         return;
     }
@@ -324,6 +389,9 @@ impl Default for OpenDynamics {
             silent_for: 0,
             silence_logged: false,
             nonfinite_logged: false,
+            meter_in: None,
+            meter_out: None,
+            publish_in: 0,
             delta_step: 1.0,
             pre: Default::default(),
             pre_delay: Default::default(),
@@ -358,6 +426,17 @@ impl OpenDynamics {
             right[i] *= self.gain[1];
             peak_in[0] = peak_in[0].max(left[i].abs());
             peak_in[1] = peak_in[1].max(right[i].abs());
+        }
+        let learning = self.shared.learning();
+        if learning {
+            if self.shared.take_learn_reset() {
+                for m in [&mut self.meter_in, &mut self.meter_out].into_iter().flatten() {
+                    m.clear();
+                }
+            }
+            if let Some(m) = &mut self.meter_in {
+                m.feed(left, right);
+            }
         }
         let lat = self.total_latency();
         for i in 0..n {
@@ -445,6 +524,19 @@ impl OpenDynamics {
         }
         self.autogain.apply(left, right);
         self.shared.set_auto_gain(self.autogain.gain_db());
+        if learning {
+            if let Some(m) = &mut self.meter_out {
+                m.feed(left, right);
+            }
+            // The measurement reaches the editor about ten times a second.
+            self.publish_in += n;
+            if self.publish_in as f32 >= 0.1 * self.sample_rate {
+                self.publish_in = 0;
+                if let (Some(i), Some(o)) = (&self.meter_in, &self.meter_out) {
+                    self.shared.publish_loudness(i.stats(), o.stats());
+                }
+            }
+        }
         if !self.nonfinite_logged && left.iter().chain(right.iter()).any(|v| !v.is_finite()) {
             self.nonfinite_logged = true;
             log_line(&format!("non-finite final output: peak_in {peak_in:?} gain {:?} out {} dip {} delta_mix {} autogain {}", self.gain, self.values[P_OUTPUT], self.dip, self.delta_mix, self.autogain.gain_db()));
@@ -501,6 +593,8 @@ impl Plugin for OpenDynamics {
     fn prepare(&mut self, sample_rate: f32, max_block: usize, _channels: usize) {
         self.sample_rate = sample_rate.max(1.0);
         self.max_block = max_block.max(1);
+        self.meter_in = Some(loudness::Meter::new(self.sample_rate));
+        self.meter_out = Some(loudness::Meter::new(self.sample_rate));
         let dry_len = (MAX_LATENCY_MS * 1e-3 * self.sample_rate).ceil() as usize + 2;
         for s in &mut self.sections {
             s.module.prepare(self.sample_rate, self.max_block);
@@ -554,7 +648,7 @@ impl Plugin for OpenDynamics {
             self.gain_target = [db_to_gain(value); 2];
             return true;
         }
-        if index == P_OUTPUT {
+        if index == P_OUTPUT || index == p_auto_target() || index == p_auto_ceiling() {
             return true;
         }
         if index == P_DELTA {
@@ -692,14 +786,23 @@ mod tests {
         assert_eq!(ids.len(), INFO.params.len());
         assert_eq!(LAYOUT.len(), SECTIONS);
         let last = LAYOUT.last().unwrap();
-        assert_eq!(last.base + last.count, INFO.params.len());
+        // The Auto Loudness parameters follow the sections, so 1.0 sessions keep their indices.
+        assert_eq!(last.base + last.count, p_auto_target());
+        assert_eq!((INFO.params[p_auto_target()].id, INFO.params[p_auto_ceiling()].id), ("autoTarget", "autoCeiling"));
+        assert_eq!(p_auto_ceiling(), INFO.params.len() - 1);
+    }
+
+    /// The one control that keeps a tenth: a true-peak ceiling (readability rules: "true peak
+    /// keeps a tenth for the ceiling").
+    fn true_peak_tenth(id: &str) -> bool {
+        id == "autoCeiling"
     }
 
     /// Owner rule (2026-11-24): every dB and ratio control moves in whole steps, defaults
     /// included, so a host or a typed value lands on a whole number.
     #[test]
     fn dynamics_controls_move_in_whole_steps() {
-        for p in INFO.params.iter().filter(|p| matches!(p.unit, Unit::Db | Unit::Ratio)) {
+        for p in INFO.params.iter().filter(|p| matches!(p.unit, Unit::Db | Unit::Ratio) && !true_peak_tenth(p.id)) {
             assert!(p.steps > 1, "{} is not stepped", p.id);
             assert_eq!(p.default, p.default.round(), "{} default {}", p.id, p.default);
             for v in [p.min + 0.37, (p.min + p.max) * 0.5 + 0.21, p.max - 0.4] {
@@ -733,10 +836,10 @@ mod tests {
                 let t = p.format(v);
                 for num in t.split(|c: char| !(c.is_ascii_digit() || c == '.')).filter(|x| !x.is_empty()) {
                     assert!(num.chars().filter(|c| c.is_ascii_digit()).count() <= 3, "{}: {t:?}", p.id);
-                    assert!(!num.starts_with("0.") || p.id.ends_with("keyBoostQ"), "{}: {t:?}", p.id);
+                    assert!(!num.starts_with("0.") || p.id.ends_with("keyBoostQ") || true_peak_tenth(p.id), "{}: {t:?}", p.id);
                 }
                 assert!(!t.starts_with("-0"), "{}: {t:?}", p.id);
-                if matches!(p.unit, Unit::Db | Unit::Ratio) {
+                if matches!(p.unit, Unit::Db | Unit::Ratio) && !true_peak_tenth(p.id) {
                     assert!(!t.contains('.'), "{}: {t:?}", p.id);
                 }
                 let back = p.parse(&t).unwrap_or_else(|| panic!("{}: cannot read back {t:?}", p.id));
@@ -1126,5 +1229,146 @@ mod tests {
                 p.set_param_index(j, INFO.params[j].default);
             }
         }
+    }
+    /// Auto Loudness end to end: learn a quiet, wide programme with a noise floor, plan, apply,
+    /// learn the output, correct, apply: the output lands on the target under the ceiling.
+    #[test]
+    fn auto_loudness_reaches_the_target() {
+        auto_loudness_case(&[(-14.0, -1.0), (-23.0, -2.0), (-16.0, -1.0)]);
+    }
+
+    /// Open (ledger A7): a very loud target under a tight true-peak ceiling. Hard limiting of
+    /// bright material makes peaks between samples well over the limiter's sample peaks (2.75 dB
+    /// on this noise), and the planner's margin for them costs the loudness the target needs.
+    /// Needs a true-peak (oversampled) limiter mode.
+    #[test]
+    #[ignore]
+    fn auto_loudness_loud_target_tight_ceiling() {
+        auto_loudness_case(&[(-9.0, -0.5)]);
+    }
+
+    fn auto_loudness_case(cases: &[(f64, f64)]) {
+        for &(target, ceiling) in cases {
+            let mut p = OpenDynamics::default();
+            p.prepare(48_000.0, 512, 2);
+            let mut seed = 7u32;
+            let mut lp = [0.0f32; 2];
+            // 30 s: phrases at -38, -22 and -30 dBFS-ish with gaps down to a -75 dB floor.
+            let mut programme = |p: &mut OpenDynamics| {
+                for b in 0..(30 * 48_000 / 512) {
+                    let phrase = (b / 94) % 4;
+                    let level = [10f32.powf(-38.0 / 20.0), 10f32.powf(-22.0 / 20.0), 10f32.powf(-30.0 / 20.0), 10f32.powf(-75.0 / 20.0)][phrase];
+                    let mut l = vec![0.0f32; 512];
+                    let mut r = vec![0.0f32; 512];
+                    for i in 0..512 {
+                        let beat = ((b * 512 + i) % 12_000) as f32 / 12_000.0;
+                        let env = if phrase == 3 { 1.0 } else { (1.0 - beat).powi(3) * 0.8 + 0.2 };
+                        for (c, out) in [&mut l, &mut r].into_iter().enumerate() {
+                            seed = seed.wrapping_mul(1_664_525).wrapping_add(1_013_904_223);
+                            let w = (seed >> 8) as f32 / (1u32 << 24) as f32 - 0.5;
+                            lp[c] += (w - lp[c]) * 0.2;
+                            out[i] = 3.0 * lp[c] * level * env;
+                        }
+                    }
+                    block(p, &mut l, &mut r);
+                }
+            };
+            let learn = |p: &mut OpenDynamics, programme: &mut dyn FnMut(&mut OpenDynamics)| {
+                p.shared.set_learning(true);
+                p.reset();
+                programme(p);
+                p.shared.set_learning(false);
+                p.shared.loudness().1.expect("a measurement")
+            };
+            let apply = |p: &mut OpenDynamics, plan: &auto::Plan| {
+                for (id, v) in plan.settings {
+                    assert!(p.set_param(id, v), "{id}");
+                }
+            };
+            let (input, _) = learn(&mut p, &mut programme);
+            let mut plan = auto::plan(&input, 0.0, None, target, ceiling).expect("a plan");
+            apply(&mut p, &plan);
+            let mut passes = vec![];
+            let (mut out1, mut out2) = (None, None);
+            // Learn and Apply again until the output is within 0.5 LU, at most four times.
+            for _ in 0..4 {
+                let (seen, out) = learn(&mut p, &mut programme);
+                passes.push(out.integrated);
+                out1.get_or_insert(out);
+                out2 = Some(out);
+                if (out.integrated - target).abs() <= 0.5 && out.true_peak_db <= ceiling {
+                    break;
+                }
+                plan = auto::plan(&seen, plan.gains.input, Some((&out, &plan)), target, ceiling).expect("a plan");
+                apply(&mut p, &plan);
+            }
+            let (out1, out2) = (out1.unwrap(), out2.unwrap());
+            println!("passes {passes:.2?}");
+            println!("target {target} ceiling {ceiling}: input {:.1} LUFS LRA {:.1}; pass 1 {:.2} LUFS; pass 2 {:.2} LUFS, LRA {:.1}, true peak {:.2} dBTP", input.integrated, input.range, out1.integrated, out2.integrated, out2.range, out2.true_peak_db);
+            assert!((out2.integrated - target).abs() <= 1.0, "target {target}: {out2:?}");
+            assert!(out2.true_peak_db <= ceiling + 0.1, "ceiling {ceiling}: {out2:?}");
+        }
+    }
+    /// ARA: a whole clip fitted offline reaches the target in one call.
+    #[test]
+    fn fit_clip_reaches_the_target() {
+        let sr = 48_000.0;
+        let n = 20 * 48_000;
+        let mut seed = 11u32;
+        let mut lp = [0.0f32; 2];
+        let mut audio = [vec![0.0f32; n], vec![0.0f32; n]];
+        for i in 0..n {
+            let phrase = (i / 120_000) % 4;
+            let level = [10f32.powf(-36.0 / 20.0), 10f32.powf(-20.0 / 20.0), 10f32.powf(-28.0 / 20.0), 10f32.powf(-72.0 / 20.0)][phrase];
+            let env = if phrase == 3 { 1.0 } else { (1.0 - (i % 12_000) as f32 / 12_000.0).powi(3) * 0.8 + 0.2 };
+            for c in 0..2 {
+                seed = seed.wrapping_mul(1_664_525).wrapping_add(1_013_904_223);
+                let w = (seed >> 8) as f32 / (1u32 << 24) as f32 - 0.5;
+                lp[c] += (w - lp[c]) * 0.2;
+                audio[c][i] = 3.0 * lp[c] * level * env;
+            }
+        }
+        let mut m = loudness::Meter::new(sr as f32);
+        m.feed(&audio[0], &audio[1]);
+        let input = m.stats();
+        let values: Vec<f32> = INFO.params.iter().map(|p| p.default).collect();
+        for (target, ceiling) in [(-14.0, -1.0), (-23.0, -2.0)] {
+            let (plan, out) = fit_clip(&audio, sr, &input, &values, target, ceiling).expect("a fit");
+            println!("fit {target}/{ceiling}: input {:.1} -> {:.2} LUFS, true peak {:.2}, gains {:?}", input.integrated, out.integrated, out.true_peak_db, plan.gains);
+            assert!((out.integrated - target).abs() <= 1.0 && out.true_peak_db <= ceiling + 0.1, "{out:?}");
+        }
+    }
+    /// Diagnosis: renders WAV (16-bit stereo, `CLIP`) through the defaults offline and prints
+    /// each channel's RMS and peak, to compare with a host's ARA render of the same file.
+    #[test]
+    #[ignore]
+    fn render_clip_defaults() {
+        let wav = std::fs::read(std::env::var("CLIP").expect("CLIP")).unwrap();
+        let data = wav.windows(4).position(|w| w == b"data").unwrap() + 8;
+        let len = u32::from_le_bytes(wav[data - 4..data].try_into().unwrap()) as usize;
+        let frames: Vec<[f32; 2]> = wav[data..data + len].chunks_exact(4).map(|c| [i16::from_le_bytes([c[0], c[1]]) as f32 / 32768.0, i16::from_le_bytes([c[2], c[3]]) as f32 / 32768.0]).collect();
+        let block = 2048;
+        let mut p = OpenDynamics::default();
+        p.prepare(48_000.0, block, 2);
+        p.set_offline(true);
+        let (mut sum, mut peak) = ([0.0f64; 2], [0.0f32; 2]);
+        for chunk in frames.chunks(block) {
+            let mut l: Vec<f32> = chunk.iter().map(|f| f[0]).collect();
+            let mut r: Vec<f32> = chunk.iter().map(|f| f[1]).collect();
+            block_fn(&mut p, &mut l, &mut r);
+            for (c, x) in [&l, &r].into_iter().enumerate() {
+                for v in x.iter() {
+                    sum[c] += f64::from(*v) * f64::from(*v);
+                    peak[c] = peak[c].max(v.abs());
+                }
+            }
+        }
+        for c in 0..2 {
+            println!("channel {c}: rms {:.6} peak {:.5}", (sum[c] / frames.len() as f64).sqrt(), peak[c]);
+        }
+    }
+
+    fn block_fn(p: &mut OpenDynamics, l: &mut [f32], r: &mut [f32]) {
+        block(p, l, r)
     }
 }

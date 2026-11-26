@@ -1,0 +1,129 @@
+Testing ARA plug-in 'OpenDynamics' in CLAP @ /Users/marcosdeida/Library/Audio/Plug-Ins/CLAP/OpenDynamics.clap:
+    version: 1.0.0-beta
+    manufacturer: OpenGrid
+    website: https://github.com/MistaMin/OpenDynamics
+    documentArchiveID: com.opengrid.opendynamics.ara.archive.1
+    plug-in does not support content analysis.
+    plug-in does not support time-stretching.
+    plug-in does not support content-based fades.
+    plug-in does not support storing audio file chunks.
+[ARATestHost ARA_LOG]
+*** testing property updates ***
+[ARATestHost ARA_LOG]
+Updating the name of audio source 0x120e13e80 (ARAAudioSourceRef 0x120e13f10)
+Updating the color of region sequence 0x120e13db0 (ARARegionSequenceRef 0x120e13e00)
+Updating the start time of playback region 0x120e14220 (ARAPlaybackRegionRef 0x120e14280)
+[ARATestHost ARA_LOG]
+*** testing content updates ***
+[ARATestHost ARA_LOG]
+Updating musical context 0x120f04d00 (ARAMusicalContextRef 0x120f04dd0) with new tempo, bar signature, tuning, key signature, and chord data
+Updating audio source 0x120f04fe0 (ARAAudioSourceRef 0x120f050a0) with new notes, tempo, bar signature, tuning, key signature, and chord data
+[ARATestHost ARA_LOG]
+*** testing content reading ***
+[ARATestHost ARA_LOG]
+all content of ARAAudioSourceRef 0x120e13f60 in range -inf to inf:
+no kARAContentTypeNotes available for ARAAudioSourceRef 0x120e13f60
+no kARAContentTypeTempoEntries available for ARAAudioSourceRef 0x120e13f60
+no kARAContentTypeBarSignatures available for ARAAudioSourceRef 0x120e13f60
+no kARAContentTypeStaticTuning available for ARAAudioSourceRef 0x120e13f60
+no kARAContentTypeKeySignatures available for ARAAudioSourceRef 0x120e13f60
+no kARAContentTypeSheetChords available for ARAAudioSourceRef 0x120e13f60
+all content of ARAAudioModificationRef 0x120e14200 in range -inf to inf:
+no kARAContentTypeNotes available for ARAAudioModificationRef 0x120e14200
+no kARAContentTypeTempoEntries available for ARAAudioModificationRef 0x120e14200
+no kARAContentTypeBarSignatures available for ARAAudioModificationRef 0x120e14200
+no kARAContentTypeStaticTuning available for ARAAudioModificationRef 0x120e14200
+no kARAContentTypeKeySignatures available for ARAAudioModificationRef 0x120e14200
+no kARAContentTypeSheetChords available for ARAAudioModificationRef 0x120e14200
+all content of ARAPlaybackRegionRef 0x120e142f0 in range -inf to inf:
+no kARAContentTypeNotes available for ARAPlaybackRegionRef 0x120e142f0
+no kARAContentTypeTempoEntries available for ARAPlaybackRegionRef 0x120e142f0
+no kARAContentTypeBarSignatures available for ARAPlaybackRegionRef 0x120e142f0
+no kARAContentTypeStaticTuning available for ARAPlaybackRegionRef 0x120e142f0
+no kARAContentTypeKeySignatures available for ARAPlaybackRegionRef 0x120e142f0
+no kARAContentTypeSheetChords available for ARAPlaybackRegionRef 0x120e142f0
+[ARATestHost ARA_LOG]
+*** testing modification cloning ***
+[ARATestHost ARA_LOG]
+available content of ARAAudioModificationRef 0x120f05400 in range -inf to inf:
+no content available for ARAAudioModificationRef 0x120f05400
+ARAAudioModificationRef 0x120f05400 modifies audio source signal.
+Cloned source audio modification 0x120f05310 (ARAAudioModificationRef 0x120f05400) into new modification 0x1219069e0 (ARAAudioModificationRef 0x121906800)
+available content of ARAAudioModificationRef 0x121906800 in range -inf to inf:
+no content available for ARAAudioModificationRef 0x121906800
+ARAAudioModificationRef 0x121906800 modifies audio source signal.
+[ARATestHost ARA_LOG]
+*** testing archiving ***
+[ARATestHost ARA_LOG]
+Audio source 0x1219082b0 (ARAAudioSourceRef 0x121908370) will be stored with persistent ID "audioSourceTestPersistentID 0"
+available content of ARAAudioSourceRef 0x121908370 in range -inf to inf:
+no content available for ARAAudioSourceRef 0x121908370
+Audio modification 0x121908530 (ARAAudioModificationRef 0x121908620) be stored with persistent ID "audioModificationTestPersistentID 0"
+available content of ARAAudioModificationRef 0x121908620 in range -inf to inf:
+no content available for ARAAudioModificationRef 0x121908620
+Audio source 0x120e13f80 (ARAAudioSourceRef 0x120e14030) with persistent ID "audioSourceTestPersistentID 0" has been restored
+available content of ARAAudioSourceRef 0x120e14030 in range -inf to inf:
+no content available for ARAAudioSourceRef 0x120e14030
+Audio modification 0x120e14180 (ARAAudioModificationRef 0x120e142c0) with persistent ID "audioModificationTestPersistentID 0" has been restored
+available content of ARAAudioModificationRef 0x120e142c0 in range -inf to inf:
+no content available for ARAAudioModificationRef 0x120e142c0
+[ARATestHost ARA_LOG]
+*** testing split archives ***
+[ARATestHost ARA_LOG]
+Audio source 0x120e13eb0 (ARAAudioSourceRef 0x120e13f60) will be stored with persistent ID "audioSourceTestPersistentID 0"
+available content of ARAAudioSourceRef 0x120e13f60 in range -inf to inf:
+no content available for ARAAudioSourceRef 0x120e13f60
+Audio modification 0x120e14110 (ARAAudioModificationRef 0x120e14250) be stored with persistent ID "audioModificationTestPersistentID 0"
+available content of ARAAudioModificationRef 0x120e14250 in range -inf to inf:
+no content available for ARAAudioModificationRef 0x120e14250
+Audio source 0x120f05420 (ARAAudioSourceRef 0x120f054e0) with persistent ID "audioSourceTestPersistentID 0" has been restored
+available content of ARAAudioSourceRef 0x120f054e0 in range -inf to inf:
+no content available for ARAAudioSourceRef 0x120f054e0
+Audio modification 0x120f05690 (ARAAudioModificationRef 0x120f05760) with persistent ID "audioModificationTestPersistentID 0" has been restored
+available content of ARAAudioModificationRef 0x120f05760 in range -inf to inf:
+no content available for ARAAudioModificationRef 0x120f05760
+[ARATestHost ARA_LOG]
+*** testing drag and drop ***
+[ARATestHost ARA_LOG]
+Logging audio source content for document "Drag Document"
+Audio source 0x120f056e0 (ARAAudioSourceRef 0x120f057a0) has persistent ID "audioSourceTestPersistentID 0"
+available content of ARAAudioSourceRef 0x120f057a0 in range -inf to inf:
+no content available for ARAAudioSourceRef 0x120f057a0
+Dragging audio source with persistent ID "audioSourceTestPersistentID 0" from Drag Document
+Dropping dragged data into audio source with persistent ID "audioSourceTestPersistentID 1" to Drop Document
+Logging audio source content for document "Drop Document"
+Audio source 0x120f06380 (ARAAudioSourceRef 0x120f06440) has persistent ID "audioSourceTestPersistentID 0"
+available content of ARAAudioSourceRef 0x120f06440 in range -inf to inf:
+no content available for ARAAudioSourceRef 0x120f06440
+Audio source 0x120f068b0 (ARAAudioSourceRef 0x120f06990) has persistent ID "audioSourceTestPersistentID 1"
+available content of ARAAudioSourceRef 0x120f06990 in range -inf to inf:
+no content available for ARAAudioSourceRef 0x120f06990
+[ARATestHost ARA_LOG]
+*** testing playback rendering (with time stretching if supported) ***
+[ARATestHost ARA_LOG]
+Adding playback region 0x120f050b0 (ARAPlaybackRegionRef 0x120f05110) to playback renderer 0x120f06540
+Rendering 1 region(s) assigned to playback renderer 0x120f06540 with sample rate 48000Hz
+Render results:
+  channel 0: 480000 samples, 443790 non-zero, peak 0.35632, rms 0.026210
+  channel 1: 480000 samples, 444755 non-zero, peak 0.31812, rms 0.026203
+Time stretching requested, but plug-in doesn't support kARAPlaybackTransformationTimestretch
+[ARATestHost ARA_LOG]
+*** testing editor view communication ***
+[ARATestHost ARA_LOG]
+Notifying editor view 0x121909e20 of 1 selected playback region(s)
+Notifying editor view 0x121909e20 of 1 selected region sequence(s)
+Notifying editor view 0x121909e20 of 1 selected playback region(s) and 1 selected region sequence(s)
+Notifying editor view 0x121909e20 of 1 hidden region sequence(s)
+Notifying editor view 0x121909e20 that all region sequences are now un-hidden
+[ARATestHost ARA_LOG]
+*** testing processing algorithms ***
+[ARATestHost ARA_LOG]
+No processing algorithms available for plug-in OpenDynamics
+[ARATestHost ARA_LOG]
+*** testing ARA audio file saving XML chunks ***
+[ARATestHost ARA_LOG]
+ARA audio file chunk authoring is not supported by plug-in OpenDynamics
+[ARATestHost ARA_LOG]
+*** testing ARA audio file loading XML chunks ***
+[ARATestHost ARA_LOG]
+No matching ARA archive chunk found in iXML chunk in audio file Updated Audio Source Name

@@ -88,6 +88,26 @@ const KNOB_Y: f32 = 578.0;
 /// Swaps the display: the 3D spectrum large, the history small.
 /// Right-aligned to the display's right edge, mirroring the first settings chip at its left.
 const VIEW3D_BUTTON: R = (DISPLAY.0 + DISPLAY.2 - 90.0, CHIP_Y, 90.0, 22.0);
+/// Auto Loudness: its button in the section bar, left of the global switches, opens its panel
+/// (panel index `AUTO_PANEL`). "LOUDNESS", so it is not read as Auto Gain beside it.
+const AUTO_BUTTON: R = (DELTA.0 - 88.0, TOP_Y, 80.0, 22.0);
+pub(crate) const AUTO_PANEL: usize = 100;
+const AUTO_H: f32 = 230.0;
+fn auto_rect() -> R {
+    (DISPLAY.0 + DISPLAY.2 - PANEL_W - 8.0, DISPLAY.1 + 8.0, PANEL_W, AUTO_H)
+}
+fn learn_rect() -> R {
+    let r = auto_rect();
+    (r.0 + 16.0, r.1 + r.3 - 36.0, 120.0, 24.0)
+}
+fn apply_rect() -> R {
+    let r = auto_rect();
+    (r.0 + 144.0, r.1 + r.3 - 36.0, 120.0, 24.0)
+}
+/// A panel's title: a section's settings panel, or AUTO.
+fn panel_name(tab: usize, p: usize) -> &'static str {
+    if p == AUTO_PANEL { "AUTO" } else { page(tab).panels[p].0 }
+}
 const KNOB_STEP: f32 = 136.0;
 const METER_TOP: f32 = 72.0;
 const METER_BOTTOM: f32 = 588.0;
@@ -215,6 +235,9 @@ fn panel_rows(items: &[Item]) -> usize {
 
 /// Where panel `p` of `tab` opens: under its chip, kept inside the display.
 fn panel_rect(tab: usize, p: usize) -> R {
+    if p == AUTO_PANEL {
+        return auto_rect();
+    }
     let items = page(tab).panels[p].1;
     let h = 34.0 + panel_rows(items) as f32 * PANEL_ROW + 6.0;
     let x = chip_rect(p).0.clamp(DISPLAY.0 + 8.0, DISPLAY.0 + DISPLAY.2 - PANEL_W - 8.0);
@@ -409,8 +432,31 @@ pub struct DynEditor {
     hist_acc: f32,
     modifiers: Modifiers,
     keys_active: bool,
+    /// Auto Loudness: what the panel shows and what Apply works from.
+    auto: AutoState,
     canvas: SceneCanvas,
     damage: DamageTracker,
+}
+
+/// Auto Loudness in the editor: the measurement it works from, the plan it applied, and a fit
+/// of an ARA clip running on its own thread.
+#[derive(Default)]
+struct AutoState {
+    /// The last Learn measurement (input, output) and the Input Gain while it was learned.
+    learned: Option<(crate::loudness::Stats, crate::loudness::Stats)>,
+    learned_gain: f64,
+    learn_seq: u64,
+    learning: bool,
+    /// The plan last applied, and whether a Learn ran after it (its output then measures it).
+    applied: Option<crate::auto::Plan>,
+    relearned: bool,
+    /// The newest ARA clip, by generation.
+    ara_gen: u64,
+    clip: Option<crate::ara::Source>,
+    fit: Option<std::thread::JoinHandle<Option<(crate::auto::Plan, crate::loudness::Stats)>>>,
+    /// A dropped audio file being read and measured (its name, and the result).
+    dropped: Option<(String, std::thread::JoinHandle<Result<(), String>>)>,
+    status: String,
 }
 
 pub fn make_editor(host: EditorHost) -> Option<Box<dyn Editor>> {
@@ -443,11 +489,146 @@ impl DynEditor {
             hist_acc: 0.0,
             modifiers: Modifiers::NONE,
             keys_active: true,
+            auto: AutoState::default(),
             canvas: SceneCanvas::new(WIDTH as f32, HEIGHT as f32),
             damage: DamageTracker::new(),
         };
         e.build();
         e
+    }
+
+    fn toggle_learn(&mut self) {
+        let Some(sh) = &self.shared else { return };
+        let on = !sh.learning();
+        sh.set_learning(on);
+        self.auto.learning = on;
+        if on {
+            self.auto.learned_gain = f64::from(self.values[P_INPUT]);
+            self.auto.relearned = self.auto.applied.is_some();
+            self.auto.status = "Learning: play the song".into();
+        } else {
+            self.auto.status = "Learned".into();
+        }
+        self.damage.add_all();
+    }
+
+    /// Plans from the ARA clip (fitted offline, on a thread) or from what was learned.
+    fn auto_apply(&mut self) {
+        let target = f64::from(self.values[crate::p_auto_target()]);
+        let ceiling = f64::from(self.values[crate::p_auto_ceiling()]);
+        if self.auto.fit.is_some() {
+            return;
+        }
+        if let Some(clip) = self.auto.clip.clone() {
+            let values = self.values.clone();
+            self.auto.status = "Fitting the clip".into();
+            self.auto.fit = Some(std::thread::spawn(move || crate::fit_clip(&clip.audio, clip.sample_rate, &clip.stats, &values, target, ceiling)));
+            self.damage.add_all();
+            return;
+        }
+        let Some((input, output)) = self.auto.learned else {
+            self.auto.status = "LEARN first, with the song playing".into();
+            self.damage.add_all();
+            return;
+        };
+        let prev = self.auto.applied.filter(|_| self.auto.relearned);
+        let plan = crate::auto::plan(&input, self.auto.learned_gain, prev.as_ref().map(|p| (&output, p)), target, ceiling);
+        match plan {
+            Some(plan) => {
+                self.apply_plan(&plan);
+                self.auto.status = "Applied: LEARN again to check".into();
+            }
+            None => self.auto.status = "Nothing to plan from: too quiet".into(),
+        }
+        self.damage.add_all();
+    }
+
+    fn apply_plan(&mut self, plan: &crate::auto::Plan) {
+        for (id, v) in plan.settings {
+            if let Some(i) = INFO.params.iter().position(|p| p.id == id) {
+                self.values[i] = v;
+                self.host.set(i, v);
+            }
+        }
+        self.auto.applied = Some(*plan);
+        self.auto.relearned = false;
+        self.build();
+    }
+
+    fn auto_tick(&mut self, sh: &Shared) {
+        let learning = sh.learning();
+        let (seq, l) = sh.loudness();
+        let mut dirty = learning != self.auto.learning;
+        self.auto.learning = learning;
+        if seq != self.auto.learn_seq {
+            self.auto.learn_seq = seq;
+            if l.is_some() {
+                self.auto.learned = l;
+                dirty = true;
+            }
+        }
+        if self.auto.dropped.as_ref().is_some_and(|(_, d)| d.is_finished()) {
+            if let Some((name, job)) = self.auto.dropped.take() {
+                self.auto.status = match job.join() {
+                    Ok(Ok(())) => format!("{name}: APPLY fits it"),
+                    Ok(Err(e)) => format!("{name}: {e}"),
+                    Err(_) => format!("{name}: could not be read"),
+                };
+            }
+            dirty = true;
+        }
+        let (gen, clips) = crate::ara::sources();
+        if gen != self.auto.ara_gen {
+            self.auto.ara_gen = gen;
+            self.auto.clip = crate::ara::current(&clips);
+            dirty = true;
+        }
+        if self.auto.fit.as_ref().is_some_and(|f| f.is_finished()) {
+            if let Some(Ok(Some((plan, out)))) = self.auto.fit.take().map(|f| f.join()) {
+                self.apply_plan(&plan);
+                self.auto.status = format!("Applied: {} LUFS, {:.1} dBTP", whole_db(out.integrated as f32), out.true_peak_db);
+            } else {
+                self.auto.status = "Could not fit the clip".into();
+            }
+            dirty = true;
+        }
+        if dirty && self.panel == Some(AUTO_PANEL) {
+            self.damage.add_all();
+        }
+    }
+
+    fn paint_auto(&self, s: &mut Scene) {
+        let t = self.t();
+        let r = auto_rect();
+        let mut y = r.1 + 34.0 + 2.0 * PANEL_ROW + 10.0;
+        let line = |s: &mut Scene, y: f32, label: &str, text: String| {
+            s.text(Point::new(r.0 + 16.0, y), label, t.dim, 9.0, false);
+            s.text(Point::new(r.0 + 96.0, y), text, t.text, 9.0, false);
+        };
+        let fmt = |st: &crate::loudness::Stats| {
+            if st.has_programme() {
+                format!("{} LUFS   range {} LU   peak {:.1} dBTP", whole_db(st.integrated as f32), whole_db(st.range.max(0.0) as f32), st.true_peak_db.max(-99.0))
+            } else {
+                "no programme yet".to_string()
+            }
+        };
+        if let Some(clip) = &self.auto.clip {
+            line(s, y, "CLIP", fmt(&clip.stats));
+            y += 18.0;
+            line(s, y, "", format!("{:.0} s, the whole clip: APPLY fits it", clip.stats.seconds));
+        } else if let Some((i, o)) = &self.auto.learned {
+            line(s, y, "INPUT", fmt(i));
+            y += 18.0;
+            line(s, y, "OUTPUT", fmt(o));
+        } else {
+            line(s, y, "INPUT", "LEARN with the song playing, or drop a clip here".to_string());
+        }
+        y += 18.0;
+        if !self.auto.status.is_empty() {
+            line(s, y, "", self.auto.status.clone());
+        }
+        kit::button(s, t, learn_rect(), if self.auto.learning { "LEARNING" } else { "LEARN" }, self.auto.learning);
+        kit::button(s, t, apply_rect(), "APPLY", self.auto.fit.is_some());
     }
 
     fn t(&self) -> &'static Theme {
@@ -496,7 +677,11 @@ impl DynEditor {
             }
         }
         let before = cells.len();
-        if let Some(p) = self.panel {
+        if self.panel == Some(AUTO_PANEL) {
+            let (px, py, pw, _) = auto_rect();
+            cells.push(Cell::new(Kind::FaderH, crate::p_auto_target(), "Target", (px + 16.0, py + 34.0, pw - 32.0, 24.0)));
+            cells.push(Cell::new(Kind::FaderH, crate::p_auto_ceiling(), "Ceiling", (px + 16.0, py + 34.0 + PANEL_ROW, pw - 32.0, 24.0)));
+        } else if let Some(p) = self.panel {
             let (px, py, pw, _) = panel_rect(self.tab, p);
             let items = pg.panels[p].1;
             let mut y = py + 34.0;
@@ -583,13 +768,13 @@ impl DynEditor {
     }
 
     fn toggle_panel(&mut self, p: usize) {
-        if p < page(self.tab).panels.len() {
+        if p < page(self.tab).panels.len() || p == AUTO_PANEL {
             self.open_panel(if self.panel == Some(p) { None } else { Some(p) });
         }
     }
 
     fn open_panel(&mut self, p: Option<usize>) {
-        self.panel = p.filter(|&p| p < page(self.tab).panels.len());
+        self.panel = p.filter(|&p| p < page(self.tab).panels.len() || p == AUTO_PANEL);
         self.build();
     }
 
@@ -709,6 +894,7 @@ impl DynEditor {
             s.text(Point::new(DISPLAY.0 + DISPLAY.2 + 4.0, gain_y(GR_DB) + 12.0), if lifts(self.tab) { "LIFT" } else { "GR" }, gr_col, 8.0, false);
         }
         kit::button(s, t, VIEW3D_BUTTON, "3D VIEW", self.view3d);
+        kit::button(s, t, AUTO_BUTTON, "LOUDNESS", self.panel == Some(AUTO_PANEL));
         // Settings chips.
         for (i, (label, _)) in page(self.tab).panels.iter().enumerate() {
             let open = self.panel == Some(i);
@@ -858,12 +1044,15 @@ impl DynEditor {
             let r = panel_rect(tab, p);
             kit::panel(s, t, r);
             s.stroke_round(rect(r), 8.0, t.accent, 1.0);
-            s.text(Point::new(r.0 + 16.0, r.1 + 17.0), page(tab).panels[p].0, t.text, 9.5, false);
+            s.text(Point::new(r.0 + 16.0, r.1 + 17.0), if p == AUTO_PANEL { "AUTO LOUDNESS" } else { panel_name(tab, p) }, t.text, 9.5, false);
             for c in &self.cells[self.cells.len() - self.panel_cells..] {
                 if matches!(c.kind, Kind::Segmented) {
                     s.text(Point::new(r.0 + 16.0, c.rect.1 + c.rect.3 * 0.5), &c.label, t.dim, 9.0, false);
                 }
                 kit::paint_static(s, t, c);
+            }
+            if p == AUTO_PANEL {
+                self.paint_auto(s);
             }
         }
         // Meters.
@@ -915,6 +1104,7 @@ impl Editor for DynEditor {
 
     fn tick(&mut self, dt: f32) {
         let Some(sh) = self.shared.clone() else { return };
+        self.auto_tick(&sh);
         // History entries by elapsed time (the axis reads seconds whatever the tick rate).
         self.hist_acc += dt.max(0.0);
         let pushes = ((self.hist_acc * HIST_HZ) as usize).min(4);
@@ -1033,6 +1223,20 @@ impl Editor for DynEditor {
         if inside(VIEW3D_BUTTON, x, y) {
             self.set_view3d(!self.view3d);
             return;
+        }
+        if inside(AUTO_BUTTON, x, y) {
+            self.toggle_panel(AUTO_PANEL);
+            return;
+        }
+        if self.panel == Some(AUTO_PANEL) {
+            if inside(learn_rect(), x, y) {
+                self.toggle_learn();
+                return;
+            }
+            if inside(apply_rect(), x, y) {
+                self.auto_apply();
+                return;
+            }
         }
         // A click on the display outside an open panel closes it.
         if let Some(p) = self.panel {
@@ -1158,6 +1362,38 @@ impl Editor for DynEditor {
         self.controls.accessibility_focus(node)
     }
 
+    // A clip dragged from the host (Pro Tools renders it to a WAV or AIFF file on drop) or from
+    // the Finder: read and measured on its own thread, then the LOUDNESS panel works on it.
+    fn wants_drops(&self) -> bool {
+        true
+    }
+
+    fn accepts_drop(&mut self, _x: f32, _y: f32) -> bool {
+        self.auto.dropped.is_none()
+    }
+
+    fn files_dropped(&mut self, paths: &[std::path::PathBuf], _x: f32, _y: f32) -> bool {
+        let Some(path) = paths.first().cloned() else { return false };
+        if self.auto.dropped.is_some() {
+            return false;
+        }
+        let name = path.file_name().map(|n| n.to_string_lossy().into_owned()).unwrap_or_default();
+        let job = std::thread::spawn(move || {
+            let audio = crate::audiofile::read(&path)?;
+            let id = path.to_string_lossy().into_owned();
+            crate::ara::analyze(&id, audio.sample_rate, &[&audio.left, &audio.right]).ok_or("too short or an unusual sample rate")?;
+            crate::ara::select(&[id]);
+            Ok(())
+        });
+        self.auto.status = format!("Reading {name}");
+        self.auto.dropped = Some((name, job));
+        if self.panel != Some(AUTO_PANEL) {
+            self.open_panel(Some(AUTO_PANEL));
+        }
+        self.damage.add_all();
+        true
+    }
+
     fn wants_keys(&self) -> bool {
         self.controls.wants_keys()
     }
@@ -1201,7 +1437,7 @@ mod tests {
 
     /// Closed, then each settings panel of the tab open.
     fn panel_states(tab: usize) -> Vec<Option<usize>> {
-        std::iter::once(None).chain((0..page(tab).panels.len()).map(Some)).collect()
+        std::iter::once(None).chain((0..page(tab).panels.len()).map(Some)).chain(std::iter::once(Some(AUTO_PANEL))).collect()
     }
 
     /// Every parameter of every section, and the globals, has a control on some tab (a
@@ -1322,7 +1558,7 @@ mod tests {
                     print!("{:.0} ", t0.elapsed().as_secs_f64() * 1000.0);
                 }
             }
-            let state = panel.map_or("closed", |p| page(tab).panels[p].0);
+            let state = panel.map_or("closed", |p| panel_name(tab, p));
             let state = if v3 { "3D" } else { state };
             println!("{:16} {state:9} dirty {:5.1}% of window per frame, render {:6.2} ms per frame", LAYOUT[tab].label, 100.0 * area / frames as f64 / (w * h * 4.0), time.as_secs_f64() * 1000.0 / frames as f64);
         }
@@ -1397,7 +1633,7 @@ mod tests {
         let shots = ThemeId::ALL.into_iter().flat_map(|th| {
             (0..SECTIONS).flat_map(move |tab| {
                 let panels = if matches!(th, ThemeId::Dark | ThemeId::Light) { page(tab).panels.len() } else { 0 };
-                std::iter::once((th, tab, None, false)).chain(std::iter::once((th, tab, None, true))).chain((0..panels).map(move |p| (th, tab, Some(p), false)))
+                std::iter::once((th, tab, None, false)).chain(std::iter::once((th, tab, None, true))).chain((0..panels).map(move |p| (th, tab, Some(p), false))).chain((panels > 0).then_some((th, tab, Some(AUTO_PANEL), false)))
             })
         });
         for (th, tab, panel, v3) in shots {
@@ -1446,7 +1682,7 @@ mod tests {
                 for px in f.pixels {
                     out.extend_from_slice(&[(px >> 16) as u8, (px >> 8) as u8, *px as u8]);
                 }
-                let state = if v3 { "-3d".to_string() } else { panel.map_or(String::new(), |p| format!("-{}", page(tab).panels[p].0.to_lowercase())) };
+                let state = if v3 { "-3d".to_string() } else { panel.map_or(String::new(), |p| format!("-{}", panel_name(tab, p).to_lowercase())) };
                 std::fs::write(format!("{dir}/{}{state}-{}-{scale:.0}x.ppm", LAYOUT[tab].key, th.name()), out).expect("write");
             }
         }
@@ -1477,7 +1713,7 @@ mod tests {
             let mut s = Scene::new();
             e.paint_layer(&mut s);
             e.paint_live(&mut s);
-            let key = format!("{}/{}", LAYOUT[tab].key, panel.map_or("closed", |p| page(tab).panels[p].0));
+            let key = format!("{}/{}", LAYOUT[tab].key, panel.map_or("closed", |p| panel_name(tab, p)));
             let mut clips: Vec<(f32, f32, f32, f32)> = vec![];
             let mut texts: Vec<(f32, f32, f32, f32, String, f32)> = vec![];
             for c in &s.cmds {
@@ -1537,6 +1773,112 @@ mod tests {
                     let mid = info.from_normalized(0.5);
                     println!("{:28} | {:>12} | {:>12} | {:>12}", info.id, c.text(info.min), c.text(mid), c.text(info.max));
                 }
+            }
+        }
+    }
+
+    /// ARA end to end in the editor: a clip analysed through the ARA entry point shows in the
+    /// LOUDNESS panel; APPLY fits it offline and writes the plan into the controls.
+    #[test]
+    fn loudness_panel_applies_an_ara_clip() {
+        let _one_at_a_time = crate::ara::TEST_LOCK.lock().unwrap_or_else(|e| e.into_inner());
+        let sr = 48_000.0;
+        let n = 12 * 48_000;
+        let mut seed = 5u32;
+        let mut lp = 0.0f32;
+        let clip: Vec<f32> = (0..n)
+            .map(|i| {
+                seed = seed.wrapping_mul(1_664_525).wrapping_add(1_013_904_223);
+                lp += (((seed >> 8) as f32 / (1u32 << 24) as f32 - 0.5) - lp) * 0.2;
+                let level = if (i / 96_000) % 2 == 0 { 0.03 } else { 0.006 };
+                3.0 * lp * level
+            })
+            .collect();
+        let ptrs = [clip.as_ptr(), clip.as_ptr()];
+        unsafe { crate::ara::op_ara_analyze(c"ui.test.clip".as_ptr(), 2, n as u64, sr, ptrs.as_ptr()) };
+        let shared = Arc::new(Shared::default());
+        let mut e = DynEditor::new(EditorHost::detached());
+        e.bind(Some(shared as EditorState));
+        e.tick(1.0 / 30.0);
+        e.toggle_panel(AUTO_PANEL);
+        assert!(e.auto.clip.is_some(), "the clip reached the editor");
+        let before = e.values.clone();
+        let (ax, ay, aw, ah) = apply_rect();
+        e.mouse_down(ax + aw * 0.5, ay + ah * 0.5, 1);
+        for _ in 0..600 {
+            e.tick(1.0 / 30.0);
+            if e.auto.fit.is_none() {
+                break;
+            }
+            std::thread::sleep(std::time::Duration::from_millis(20));
+        }
+        assert!(e.auto.fit.is_none() && e.auto.status.starts_with("Applied"), "{}", e.auto.status);
+        let at = |id: &str| INFO.params.iter().position(|p| p.id == id).unwrap();
+        assert_ne!(e.values[at("limit.threshold")], before[at("limit.threshold")], "the limiter was set");
+        assert_eq!(e.values[at("limit.on")], 1.0);
+    }
+
+    /// A clip dropped on the window (as Pro Tools renders one) is read, measured and becomes the
+    /// clip the LOUDNESS panel works on.
+    #[test]
+    fn a_dropped_clip_becomes_the_current_clip() {
+        let _one_at_a_time = crate::ara::TEST_LOCK.lock().unwrap_or_else(|e| e.into_inner());
+        let n = 48_000 * 4;
+        let mut body = Vec::new();
+        for i in 0..n {
+            let v = (8_000.0 * (i as f32 * 0.05).sin()) as i16;
+            body.extend_from_slice(&v.to_le_bytes());
+            body.extend_from_slice(&v.to_le_bytes());
+        }
+        let mut wav = b"RIFF".to_vec();
+        let mut rest = b"WAVEfmt ".to_vec();
+        rest.extend_from_slice(&16u32.to_le_bytes());
+        for v in [1u16, 2] {
+            rest.extend_from_slice(&v.to_le_bytes());
+        }
+        rest.extend_from_slice(&48_000u32.to_le_bytes());
+        rest.extend_from_slice(&(48_000u32 * 4).to_le_bytes());
+        rest.extend_from_slice(&4u16.to_le_bytes());
+        rest.extend_from_slice(&16u16.to_le_bytes());
+        rest.extend_from_slice(b"data");
+        rest.extend_from_slice(&(body.len() as u32).to_le_bytes());
+        rest.extend_from_slice(&body);
+        wav.extend_from_slice(&(rest.len() as u32).to_le_bytes());
+        wav.extend_from_slice(&rest);
+        let path = std::env::temp_dir().join(format!("od-drop-test-{}.wav", std::process::id()));
+        std::fs::write(&path, &wav).unwrap();
+        let mut e = DynEditor::new(EditorHost::detached());
+        e.bind(Some(Arc::new(Shared::default()) as EditorState));
+        assert!(e.wants_drops() && e.accepts_drop(10.0, 10.0));
+        assert!(e.files_dropped(&[path.clone()], 10.0, 10.0));
+        assert_eq!(e.panel, Some(AUTO_PANEL));
+        for _ in 0..300 {
+            e.tick(1.0 / 30.0);
+            if e.auto.dropped.is_none() {
+                break;
+            }
+            std::thread::sleep(std::time::Duration::from_millis(10));
+        }
+        let _ = std::fs::remove_file(&path);
+        let clip = e.auto.clip.as_ref().expect("the dropped clip is current");
+        assert_eq!(clip.id, path.to_string_lossy());
+        assert!((clip.stats.seconds - 4.0).abs() < 0.2 && clip.stats.has_programme(), "{:?}", clip.stats);
+        assert!(e.auto.status.contains("APPLY"), "{}", e.auto.status);
+    }
+
+    /// The LOUDNESS button sits clear of every section-bar control, on every tab.
+    #[test]
+    fn loudness_button_keeps_clear_of_the_section_bar() {
+        for tab in 0..SECTIONS {
+            let e = {
+                let mut e = DynEditor::new(EditorHost::detached());
+                e.select(tab);
+                e
+            };
+            for c in &e.cells {
+                let r = c.rect;
+                let apart = r.0 + r.2 <= AUTO_BUTTON.0 - 4.0 || r.0 >= AUTO_BUTTON.0 + AUTO_BUTTON.2 + 4.0 || r.1 + r.3 <= AUTO_BUTTON.1 || r.1 >= AUTO_BUTTON.1 + AUTO_BUTTON.3;
+                assert!(apart, "tab {tab}: {} {:?} touches the LOUDNESS button", c.label, r);
             }
         }
     }

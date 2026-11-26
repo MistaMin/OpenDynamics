@@ -12,7 +12,7 @@
 set -e
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 SDK="$(cd "$ROOT/../../Dependencies/OpenPluginSDK" && pwd)"
-SDK_REV=c6fa6a03560443191e1045db47c45a1839c65696
+SDK_REV=f3f99629a43823b03f203726dfe3f7b5be31ec6f
 DRI="$ROOT/../../Dependencies/GoodLookinDri"
 DRI_REV=3fe04263a7e1eb21931717393d0f1d705417e884
 
@@ -28,8 +28,10 @@ find_sdk() { # env override, then folder names under nearby Dependencies or SDKs
 }
 VST3_SDK="$(find_sdk "$VST3_SDK" vst3sdk)" || { echo "VST3 SDK not found; set VST3_SDK" >&2; exit 1; }
 AU_SDK="$(find_sdk "$AU_SDK" AudioUnitSDK)" || { echo "AudioUnitSDK not found; set AU_SDK" >&2; exit 1; }
-FORMATS=vst3,au,clap,lv2
-if AAX_SDK="$(find_sdk "$AAX_SDK" aax-sdk-2-8-1)"; then FORMATS="$FORMATS,aax"; else AAX_SDK=""; echo "no AAX SDK: AAX is not built" >&2; fi
+FORMATS="${OD_FORMATS:-vst3,au,clap,lv2}"
+# ARA 2 in the VST3 (Celemony's ARA SDK, Apache 2.0): found next to the other SDKs, or OP_ARA_SDK.
+if [ -z "${OD_NO_ARA:-}" ] && ARA_SDK="$(find_sdk "${OP_ARA_SDK:-}" ARA_SDK)"; then :; else ARA_SDK=""; echo "no ARA SDK (or OD_NO_ARA): the VST3 is built without ARA" >&2; fi
+if [ -n "${OD_FORMATS:-}" ]; then AAX_SDK=""; elif AAX_SDK="$(find_sdk "$AAX_SDK" aax-sdk-2-8-1)"; then FORMATS="$FORMATS,aax"; else AAX_SDK=""; echo "no AAX SDK: AAX is not built" >&2; fi
 
 [ "$(git -C "$SDK" rev-parse HEAD 2>/dev/null)" = "$SDK_REV" ] || echo "note: OpenPluginSDK is not at $SDK_REV" >&2
 [ "$(git -C "$DRI" rev-parse 'HEAD^{tree}' 2>/dev/null)" = "$(git -C "$DRI" rev-parse "$DRI_REV^{tree}" 2>/dev/null)" ] \
@@ -41,5 +43,5 @@ VERSION="${VERSION%%-*}"
 "$SDK/scripts/build_plugin.sh" --manifest-path "$ROOT/Cargo.toml" --name OpenDynamics --version "$VERSION" \
   --bundle-id com.opengrid.opendynamics --manufacturer OpenGrid --au-subtype ODyn --au-manufacturer Ogrd \
   --ttl-bin lv2_ttl --editor --aax-pages --formats "$FORMATS" --archs universal \
-  --vst3-sdk "$VST3_SDK" --au-sdk "$AU_SDK" ${AAX_SDK:+--aax-sdk "$AAX_SDK"} \
+  --vst3-sdk "$VST3_SDK" --au-sdk "$AU_SDK" ${AAX_SDK:+--aax-sdk "$AAX_SDK"} ${ARA_SDK:+--ara-sdk "$ARA_SDK"} \
   --out "$ROOT/dist" --work-dir "$ROOT/build"
