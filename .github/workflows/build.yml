@@ -79,7 +79,7 @@ jobs:
           $host_exe = Get-ChildItem -Recurse build-ara -Filter ARATestHost.exe | Select-Object -First 1
           # A failed check in a Debug build can open an error box nobody clicks on a CI machine: the
           # run is limited to 15 minutes and stopped after, and the log shows how far it got.
-          $p = Start-Process -FilePath $host_exe.FullName -ArgumentList @('-vst3', "$root\dist-windows\OpenDynamics.vst3", '-file', 'clip.wav') `
+          $p = Start-Process -FilePath $host_exe.FullName -ArgumentList @('-vst3', "$root\dist-windows\OpenDynamics.vst3\Contents\x86_64-win\OpenDynamics.vst3", '-file', 'clip.wav') `
             -RedirectStandardOutput testhost.out -RedirectStandardError testhost.log -NoNewWindow -PassThru
           if (-not $p.WaitForExit(900000)) { $p.Kill(); Write-Host 'TestHost did not finish in 15 minutes' }
           Get-Content testhost.out, testhost.log | Select-Object -Last 60
@@ -155,7 +155,8 @@ jobs:
           python3 w/opendynamics/tools/make_ara_clip.py clip.wav
           host=$(find build-ara -type f -name ARATestHost -perm -u+x | head -1)
           set +e
-          "$host" -vst3 "$GITHUB_WORKSPACE/dist-linux/OpenDynamics.vst3" -file clip.wav > testhost.log 2>&1
+          # On Windows and Linux TestHost loads the module file inside the bundle.
+          "$host" -vst3 "$GITHUB_WORKSPACE/dist-linux/OpenDynamics.vst3/Contents/x86_64-linux/OpenDynamics.so" -file clip.wav > testhost.log 2>&1
           code=$?
           set -e
           tests=$(grep -c '\*\*\* testing' testhost.log || true)
