@@ -153,7 +153,7 @@ fn whole_steps(d: &ParamDesc) -> u32 {
     }
 }
 
-fn info_for(key: &'static str, label: &'static str, d: &ParamDesc) -> ParamInfo {
+fn info_for(key: &'static str, label: &'static str, group: &'static str, d: &ParamDesc) -> ParamInfo {
     let unit = match d.kind {
         Kind::Db => Unit::Db,
         Kind::Ms => Unit::Ms,
@@ -166,7 +166,7 @@ fn info_for(key: &'static str, label: &'static str, d: &ParamDesc) -> ParamInfo 
     };
     let mut info = ParamInfo::new(leak(format!("{key}.{}", d.id)), leak(format!("{label} {}", d.name)), d.min, d.max, default_for(key, d), unit)
         .with_steps(whole_steps(d))
-        .with_group(label);
+        .with_group(group);
     if d.log {
         info = info.with_taper(Taper::Log);
     }
@@ -198,10 +198,12 @@ static TABLE: LazyLock<(Vec<ParamInfo>, Vec<SectionInfo>)> = LazyLock::new(|| {
     let mut sections = Vec::new();
     for ((key, label, on), m) in KEYS.iter().zip(mods.iter()) {
         let on_index = params.len();
-        params.push(ParamInfo::new(leak(format!("{key}.on")), leak(format!("{label} On")), 0.0, 1.0, f32::from(u8::from(*on)), Unit::Toggle).with_group(label));
+        // A "/" in a host group path starts a level: "Gate / Expander" would show as "Gate " > " Expander".
+        let group = leak(label.replace(" / ", " & "));
+        params.push(ParamInfo::new(leak(format!("{key}.on")), leak(format!("{label} On")), 0.0, 1.0, f32::from(u8::from(*on)), Unit::Toggle).with_group(group));
         let base = params.len();
         for d in m.params() {
-            params.push(info_for(key, label, d));
+            params.push(info_for(key, label, group, d));
         }
         sections.push(SectionInfo { key, label, on: on_index, base, count: m.params().len() });
     }
@@ -301,6 +303,10 @@ pub struct OpenDynamics {
     silent_for: usize,
     silence_logged: bool,
     nonfinite_logged: bool,
+    /// Diagnosis lines from the audio thread: formatted into this fixed buffer there (no allocation,
+    /// no I/O) and written to the log off the audio thread, in `prepare` and on drop.
+    diag: [u8; 1024],
+    diag_len: usize,
     /// Auto Loudness: the input after the input gain and the final output, measured while learning.
     meter_in: Option<Box<loudness::Meter>>,
     meter_out: Option<Box<loudness::Meter>>,
@@ -311,13 +317,29 @@ pub struct OpenDynamics {
     pre_delay: [Delay; 2],
 }
 
+/// Appends one line to a diagnosis buffer without allocating; a line that does not fit is dropped.
+fn note(buf: &mut [u8], len: &mut usize, args: std::fmt::Arguments) {
+    use std::io::Write;
+    let mut c = std::io::Cursor::new(&mut buf[*len..]);
+    if writeln!(c, "{args}").is_ok() {
+        *len += c.position() as usize;
+    }
+}
+
+impl Drop for OpenDynamics {
+    fn drop(&mut self) {
+        self.flush_diag();
+    }
+}
+
 /// A panic inside the host is caught by the SDK and the block is silenced, which leaves no
 /// trace. This writes the message and place to the user's log folder (once per process) so a
 /// silent plugin can be diagnosed: `~/Library/Logs/OpenDynamics/panic.log` on macOS, the
 /// settings folder elsewhere.
 /// Appends one line to `~/Library/Logs/OpenDynamics/panic.log` (macOS) or the settings folder.
 pub(crate) fn log_line(msg: &str) {
-    if cfg!(test) {
+    // Test runs (cargo sets OPENDYNAMICS_NO_LOG, .cargo/config.toml) must not fill the owner's log.
+    if cfg!(test) || std::env::var_os("OPENDYNAMICS_NO_LOG").is_some() {
         return;
     }
     let path = if cfg!(target_os = "macos") {
@@ -341,20 +363,7 @@ fn log_panics() {
     ONCE.call_once(|| {
         let prev = std::panic::take_hook();
         std::panic::set_hook(Box::new(move |info| {
-            let path = if cfg!(target_os = "macos") {
-                std::env::var_os("HOME").map(|h| std::path::PathBuf::from(h).join("Library/Logs/OpenDynamics/panic.log"))
-            } else {
-                ui::theme::pref_file("panic.log")
-            };
-            if let Some(path) = path {
-                if let Some(dir) = path.parent() {
-                    let _ = std::fs::create_dir_all(dir);
-                }
-                if let Ok(mut f) = std::fs::OpenOptions::new().create(true).append(true).open(path) {
-                    use std::io::Write;
-                    let _ = writeln!(f, "{} {info}", env!("CARGO_PKG_VERSION"));
-                }
-            }
+            log_line(&info.to_string());
             prev(info);
         }));
     });
@@ -389,6 +398,8 @@ impl Default for OpenDynamics {
             silent_for: 0,
             silence_logged: false,
             nonfinite_logged: false,
+            diag: [0; 1024],
+            diag_len: 0,
             meter_in: None,
             meter_out: None,
             publish_in: 0,
@@ -481,9 +492,9 @@ impl OpenDynamics {
             if !self.nonfinite_logged && left.iter().chain(right.iter()).any(|v| !v.is_finite()) {
                 self.nonfinite_logged = true;
                 let base = LAYOUT[si].base;
-                let vals: Vec<f32> = self.values[base..base + LAYOUT[si].count].to_vec();
+                let vals = &self.values[base..base + LAYOUT[si].count];
                 let dry_bad = self.dry[0][..n].iter().chain(&self.dry[1][..n]).any(|v| !v.is_finite());
-                log_line(&format!("non-finite output from section {si} (input non-finite: {dry_bad}), fade {}, values {vals:?}, block {n}, sr {}", s.fade, self.sample_rate));
+                note(&mut self.diag, &mut self.diag_len, format_args!("non-finite output from section {si} (input non-finite: {dry_bad}), fade {}, values {vals:?}, block {n}, sr {}", s.fade, self.sample_rate));
             }
             let got = s.module.view(&mut self.view);
             let lift = s.module.lift_db();
@@ -537,9 +548,16 @@ impl OpenDynamics {
                 }
             }
         }
+        // ST-3: a denormal input copied through a delay line meets no arithmetic, so the host's
+        // flush-to-zero never sees it; flush the output here.
+        for v in left.iter_mut().chain(right.iter_mut()) {
+            if v.abs() < f32::MIN_POSITIVE {
+                *v = 0.0;
+            }
+        }
         if !self.nonfinite_logged && left.iter().chain(right.iter()).any(|v| !v.is_finite()) {
             self.nonfinite_logged = true;
-            log_line(&format!("non-finite final output: peak_in {peak_in:?} gain {:?} out {} dip {} delta_mix {} autogain {}", self.gain, self.values[P_OUTPUT], self.dip, self.delta_mix, self.autogain.gain_db()));
+            note(&mut self.diag, &mut self.diag_len, format_args!("non-finite final output: peak_in {peak_in:?} gain {:?} out {} dip {} delta_mix {} autogain {}", self.gain, self.values[P_OUTPUT], self.dip, self.delta_mix, self.autogain.gain_db()));
         }
     }
 
@@ -554,13 +572,23 @@ impl OpenDynamics {
         }
         if self.silent_for > self.sample_rate as usize && !self.silence_logged {
             self.silence_logged = true;
-            let on: Vec<bool> = self.sections.iter().map(|s| s.on).collect();
-            let fade: Vec<f32> = self.sections.iter().map(|s| s.fade).collect();
-            let msg = format!(
+            let on: [bool; SECTIONS] = std::array::from_fn(|i| self.sections[i].on);
+            let fade: [f32; SECTIONS] = std::array::from_fn(|i| self.sections[i].fade);
+            let msg = format_args!(
                 "silent output with input: on {on:?} fade {fade:?} delta {} mix {} dip {} zero {} want {} latency {} in {} out {} gain {:?} autogain {} sr {} block {}",
                 self.delta, self.delta_mix, self.dip, self.zero, self.zero_want, self.total_latency(), self.values[P_INPUT], self.values[P_OUTPUT], self.gain, self.autogain.gain_db(), self.sample_rate, self.max_block
             );
-            log_line(&msg);
+            note(&mut self.diag, &mut self.diag_len, msg);
+        }
+    }
+
+    /// Writes the diagnosis lines the audio thread kept. Never on the audio thread.
+    fn flush_diag(&mut self) {
+        if self.diag_len > 0 {
+            for line in String::from_utf8_lossy(&self.diag[..self.diag_len]).lines() {
+                log_line(line);
+            }
+            self.diag_len = 0;
         }
     }
 
@@ -591,6 +619,7 @@ impl Plugin for OpenDynamics {
     }
 
     fn prepare(&mut self, sample_rate: f32, max_block: usize, _channels: usize) {
+        self.flush_diag();
         self.sample_rate = sample_rate.max(1.0);
         self.max_block = max_block.max(1);
         self.meter_in = Some(loudness::Meter::new(self.sample_rate));
@@ -716,7 +745,12 @@ impl Plugin for OpenDynamics {
         let Some((first, rest)) = io.split_first_mut() else { return };
         let mut start = 0;
         while start < frames {
-            let n = (frames - start).min(self.max_block);
+            let mut n = (frames - start).min(self.max_block);
+            if self.zero != self.zero_want && self.dip > 0.0 {
+                // End the chunk where the dip reaches silence, so the switch follows at once and
+                // a large block holds no extra silence.
+                n = n.min(((self.dip / self.dip_step).ceil() as usize).max(1));
+            }
             let k = key.map(|[a, b]| [&a[start..start + n], &b[start..start + n]]);
             let l = &mut first[start..start + n];
             match rest.first_mut() {
@@ -918,6 +952,42 @@ mod tests {
             block(&mut p, &mut vec![0.0; 256], &mut vec![0.0; 256]);
         }
         assert!(p.latency() > 0);
+    }
+
+    #[test]
+    fn zero_latency_switch_completes_inside_a_large_block() {
+        let mut p = OpenDynamics::default();
+        p.prepare(48_000.0, 4096, 2);
+        let tone = |i: usize| 0.25 * (i as f32 * 0.05).sin();
+        let (mut l, mut r): (Vec<f32>, Vec<f32>) = ((0..4096).map(tone).collect(), (0..4096).map(tone).collect());
+        block(&mut p, &mut l, &mut r);
+        assert!(p.latency() > 0);
+        p.set_param("zeroLatency", 1.0);
+        let (mut l, mut r): (Vec<f32>, Vec<f32>) = ((0..4096).map(tone).collect(), (0..4096).map(tone).collect());
+        block(&mut p, &mut l, &mut r);
+        // The 5 ms dip (240 samples) ends and the switch follows in the same block, so the latency
+        // moves with this block and the sound is back long before its end (was a whole block of silence).
+        assert_eq!(p.latency(), 0);
+        let silent = l.iter().filter(|v| **v == 0.0).count();
+        assert!(silent < 600 && l[3000..].iter().any(|v| v.abs() > 0.01), "{silent} silent samples");
+    }
+
+    #[test]
+    fn audio_thread_diagnosis_is_kept_until_prepare() {
+        let mut p = OpenDynamics::default();
+        p.prepare(48_000.0, 512, 2);
+        for _ in 0..100 {
+            p.watch_silence(512, [0.5; 2], [0.0; 2]);
+        }
+        let kept = String::from_utf8_lossy(&p.diag[..p.diag_len]).into_owned();
+        assert!(kept.starts_with("silent output with input") && kept.ends_with('\n'), "{kept}");
+        // A line that does not fit is dropped whole; the kept lines stay.
+        for _ in 0..20 {
+            note(&mut p.diag, &mut p.diag_len, format_args!("{}", "x".repeat(300)));
+        }
+        assert!(p.diag_len <= p.diag.len() && String::from_utf8_lossy(&p.diag[..p.diag_len]).lines().all(|l| l.len() == 300 || l.starts_with("silent")));
+        p.prepare(48_000.0, 512, 2);
+        assert_eq!(p.diag_len, 0);
     }
 
     #[test]
@@ -1172,7 +1242,9 @@ mod tests {
         let wav = std::fs::read(std::env::var("SIGNAL").expect("SIGNAL")).unwrap();
         let data = wav.windows(4).position(|w| w == b"data").unwrap() + 8;
         let frames: Vec<[f32; 2]> = wav[data..]
-            .chunks_exact(6)
+            .as_chunks::<6>()
+            .0
+            .iter()
             .map(|c| {
                 let s = |b: &[u8]| ((i32::from(b[0]) << 8 | i32::from(b[1]) << 16 | i32::from(b[2]) << 24) >> 8) as f32 / 8_388_608.0;
                 [s(&c[0..3]), s(&c[3..6])]
@@ -1317,6 +1389,7 @@ mod tests {
         let mut seed = 11u32;
         let mut lp = [0.0f32; 2];
         let mut audio = [vec![0.0f32; n], vec![0.0f32; n]];
+        #[allow(clippy::needless_range_loop)] // `i` is the time: it picks the phrase and the envelope
         for i in 0..n {
             let phrase = (i / 120_000) % 4;
             let level = [10f32.powf(-36.0 / 20.0), 10f32.powf(-20.0 / 20.0), 10f32.powf(-28.0 / 20.0), 10f32.powf(-72.0 / 20.0)][phrase];
@@ -1346,7 +1419,7 @@ mod tests {
         let wav = std::fs::read(std::env::var("CLIP").expect("CLIP")).unwrap();
         let data = wav.windows(4).position(|w| w == b"data").unwrap() + 8;
         let len = u32::from_le_bytes(wav[data - 4..data].try_into().unwrap()) as usize;
-        let frames: Vec<[f32; 2]> = wav[data..data + len].chunks_exact(4).map(|c| [i16::from_le_bytes([c[0], c[1]]) as f32 / 32768.0, i16::from_le_bytes([c[2], c[3]]) as f32 / 32768.0]).collect();
+        let frames: Vec<[f32; 2]> = wav[data..data + len].as_chunks::<4>().0.iter().map(|c| [i16::from_le_bytes([c[0], c[1]]) as f32 / 32768.0, i16::from_le_bytes([c[2], c[3]]) as f32 / 32768.0]).collect();
         let block = 2048;
         let mut p = OpenDynamics::default();
         p.prepare(48_000.0, block, 2);

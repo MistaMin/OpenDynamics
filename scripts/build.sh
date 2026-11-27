@@ -13,7 +13,7 @@ set -e
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 SDK="$(cd "$ROOT/../../Dependencies/OpenPluginSDK" && pwd)"
 # GoodLookin DRI comes with the SDK, in its tree (crates/goodlookindri).
-SDK_REV=19fac892df45210d0967229cf3799181a0489464
+SDK_REV=ce6454f94f3c885764e2263522681709b173e3cf
 
 find_sdk() { # env override, then folder names under nearby Dependencies or SDKs folders
   if [ -n "$1" ] && [ -d "$1" ]; then echo "$1"; return 0; fi

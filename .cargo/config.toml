@@ -1,0 +1,3 @@
+# Test runs must not write to the plugin log the owner reads (src/lib.rs, log_line).
+[env]
+OPENDYNAMICS_NO_LOG = "1"

@@ -12,7 +12,7 @@ Generated from the plugin (`cargo test --release --lib dump_manual_params -- --i
 | Auto Gain | Off, On | Off |
 | Delta | Off, On | Off |
 
-## Gate / Expander
+## Gate & Expander
 
 | Parameter | Range or choices | Default |
 |---|---|---|

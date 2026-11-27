@@ -1,0 +1,951 @@
+
+    AU Validation Tool
+    Version: 1.10.0 
+    Copyright 2003-2019, Apple Inc. All Rights Reserved.
+    Specify -h (-help) for command options
+
+--------------------------------------------------
+VALIDATING AUDIO UNIT: 'aufx' - 'ODyn' - 'Ogrd'
+--------------------------------------------------
+Manufacturer String: OpenGrid
+AudioUnit Name: OpenDynamics
+Component Version: 1.0.0 (0x10000)
+
+* * PASS
+--------------------------------------------------
+TESTING OPEN TIMES:
+COLD:
+Time to open AudioUnit:         267.065 ms
+WARM:
+Time to open AudioUnit:         0.524  ms
+This AudioUnit is a version 2 implementation.
+FIRST TIME:
+Time for initialization:        0.534 ms
+
+* * PASS
+--------------------------------------------------
+VERIFYING DEFAULT SCOPE FORMATS:
+Input Scope Bus Configuration:
+ Default Bus Count:1
+    Default Format: AudioStreamBasicDescription:  2 ch,  44100 Hz, Float32, deinterleaved
+    Has Channel Layouts: 0x650002 
+    Default Layout:
+	Tag=0x650002, Num Chan Descs=0
+
+Output Scope Bus Configuration:
+ Default Bus Count:1
+    Default Format: AudioStreamBasicDescription:  2 ch,  44100 Hz, Float32, deinterleaved
+    Has Channel Layouts: 0x650002 
+    Default Layout:
+	Tag=0x650002, Num Chan Descs=0
+
+* * PASS
+--------------------------------------------------
+VERIFYING REQUIRED PROPERTIES:
+
+* * PASS
+--------------------------------------------------
+VERIFYING RECOMMENDED PROPERTIES:
+  VERIFYING PROPERTY: Latency
+    PASS
+  VERIFYING PROPERTY: Tail Time
+WARNING: Recommended Property is not supported
+
+  VERIFYING PROPERTY: Bypass Effect
+    PASS
+
+* * PASS
+--------------------------------------------------
+VERIFYING OPTIONAL PROPERTIES:
+
+* * PASS
+--------------------------------------------------
+VERIFYING SPECIAL PROPERTIES:
+
+VERIFYING CUSTOM UI
+Cocoa Views Available: 1
+  OpenPluginAUViewFactory_OpenDynamics_1_0_0
+    PASS
+
+VERIFYING CLASS INFO
+    PASS
+
+TESTING HOST CALLBACKS
+    PASS
+
+* * PASS
+--------------------------------------------------
+PUBLISHED PARAMETER INFO:
+
+# # # 108 Global Scope Parameters:
+
+# # Parameters for clump: 1
+# Full Clump Name: Global
+# Short (4 Chars limit) Clump Name: Glob
+Parameter ID:0
+Name: Input Gain
+Parameter Type: Decibels
+Values: Minimum = -24 dB, Default = 0 dB, Maximum = 24 dB
+Flags: Values Have Strings, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:1
+Name: Output Gain
+Parameter Type: Decibels
+Values: Minimum = -24 dB, Default = 0 dB, Maximum = 24 dB
+Flags: Values Have Strings, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:2
+Name: Zero Latency
+Parameter Type: Boolean
+Values: Minimum = Off, Default = Off, Maximum = On
+Flags: Values Have Strings, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:3
+Name: Auto Gain
+Parameter Type: Boolean
+Values: Minimum = Off, Default = Off, Maximum = On
+Flags: Values Have Strings, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:4
+Name: Delta
+Parameter Type: Boolean
+Values: Minimum = Off, Default = Off, Maximum = On
+Flags: Values Have Strings, Readable, Writable 
+  -parameter PASS
+
+
+# # Parameters for clump: 2
+# Full Clump Name: Gate & Expander
+# Short (4 Chars limit) Clump Name: Gate
+Parameter ID:5
+Name: Gate / Expander On
+Parameter Type: Boolean
+Values: Minimum = Off, Default = Off, Maximum = On
+Flags: Values Have Strings, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:6
+Name: Gate / Expander Mode
+Parameter Type: Boolean
+Values: Minimum = Gate, Default = Gate, Maximum = Expander
+Flags: Values Have Strings, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:7
+Name: Gate / Expander Threshold
+Parameter Type: Decibels
+Values: Minimum = -90 dB, Default = -50 dB, Maximum = 0 dB
+Flags: Values Have Strings, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:8
+Name: Gate / Expander Ratio
+Parameter Type: ID=25 (unknown display string)
+Values: Minimum = 1:1, Default = 2:1, Maximum = 20:1
+Flags: Values Have Strings, Display Logarithmic, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:9
+Name: Gate / Expander Range
+Parameter Type: Decibels
+Values: Minimum = 0 dB, Default = 40 dB, Maximum = 90 dB
+Flags: Values Have Strings, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:10
+Name: Gate / Expander Knee
+Parameter Type: Decibels
+Values: Minimum = 0 dB, Default = 6 dB, Maximum = 24 dB
+Flags: Values Have Strings, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:11
+Name: Gate / Expander Hysteresis
+Parameter Type: Decibels
+Values: Minimum = 0 dB, Default = 3 dB, Maximum = 12 dB
+Flags: Values Have Strings, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:12
+Name: Gate / Expander Attack
+Parameter Type: Milliseconds
+Values: Minimum = 10 µs, Default = 500 µs, Maximum = 100 ms
+Flags: Values Have Strings, Display Logarithmic, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:13
+Name: Gate / Expander Hold
+Parameter Type: Milliseconds
+Values: Minimum = 0 ms, Default = 20.0 ms, Maximum = 500 ms
+Flags: Values Have Strings, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:14
+Name: Gate / Expander Release
+Parameter Type: Milliseconds
+Values: Minimum = 5.00 ms, Default = 150 ms, Maximum = 5.00 s
+Flags: Values Have Strings, Display Logarithmic, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:15
+Name: Gate / Expander Detector
+Parameter Type: Boolean
+Values: Minimum = Peak, Default = Peak, Maximum = RMS
+Flags: Values Have Strings, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:16
+Name: Gate / Expander RMS Window
+Parameter Type: Milliseconds
+Values: Minimum = 1.00 ms, Default = 10.0 ms, Maximum = 300 ms
+Flags: Values Have Strings, Display Logarithmic, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:17
+Name: Gate / Expander Look-Ahead
+Parameter Type: Milliseconds
+Values: Minimum = 0 ms, Default = 2.00 ms, Maximum = 10.0 ms
+Flags: Values Have Strings, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:18
+Name: Gate / Expander Stereo Link
+Parameter Type: Percent
+Values: Minimum = 0%, Default = 100%, Maximum = 100%
+Flags: Values Have Strings, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:19
+Name: Gate / Expander Key Source
+Parameter Type: Boolean
+Values: Minimum = Internal, Default = Internal, Maximum = External
+Flags: Values Have Strings, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:20
+Name: Gate / Expander Key High-Pass
+Parameter Type: Hertz
+Values: Minimum = 10.0 Hz, Default = 10.0 Hz, Maximum = 2.00 kHz
+Flags: Values Have Strings, Display Logarithmic, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:21
+Name: Gate / Expander Key Low-Pass
+Parameter Type: Hertz
+Values: Minimum = 500 Hz, Default = 22.0 kHz, Maximum = 22.0 kHz
+Flags: Values Have Strings, Display Logarithmic, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:22
+Name: Gate / Expander Auto Attack
+Parameter Type: Boolean
+Values: Minimum = Off, Default = Off, Maximum = On
+Flags: Values Have Strings, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:23
+Name: Gate / Expander Auto Release
+Parameter Type: Boolean
+Values: Minimum = Off, Default = Off, Maximum = On
+Flags: Values Have Strings, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:24
+Name: Gate / Expander Key Boost Freq
+Parameter Type: Hertz
+Values: Minimum = 20.0 Hz, Default = 1.00 kHz, Maximum = 20.0 kHz
+Flags: Values Have Strings, Display Logarithmic, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:25
+Name: Gate / Expander Key Boost
+Parameter Type: Decibels
+Values: Minimum = -24 dB, Default = 0 dB, Maximum = 24 dB
+Flags: Values Have Strings, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:26
+Name: Gate / Expander Key Boost Q
+Parameter Type: Generic
+Values: Minimum = 0.30, Default = 1.00, Maximum = 10.0
+Flags: Values Have Strings, Display Logarithmic, Readable, Writable 
+  -parameter PASS
+
+
+# # Parameters for clump: 3
+# Full Clump Name: Compressor
+# Short (4 Chars limit) Clump Name: Comp
+Parameter ID:27
+Name: Compressor On
+Parameter Type: Boolean
+Values: Minimum = Off, Default = On, Maximum = On
+Flags: Values Have Strings, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:28
+Name: Compressor Threshold
+Parameter Type: Decibels
+Values: Minimum = -60 dB, Default = -18 dB, Maximum = 0 dB
+Flags: Values Have Strings, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:29
+Name: Compressor Ratio
+Parameter Type: ID=25 (unknown display string)
+Values: Minimum = 1:1, Default = 4:1, Maximum = 30:1
+Flags: Values Have Strings, Display Logarithmic, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:30
+Name: Compressor Knee
+Parameter Type: Decibels
+Values: Minimum = 0 dB, Default = 6 dB, Maximum = 24 dB
+Flags: Values Have Strings, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:31
+Name: Compressor Attack
+Parameter Type: Milliseconds
+Values: Minimum = 10 µs, Default = 10.0 ms, Maximum = 300 ms
+Flags: Values Have Strings, Display Logarithmic, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:32
+Name: Compressor Release
+Parameter Type: Milliseconds
+Values: Minimum = 5.00 ms, Default = 120 ms, Maximum = 5.00 s
+Flags: Values Have Strings, Display Logarithmic, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:33
+Name: Compressor Detector
+Parameter Type: Boolean
+Values: Minimum = Peak, Default = Peak, Maximum = RMS
+Flags: Values Have Strings, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:34
+Name: Compressor RMS Window
+Parameter Type: Milliseconds
+Values: Minimum = 1.00 ms, Default = 10.0 ms, Maximum = 300 ms
+Flags: Values Have Strings, Display Logarithmic, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:35
+Name: Compressor Look-Ahead
+Parameter Type: Milliseconds
+Values: Minimum = 0 ms, Default = 2.00 ms, Maximum = 10.0 ms
+Flags: Values Have Strings, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:36
+Name: Compressor Stereo Link
+Parameter Type: Percent
+Values: Minimum = 0%, Default = 100%, Maximum = 100%
+Flags: Values Have Strings, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:37
+Name: Compressor Key Source
+Parameter Type: Boolean
+Values: Minimum = Internal, Default = Internal, Maximum = External
+Flags: Values Have Strings, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:38
+Name: Compressor Key High-Pass
+Parameter Type: Hertz
+Values: Minimum = 10.0 Hz, Default = 10.0 Hz, Maximum = 2.00 kHz
+Flags: Values Have Strings, Display Logarithmic, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:39
+Name: Compressor Key Low-Pass
+Parameter Type: Hertz
+Values: Minimum = 500 Hz, Default = 22.0 kHz, Maximum = 22.0 kHz
+Flags: Values Have Strings, Display Logarithmic, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:40
+Name: Compressor Make-Up
+Parameter Type: Decibels
+Values: Minimum = -12 dB, Default = 0 dB, Maximum = 24 dB
+Flags: Values Have Strings, Readable, Writable 
+WARNING: retrievedValue = -0.000000 (was 0.000000), Parameter did not retain default value when set
+  -parameter PASS
+
+Parameter ID:41
+Name: Compressor Mix
+Parameter Type: Percent
+Values: Minimum = 0%, Default = 100%, Maximum = 100%
+Flags: Values Have Strings, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:42
+Name: Compressor Auto Attack
+Parameter Type: Boolean
+Values: Minimum = Off, Default = Off, Maximum = On
+Flags: Values Have Strings, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:43
+Name: Compressor Auto Release
+Parameter Type: Boolean
+Values: Minimum = Off, Default = Off, Maximum = On
+Flags: Values Have Strings, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:44
+Name: Compressor Key Boost Freq
+Parameter Type: Hertz
+Values: Minimum = 20.0 Hz, Default = 1.00 kHz, Maximum = 20.0 kHz
+Flags: Values Have Strings, Display Logarithmic, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:45
+Name: Compressor Key Boost
+Parameter Type: Decibels
+Values: Minimum = -24 dB, Default = 0 dB, Maximum = 24 dB
+Flags: Values Have Strings, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:46
+Name: Compressor Key Boost Q
+Parameter Type: Generic
+Values: Minimum = 0.30, Default = 1.00, Maximum = 10.0
+Flags: Values Have Strings, Display Logarithmic, Readable, Writable 
+  -parameter PASS
+
+
+# # Parameters for clump: 4
+# Full Clump Name: De-Expander
+# Short (4 Chars limit) Clump Name: De-E
+Parameter ID:47
+Name: De-Expander On
+Parameter Type: Boolean
+Values: Minimum = Off, Default = Off, Maximum = On
+Flags: Values Have Strings, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:48
+Name: De-Expander Threshold
+Parameter Type: Decibels
+Values: Minimum = -80 dB, Default = -40 dB, Maximum = 0 dB
+Flags: Values Have Strings, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:49
+Name: De-Expander Ratio
+Parameter Type: ID=25 (unknown display string)
+Values: Minimum = 1:1, Default = 2:1, Maximum = 8:1
+Flags: Values Have Strings, Display Logarithmic, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:50
+Name: De-Expander Range
+Parameter Type: Decibels
+Values: Minimum = 0 dB, Default = 12 dB, Maximum = 36 dB
+Flags: Values Have Strings, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:51
+Name: De-Expander Knee
+Parameter Type: Decibels
+Values: Minimum = 0 dB, Default = 6 dB, Maximum = 24 dB
+Flags: Values Have Strings, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:52
+Name: De-Expander Floor
+Parameter Type: Decibels
+Values: Minimum = -120 dB, Default = -72 dB, Maximum = -20 dB
+Flags: Values Have Strings, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:53
+Name: De-Expander Attack
+Parameter Type: Milliseconds
+Values: Minimum = 10 µs, Default = 500 µs, Maximum = 100 ms
+Flags: Values Have Strings, Display Logarithmic, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:54
+Name: De-Expander Hold
+Parameter Type: Milliseconds
+Values: Minimum = 0 ms, Default = 20.0 ms, Maximum = 500 ms
+Flags: Values Have Strings, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:55
+Name: De-Expander Release
+Parameter Type: Milliseconds
+Values: Minimum = 1.00 ms, Default = 150 ms, Maximum = 5.00 s
+Flags: Values Have Strings, Display Logarithmic, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:56
+Name: De-Expander Detector
+Parameter Type: Boolean
+Values: Minimum = Peak, Default = RMS, Maximum = RMS
+Flags: Values Have Strings, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:57
+Name: De-Expander RMS Window
+Parameter Type: Milliseconds
+Values: Minimum = 1.00 ms, Default = 10.0 ms, Maximum = 500 ms
+Flags: Values Have Strings, Display Logarithmic, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:58
+Name: De-Expander Look-Ahead
+Parameter Type: Milliseconds
+Values: Minimum = 0 ms, Default = 2.00 ms, Maximum = 10.0 ms
+Flags: Values Have Strings, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:59
+Name: De-Expander Stereo Link
+Parameter Type: Percent
+Values: Minimum = 0%, Default = 100%, Maximum = 100%
+Flags: Values Have Strings, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:60
+Name: De-Expander Key Source
+Parameter Type: Boolean
+Values: Minimum = Internal, Default = Internal, Maximum = External
+Flags: Values Have Strings, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:61
+Name: De-Expander Key High-Pass
+Parameter Type: Hertz
+Values: Minimum = 10.0 Hz, Default = 10.0 Hz, Maximum = 2.00 kHz
+Flags: Values Have Strings, Display Logarithmic, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:62
+Name: De-Expander Key Low-Pass
+Parameter Type: Hertz
+Values: Minimum = 500 Hz, Default = 22.0 kHz, Maximum = 22.0 kHz
+Flags: Values Have Strings, Display Logarithmic, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:63
+Name: De-Expander Mix
+Parameter Type: Percent
+Values: Minimum = 0%, Default = 100%, Maximum = 100%
+Flags: Values Have Strings, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:64
+Name: De-Expander Auto Attack
+Parameter Type: Boolean
+Values: Minimum = Off, Default = Off, Maximum = On
+Flags: Values Have Strings, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:65
+Name: De-Expander Auto Release
+Parameter Type: Boolean
+Values: Minimum = Off, Default = Off, Maximum = On
+Flags: Values Have Strings, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:66
+Name: De-Expander Key Boost Freq
+Parameter Type: Hertz
+Values: Minimum = 20.0 Hz, Default = 1.00 kHz, Maximum = 20.0 kHz
+Flags: Values Have Strings, Display Logarithmic, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:67
+Name: De-Expander Key Boost
+Parameter Type: Decibels
+Values: Minimum = -24 dB, Default = 0 dB, Maximum = 24 dB
+Flags: Values Have Strings, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:68
+Name: De-Expander Key Boost Q
+Parameter Type: Generic
+Values: Minimum = 0.30, Default = 1.00, Maximum = 10.0
+Flags: Values Have Strings, Display Logarithmic, Readable, Writable 
+  -parameter PASS
+
+
+# # Parameters for clump: 5
+# Full Clump Name: Decompressor
+# Short (4 Chars limit) Clump Name: Deco
+Parameter ID:69
+Name: Decompressor On
+Parameter Type: Boolean
+Values: Minimum = Off, Default = Off, Maximum = On
+Flags: Values Have Strings, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:70
+Name: Decompressor Threshold
+Parameter Type: Decibels
+Values: Minimum = -60 dB, Default = -18 dB, Maximum = 0 dB
+Flags: Values Have Strings, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:71
+Name: Decompressor Ratio
+Parameter Type: ID=25 (unknown display string)
+Values: Minimum = 1:1, Default = 1:2, Maximum = 1:4
+Flags: Values Have Strings, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:72
+Name: Decompressor Range
+Parameter Type: Decibels
+Values: Minimum = 0 dB, Default = 6 dB, Maximum = 24 dB
+Flags: Values Have Strings, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:73
+Name: Decompressor Knee
+Parameter Type: Decibels
+Values: Minimum = 0 dB, Default = 6 dB, Maximum = 24 dB
+Flags: Values Have Strings, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:74
+Name: Decompressor Attack
+Parameter Type: Milliseconds
+Values: Minimum = 10 µs, Default = 1.00 ms, Maximum = 100 ms
+Flags: Values Have Strings, Display Logarithmic, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:75
+Name: Decompressor Release
+Parameter Type: Milliseconds
+Values: Minimum = 1.00 ms, Default = 80.0 ms, Maximum = 2.00 s
+Flags: Values Have Strings, Display Logarithmic, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:76
+Name: Decompressor Detector
+Parameter Type: Indexed
+Values: Minimum = Peak, Default = Peak, Maximum = Transient
+Flags: Values Have Strings, Readable, Writable 
+Parameter has Value Strings
+Num Strings = 3
+Value: 0,  String: Peak
+Value: 1,  String: RMS
+Value: 2,  String: Transient
+  -parameter PASS
+
+Parameter ID:77
+Name: Decompressor RMS Window
+Parameter Type: Milliseconds
+Values: Minimum = 1.00 ms, Default = 30.0 ms, Maximum = 500 ms
+Flags: Values Have Strings, Display Logarithmic, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:78
+Name: Decompressor Transient Crest
+Parameter Type: Decibels
+Values: Minimum = 0 dB, Default = 6 dB, Maximum = 24 dB
+Flags: Values Have Strings, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:79
+Name: Decompressor Look-Ahead
+Parameter Type: Milliseconds
+Values: Minimum = 0 ms, Default = 2.00 ms, Maximum = 10.0 ms
+Flags: Values Have Strings, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:80
+Name: Decompressor Stereo Link
+Parameter Type: Percent
+Values: Minimum = 0%, Default = 100%, Maximum = 100%
+Flags: Values Have Strings, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:81
+Name: Decompressor Key Source
+Parameter Type: Boolean
+Values: Minimum = Internal, Default = Internal, Maximum = External
+Flags: Values Have Strings, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:82
+Name: Decompressor Key High-Pass
+Parameter Type: Hertz
+Values: Minimum = 10.0 Hz, Default = 10.0 Hz, Maximum = 2.00 kHz
+Flags: Values Have Strings, Display Logarithmic, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:83
+Name: Decompressor Key Low-Pass
+Parameter Type: Hertz
+Values: Minimum = 500 Hz, Default = 22.0 kHz, Maximum = 22.0 kHz
+Flags: Values Have Strings, Display Logarithmic, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:84
+Name: Decompressor Mix
+Parameter Type: Percent
+Values: Minimum = 0%, Default = 100%, Maximum = 100%
+Flags: Values Have Strings, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:85
+Name: Decompressor Ceiling
+Parameter Type: Boolean
+Values: Minimum = Off, Default = Off, Maximum = On
+Flags: Values Have Strings, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:86
+Name: Decompressor Ceiling Level
+Parameter Type: Decibels
+Values: Minimum = -24 dB, Default = -1 dB, Maximum = 0 dB
+Flags: Values Have Strings, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:87
+Name: Decompressor Ceiling Type
+Parameter Type: Boolean
+Values: Minimum = Sample peak, Default = True peak, Maximum = True peak
+Flags: Values Have Strings, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:88
+Name: Decompressor Output Trim
+Parameter Type: Decibels
+Values: Minimum = -24 dB, Default = 0 dB, Maximum = 0 dB
+Flags: Values Have Strings, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:89
+Name: Decompressor Match
+Parameter Type: Boolean
+Values: Minimum = Off, Default = Off, Maximum = On
+Flags: Values Have Strings, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:90
+Name: Decompressor Match Target Crest
+Parameter Type: Decibels
+Values: Minimum = 6 dB, Default = 12 dB, Maximum = 24 dB
+Flags: Values Have Strings, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:91
+Name: Decompressor Auto Attack
+Parameter Type: Boolean
+Values: Minimum = Off, Default = Off, Maximum = On
+Flags: Values Have Strings, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:92
+Name: Decompressor Auto Release
+Parameter Type: Boolean
+Values: Minimum = Off, Default = Off, Maximum = On
+Flags: Values Have Strings, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:93
+Name: Decompressor Key Boost Freq
+Parameter Type: Hertz
+Values: Minimum = 20.0 Hz, Default = 1.00 kHz, Maximum = 20.0 kHz
+Flags: Values Have Strings, Display Logarithmic, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:94
+Name: Decompressor Key Boost
+Parameter Type: Decibels
+Values: Minimum = -24 dB, Default = 0 dB, Maximum = 24 dB
+Flags: Values Have Strings, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:95
+Name: Decompressor Key Boost Q
+Parameter Type: Generic
+Values: Minimum = 0.30, Default = 1.00, Maximum = 10.0
+Flags: Values Have Strings, Display Logarithmic, Readable, Writable 
+  -parameter PASS
+
+
+# # Parameters for clump: 6
+# Full Clump Name: Limiter
+# Short (4 Chars limit) Clump Name: Limi
+Parameter ID:96
+Name: Limiter On
+Parameter Type: Boolean
+Values: Minimum = Off, Default = On, Maximum = On
+Flags: Values Have Strings, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:97
+Name: Limiter Threshold
+Parameter Type: Decibels
+Values: Minimum = -24 dB, Default = 0 dB, Maximum = 0 dB
+Flags: Values Have Strings, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:98
+Name: Limiter Ceiling
+Parameter Type: Decibels
+Values: Minimum = -24 dB, Default = -1 dB, Maximum = 0 dB
+Flags: Values Have Strings, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:99
+Name: Limiter Attack
+Parameter Type: Milliseconds
+Values: Minimum = 0 ms, Default = 0 ms, Maximum = 10.0 ms
+Flags: Values Have Strings, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:100
+Name: Limiter Release
+Parameter Type: Milliseconds
+Values: Minimum = 1.00 ms, Default = 100 ms, Maximum = 2.00 s
+Flags: Values Have Strings, Display Logarithmic, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:101
+Name: Limiter Stereo Link
+Parameter Type: Percent
+Values: Minimum = 0%, Default = 100%, Maximum = 100%
+Flags: Values Have Strings, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:102
+Name: Limiter Clean
+Parameter Type: Boolean
+Values: Minimum = Off, Default = On, Maximum = On
+Flags: Values Have Strings, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:103
+Name: Limiter Bass Hold
+Parameter Type: Milliseconds
+Values: Minimum = 0 ms, Default = 14.0 ms, Maximum = 20.0 ms
+Flags: Values Have Strings, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:104
+Name: Limiter Auto Attack
+Parameter Type: Boolean
+Values: Minimum = Off, Default = Off, Maximum = On
+Flags: Values Have Strings, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:105
+Name: Limiter Auto Release
+Parameter Type: Boolean
+Values: Minimum = Off, Default = Off, Maximum = On
+Flags: Values Have Strings, Readable, Writable 
+  -parameter PASS
+
+
+# # Parameters for clump: 7
+# Full Clump Name: Auto
+# Short (4 Chars limit) Clump Name: Auto
+Parameter ID:106
+Name: Auto Target
+Parameter Type: Decibels
+Values: Minimum = -30 LUFS, Default = -14 LUFS, Maximum = -6 LUFS
+Flags: Values Have Strings, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:107
+Name: Auto Ceiling
+Parameter Type: Decibels
+Values: Minimum = -3.0 dBTP, Default = -1.0 dBTP, Maximum = 0.0 dBTP
+Flags: Values Have Strings, Readable, Writable 
+  -parameter PASS
+
+Testing that parameters retain value across reset and initialization
+  PASS
+
+* * PASS
+--------------------------------------------------
+FORMAT TESTS:
+
+Reported Channel Capabilities (explicit):
+      [2, 2]  [1, 1]  
+
+Input/Output Channel Handling:
+1-1   1-2   1-4   1-5   1-6   1-7   1-8   2-2   2-4   2-5   2-6   2-7   2-8   4-4   4-5   5-5   6-6   7-7   8-8
+X                                         X                                                                       
+
+# # AudioChannelLayouts (1), Input Scope:
+ChannelLayout is Writable: T
+The Unit publishes the following Channel Layouts:
+  0x650002, 
+
+Is Audio Channel Layout Available:
+Mono    Stereo  Binau.  AU_4    Ambi.   AU_5    AU_5_0  AU_6    AU_6_0  AU_7_0  AU_7_0F AU_8    AU_5_1  AU_6_1  AU_7_1  AU_7_1F 
+        X                                                                                                                       
+
+Current Format:AudioStreamBasicDescription:  2 ch,  44100 Hz, Float32, deinterleaved
+Current Format Tag = 0x650002, New Format Tag = 0x650002, Successsful
+
+# # AudioChannelLayouts (1), Output Scope:
+ChannelLayout is Writable: T
+The Unit publishes the following Channel Layouts:
+  0x650002, 
+
+Is Audio Channel Layout Available:
+Mono    Stereo  Binau.  AU_4    Ambi.   AU_5    AU_5_0  AU_6    AU_6_0  AU_7_0  AU_7_0F AU_8    AU_5_1  AU_6_1  AU_7_1  AU_7_1F 
+        X                                                                                                                       
+
+Current Format:AudioStreamBasicDescription:  2 ch,  44100 Hz, Float32, deinterleaved
+Current Format Tag = 0x650002, New Format Tag = 0x650002, Successsful
+
+* * PASS
+--------------------------------------------------
+RENDER TESTS:
+
+Input Format: AudioStreamBasicDescription:  2 ch,  44100 Hz, Float32, deinterleaved
+Output Format: AudioStreamBasicDescription:  2 ch,  44100 Hz, Float32, deinterleaved
+Render Test at 512 frames
+Slicing Render Test at 64 frames
+  PASS
+
+
+Render Test at 64 frames, sample rate: 22050 Hz
+Render Test at 137 frames, sample rate: 96000 Hz
+Render Test at 4096 frames, sample rate: 48000 Hz
+Render Test at 4096 frames, sample rate: 192000 Hz
+Render Test at 4096 frames, sample rate: 11025 Hz
+Render Test at 512 frames, sample rate: 44100 Hz
+  PASS
+
+1 Channel Test:
+Render Test at 512 frames
+  PASS
+
+Checking connection semantics:
+Connection format:
+AudioStreamBasicDescription:  2 ch,  44100 Hz, Float32, deinterleaved
+  PASS
+
+Bad Max Frames - Render should fail
+  PASS
+
+Checking parameter setting
+Using AudioUnitSetParameter
+Using AudioUnitScheduleParameter
+  PASS
+
+Test MIDI
+  PASS
+
+* * PASS
+--------------------------------------------------
+AU VALIDATION SUCCEEDED.
+--------------------------------------------------

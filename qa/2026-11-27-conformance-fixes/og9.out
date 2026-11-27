@@ -1,0 +1,17 @@
+AU launch exit 0
+AU suite exit 1
+sed: /Volumes/Developer/OpenGrid/OpenDynamics/qa/2026-11-27-conformance-fixes/og9-AU/report.md: No such file or directory
+LV2 launch exit 0
+LV2 suite exit 1
+| Check | Status | Detail |
+|---|---|---|
+| loads | PASS | OpenDynamics, 109 parameters |
+| finite output | PASS | peak -11.3 dBFS |
+| not silent | PASS | rms -21.7 dBFS |
+| deterministic render | FAIL | repeat differs by -37.3 dB |
+| editor opens | SKIPPED | visual checks disabled |
+| every parameter changes the sound | PASS |  |
+| state survives save and reopen | PASS |  |
+| editor reopens | SKIPPED | headless: OpenGrid9 runs without an editor window |
+
+| # | Parameter | Context | Audio | Visual |

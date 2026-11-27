@@ -1459,6 +1459,83 @@ mod tests {
         assert!(missing.is_empty(), "no control for {missing:?}");
     }
 
+    /// Each enabled control, operated as a user does (knobs and grips dragged, toggles and keys
+    /// clicked), writes only its own host parameter; knobs, grips and toggles write at all.
+    #[test]
+    fn every_control_drives_its_own_parameter() {
+        use openplugin::core::editor::Gesture;
+        use std::{cell::RefCell, rc::Rc};
+        let log: Rc<RefCell<Vec<u32>>> = Rc::default();
+        let mut checked = 0;
+        for tab in 0..SECTIONS {
+            for p in panel_states(tab) {
+                let count = {
+                    let mut e = DynEditor::new(EditorHost::detached());
+                    e.select(tab);
+                    e.open_panel(p);
+                    e.cells.len()
+                };
+                for i in 0..count {
+                    // A fresh editor per control, so one control's effect never decides the next.
+                    let sink = log.clone();
+                    let mut e = DynEditor::new(EditorHost::new(move |g| {
+                        if let Gesture::Perform(i, _) = g {
+                            sink.borrow_mut().push(i);
+                        }
+                    }));
+                    e.select(tab);
+                    e.open_panel(p);
+                    let c = e.cells[i].clone();
+                    if c.dim {
+                        continue;
+                    }
+                    log.borrow_mut().clear();
+                    let (x, y, w, h) = c.rect;
+                    let (cx, cy) = (x + w * 0.5, y + h * 0.5);
+                    let must_write = match c.kind {
+                        Kind::Knob(_) | Kind::FaderV | Kind::FaderH | Kind::Value | Kind::Grip | Kind::GripH => {
+                            // Down, then up: a control at either end of its range still moves.
+                            e.mouse_down(cx, cy, 1);
+                            e.mouse_move(cx - 40.0, cy + 40.0);
+                            e.mouse_move(cx + 40.0, cy - 40.0);
+                            e.mouse_up(cx + 40.0, cy - 40.0);
+                            true
+                        }
+                        Kind::Pill => {
+                            e.mouse_down(cx, cy, 1);
+                            e.mouse_up(cx, cy);
+                            true
+                        }
+                        Kind::Segmented => {
+                            // Both end keys: one of them is not the current value.
+                            for kx in [x + 3.0, x + w - 3.0] {
+                                e.mouse_down(kx, cy, 1);
+                                e.mouse_up(kx, cy);
+                            }
+                            true
+                        }
+                        _ => {
+                            e.mouse_down(cx, cy, 1);
+                            e.mouse_up(cx, cy);
+                            false
+                        }
+                    };
+                    // The control is bound to the parameter its label names ("Key HP" is short for Key High-Pass).
+                    let label = c.label.to_lowercase().replace(" hp", " high-pass").replace(" lp", " low-pass");
+                    let name = INFO.params[c.param].name;
+                    assert!(name.to_lowercase().contains(&label), "tab {tab} panel {p:?}: {:?} is bound to {name}", c.label);
+                    let wrote = log.borrow().clone();
+                    let what = format!("tab {tab} panel {p:?}: {} ({})", c.label, INFO.params[c.param].id);
+                    assert!(wrote.iter().all(|&w| w as usize == c.param), "{what} wrote {:?}", wrote.iter().map(|&w| INFO.params[w as usize].id).collect::<Vec<_>>());
+                    assert!(!must_write || !wrote.is_empty(), "{what} wrote nothing");
+                    checked += 1;
+                }
+            }
+        }
+        assert!(checked > 100, "{checked} controls");
+        println!("{checked} controls checked");
+    }
+
     #[test]
     fn controls_stay_inside_the_page_and_do_not_overlap() {
         let mut e = DynEditor::new(EditorHost::detached());
@@ -1850,7 +1927,7 @@ mod tests {
         let mut e = DynEditor::new(EditorHost::detached());
         e.bind(Some(Arc::new(Shared::default()) as EditorState));
         assert!(e.wants_drops() && e.accepts_drop(10.0, 10.0));
-        assert!(e.files_dropped(&[path.clone()], 10.0, 10.0));
+        assert!(e.files_dropped(std::slice::from_ref(&path), 10.0, 10.0));
         assert_eq!(e.panel, Some(AUTO_PANEL));
         for _ in 0..300 {
             e.tick(1.0 / 30.0);

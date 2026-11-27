@@ -2,8 +2,19 @@
 
 ## Unreleased
 
-- Builds against OpenPluginSDK 19fac89, which carries GoodLookin DRI in its own tree; the separate GoodLookin DRI
+- Builds against OpenPluginSDK ce6454f, which carries GoodLookin DRI in its own tree; the separate GoodLookin DRI
   checkout is no longer needed. The DRI code is the same as in 1.0.0 Beta.
+- Zero Latency switches as soon as its 5 ms dip ends, also in the middle of a host block. With large blocks the
+  output used to stay silent for the rest of the block (up to about 85 ms at 4096 samples, 48 kHz).
+- No allocation or file access on the audio thread: the diagnosis lines (non-finite output, silent output with input) are
+  kept in a fixed buffer there and written to the log when the plugin is prepared again or closed.
+- A denormal input carried through a delay no longer reaches the output (flushed at the end of each block).
+- Hosts list the gate's parameters under "Gate & Expander": "Gate / Expander" was read as two levels with stray spaces.
+  The parameter names are unchanged.
+- Tests: the SDK's conformance kit (tests/conformance.rs), soak and strict fuzz (tests/soak.rs) and the bench
+  (examples/bench.rs, bench/baseline.json). Test runs no longer write to the plugin's log (.cargo/config.toml).
+- Test: every control, on every tab and panel, writes only the parameter its label names when it is dragged or clicked.
+- Clippy clean with the current toolchain.
 
 ## 1.0.0 Beta (2026-11-25)
 
