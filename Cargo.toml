@@ -14,7 +14,7 @@ olm-api = { path = "crates/api" }
 dynamics = { path = "crates/dynamics" }
 dyn-deexpand = { path = "crates/dyn-deexpand" }
 dyn-decompress = { path = "crates/dyn-decompress" }
-# OpenPluginSDK main (ce6454f) in ../../Dependencies, the same layout on the owner's Mac and in
+# OpenPluginSDK main (d93d926) in ../../Dependencies, the same layout on the owner's Mac and in
 # GitHub Actions (pinned in scripts/build.sh and the CI workflow).
 openplugin = { path = "../../Dependencies/OpenPluginSDK/crates/openplugin" }
 # Text measuring for the kit: the GoodLookin DRI in the SDK's tree, the same crate the SDK uses.

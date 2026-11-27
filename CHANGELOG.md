@@ -2,8 +2,9 @@
 
 ## Unreleased
 
-- Builds against OpenPluginSDK ce6454f, which carries GoodLookin DRI in its own tree; the separate GoodLookin DRI
-  checkout is no longer needed. The DRI code is the same as in 1.0.0 Beta.
+- Builds against OpenPluginSDK d93d926, which carries GoodLookin DRI in its own tree; the separate GoodLookin DRI
+  checkout is no longer needed. The editor draws exactly as before. The macOS VST3, AU and AAX binaries export only
+  their entry points and are smaller (AAX 3.5 MB, was 9.5 MB).
 - Zero Latency switches as soon as its 5 ms dip ends, also in the middle of a host block. With large blocks the
   output used to stay silent for the rest of the block (up to about 85 ms at 4096 samples, 48 kHz).
 - No allocation or file access on the audio thread: the diagnosis lines (non-finite output, silent output with input) are
