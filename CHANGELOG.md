@@ -1,7 +1,14 @@
 # Changelog
 
-## Unreleased
+## 1.1.0 (2026-11-27)
 
+- Auto Loudness: LOUDNESS in the section bar opens a panel that sets all five sections so the output reaches a loudness
+  target (-30 to -6 LUFS) under a true-peak ceiling (-3.0 to 0.0 dBTP). LEARN measures while the song plays; APPLY plans
+  the sections and writes their controls. Two new parameters, Auto Target and Auto Ceiling, after the existing ones.
+- ARA 2 on macOS (VST3, Audio Unit, CLAP) and in the Windows and Linux VST3: the host hands over each clip's audio, the
+  panel shows the selected clip, and APPLY fits the whole clip without playing it.
+- A clip dropped on the window (from a host that renders it to a file on drop, or a WAV or AIFF file) is fitted like an
+  ARA clip.
 - Builds against OpenPluginSDK d93d926, which carries GoodLookin DRI in its own tree; the separate GoodLookin DRI
   checkout is no longer needed. The editor draws exactly as before. The macOS VST3, AU and AAX binaries export only
   their entry points and are smaller (AAX 3.5 MB, was 9.5 MB).

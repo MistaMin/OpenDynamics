@@ -18,7 +18,7 @@ HIGHLIGHTS = [
     "Decompressor, gate / expander, compressor, de-expander and limiter in one plugin",
     "Real static curves: a steady tone passes without added harmonics",
     "Auto attack and release, look-ahead, sidechain filter with high-pass, low-pass and bell",
-    "Curve in a level history, energy-change spectrograph and 3D spectrum view",
+    "Auto Loudness: fits all five sections to a loudness target under a true-peak ceiling, with ARA 2",
     "macOS universal (VST3, AU, CLAP, LV2, AAX), Windows and Linux (VST3, CLAP, LV2)",
 ]
 

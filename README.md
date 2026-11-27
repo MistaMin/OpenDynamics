@@ -5,12 +5,14 @@ By OpenGrid.
 
 ![OpenDynamics](docs/images/comp-light.png)
 
-| 3D spectrum | Decompressor ceiling | Gate / Expander | Limiter timing |
-|---|---|---|---|
-| ![3D view](docs/images/comp-3d-dark.png) | ![Decompressor](docs/images/decomp-ceiling-light.png) | ![Gate](docs/images/gate-dark.png) | ![Limiter](docs/images/limit-timing-dark.png) |
+| Auto Loudness | 3D spectrum | Decompressor ceiling | Gate / Expander | Limiter timing |
+|---|---|---|---|---|
+| ![Auto Loudness](docs/images/comp-auto-light.png) | ![3D view](docs/images/comp-3d-dark.png) | ![Decompressor](docs/images/decomp-ceiling-light.png) | ![Gate](docs/images/gate-dark.png) | ![Limiter](docs/images/limit-timing-dark.png) |
 
-## Version 1.0.0 Beta
+## Version 1.1.0
 
+- New: Auto Loudness sets all five sections to reach a loudness target under a true-peak ceiling, from a measurement
+  while the song plays, from a clip the host hands over through ARA 2, or from a clip dropped on the window.
 - Decompressor, Gate / Expander, Compressor, De-Expander and Limiter in one plugin, in that order.
 - Look-ahead that lands the gain on a transient's first sample, or Zero Latency; auto attack and release everywhere.
 - Sidechain filter on every keyed section: internal or external key through high-pass, low-pass and bell at once.
@@ -19,13 +21,13 @@ By OpenGrid.
 
 ## Download
 
-From the [1.0.0 Beta release](https://github.com/MistaMin/OpenDynamics/releases/tag/v1.0.0-Beta) (a pre-release):
+From the [1.1.0 release](https://github.com/MistaMin/OpenDynamics/releases/tag/v1.1.0):
 
 | Download | System | Formats |
 |---|---|---|
-| [`OpenDynamics-1.0.0-Beta-macos.pkg`](https://github.com/MistaMin/OpenDynamics/releases/download/v1.0.0-Beta/OpenDynamics-1.0.0-Beta-macos.pkg) | macOS 11 or later, Apple silicon and Intel | VST3, Audio Unit, CLAP, LV2, AAX |
-| [`OpenDynamics-1.0.0-Beta-windows-x64-setup.exe`](https://github.com/MistaMin/OpenDynamics/releases/download/v1.0.0-Beta/OpenDynamics-1.0.0-Beta-windows-x64-setup.exe) | Windows 10 or later, x64 | VST3, CLAP, LV2 |
-| [`OpenDynamics-1.0.0-Beta-linux-x86_64.tar.gz`](https://github.com/MistaMin/OpenDynamics/releases/download/v1.0.0-Beta/OpenDynamics-1.0.0-Beta-linux-x86_64.tar.gz) | Linux x86_64 | VST3, CLAP, LV2 |
+| [`OpenDynamics-1.1.0-macos.pkg`](https://github.com/MistaMin/OpenDynamics/releases/download/v1.1.0/OpenDynamics-1.1.0-macos.pkg) | macOS 11 or later, Apple silicon and Intel | VST3, Audio Unit, CLAP (each with ARA 2), LV2, AAX |
+| [`OpenDynamics-1.1.0-windows-x64-setup.exe`](https://github.com/MistaMin/OpenDynamics/releases/download/v1.1.0/OpenDynamics-1.1.0-windows-x64-setup.exe) | Windows 10 or later, x64 | VST3 (with ARA 2), CLAP, LV2 |
+| [`OpenDynamics-1.1.0-linux-x86_64.tar.gz`](https://github.com/MistaMin/OpenDynamics/releases/download/v1.1.0/OpenDynamics-1.1.0-linux-x86_64.tar.gz) | Linux x86_64 | VST3 (with ARA 2), CLAP, LV2 |
 
 The macOS installer is signed with Developer ID and notarized by Apple; the AAX is signed with PACE Eden. The Windows
 installer is not code-signed, so SmartScreen may ask before it runs. The Windows and Linux builds are made by GitHub
@@ -51,7 +53,9 @@ sample), auto attack and auto release, and a sidechain filter: internal or exter
 high-pass, a low-pass and a bell band at once.
 
 Global: input and output gain, Zero Latency (drops every look-ahead), Auto Gain (matches the output
-loudness to the input, a listening aid) and Delta (plays only what the sections changed).
+loudness to the input, a listening aid) and Delta (plays only what the sections changed). Auto Loudness (LOUDNESS in
+the section bar) sets the five sections for a loudness target and a true-peak ceiling and writes the result into their
+own controls.
 
 The editor shows the static curve inside a four-second level history, a spectrograph of the energy
 each band lost or gained, and a 3D spectrum view over the full band. Seven colour themes.

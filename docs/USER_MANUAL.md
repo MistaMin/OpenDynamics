@@ -118,6 +118,8 @@ is always automatic; Release and Auto Release apply with Clean off.
 
 ## Auto Loudness
 
+![The Auto Loudness panel](images/comp-auto-light.png)
+
 **LOUDNESS** in the section bar opens the Auto Loudness panel. It sets all five sections so the output reaches a
 loudness target under a true-peak ceiling, and writes the result into the sections' own controls, where you can see
 and change every value.
@@ -138,7 +140,7 @@ with Output Gain.
 Without ARA: play the song with LEARN on, then APPLY. LEARN and APPLY again measures the result and corrects it; two
 or three rounds land within a dB of the target.
 
-With ARA (macOS: VST3, Audio Unit and CLAP, in a host that supports ARA 2): the host gives OpenDynamics each clip's
+With ARA (macOS: VST3, Audio Unit and CLAP; Windows and Linux: VST3; in a host that supports ARA 2): the host gives OpenDynamics each clip's
 whole audio. The panel shows the selected clip's loudness (with no selection, the newest clip), and APPLY renders the
 whole clip through the sections in the background, measures it and corrects until it lands on the target, then sets
 the controls. No playing is needed. Select another clip in the host to work on it. The plugin processes the track as it
@@ -154,8 +156,8 @@ limiter limits sample peaks, and the peaks between samples need a true-peak limi
 ## Formats and hosts
 
 - macOS 11 or later, Apple silicon and Intel: VST3, Audio Unit and CLAP (each with ARA 2), LV2 and AAX (Pro Tools).
-- Windows 10 or later, x64: VST3, CLAP and LV2.
-- Linux x86_64: VST3, CLAP and LV2.
+- Windows 10 or later, x64: VST3 (with ARA 2), CLAP and LV2.
+- Linux x86_64: VST3 (with ARA 2), CLAP and LV2.
 
 ## Licence
 
