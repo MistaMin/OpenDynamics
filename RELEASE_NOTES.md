@@ -46,16 +46,16 @@ No standalone app.
 - Validators: auval, pluginval at strictness 10 (VST3 and Audio Unit), clap-validator, AAX Validator 6 of 6.
 - Host tests in REAPER (VST3, CLAP) and OpenGrid9 (Audio Unit, LV2): load, sound, every parameter changes the sound,
   every parameter is shown in the editor, save and reopen, editor open and close.
-- Pro Tools 2025.10: a 1.0.0 Beta session opens with its settings and levels, a knob moved in the editor changes the
+- Pro Tools 2025.10 (the same code, test build before the version change): a 1.0.0 Beta session opens with its settings and levels, a knob moved in the editor changes the
   sound at once, Zero Latency changes the delay compensation at once, save and reopen.
 - Windows and Linux: built and tested by GitHub Actions (automated tests and the ARA SDK test host).
 
 ## Known limits
 
-- In host tests, a run now and then goes silent part of the way through and stays silent (seen in REAPER, in VST3 and
-  CLAP, one run in several; once in the tests for this release, not on the rerun). In the last capture the plugin
-  received no input signal, which points at the host, but the cause is not proven. Reloading the plugin brings the
-  sound back.
+- In host tests, a run now and then goes silent part of the way through (seen in REAPER, in VST3 and CLAP: twice in
+  about nine runs for this release, once for two renders and once until the end of the run; the reruns passed). Both
+  times no audio reached the plugin's processing, which points at the host, but the cause is not proven. Reloading the
+  plugin brings the sound back.
 - In REAPER, a VST3 instance reports a Zero Latency change one render late; CLAP reports it at once.
 - Switching Zero Latency during playback restarts the sections, so the level rises for a moment until they catch up.
 - Very loud targets under a tight ceiling (for example -9 LUFS at -0.5 dBTP) are not reached on bright material: the
