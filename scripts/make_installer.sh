@@ -38,9 +38,16 @@ for b in "$NAME.vst3" "$NAME.component" "$NAME.clap" "$NAME.lv2"; do
   rm -rf "${SIGNED:?}/$b"
   COPYFILE_DISABLE=1 ditto --norsrc --noextattr --noqtn "$DIST/$b" "$SIGNED/$b"
 done
+# Code nested in a bundle (the CLAP's ARA library in Contents/Resources) is signed first, inside out.
+nested() { find "$SIGNED/$NAME.vst3" "$SIGNED/$NAME.component" "$SIGNED/$NAME.clap" -name '*.dylib' -print0; }
+nested | xargs -0 -n1 codesign --force --timestamp --options runtime --sign "$APP_ID"
 for b in "$NAME.vst3" "$NAME.component" "$NAME.clap"; do
   codesign --force --timestamp --options runtime --sign "$APP_ID" "$SIGNED/$b"
 done
+# --verify --deep accepts nested code that is only signed ad hoc; notarization does not.
+while IFS= read -r -d '' f; do
+  codesign -dvv "$f" 2>&1 | grep "^Authority=Developer ID Application" > /dev/null || { echo "not Developer ID signed: $f" >&2; exit 1; }
+done < <(nested)
 codesign --force --timestamp --options runtime --sign "$APP_ID" "$SIGNED/$NAME.lv2/$NAME.dylib"
 for b in "$NAME.vst3" "$NAME.component" "$NAME.clap" "$NAME.lv2/$NAME.dylib" "$NAME.aaxplugin"; do
   codesign --verify --deep --strict --verbose=1 "$SIGNED/$b"
